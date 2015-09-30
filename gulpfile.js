@@ -21,6 +21,7 @@ var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
 var historyApiFallback = require('connect-history-api-fallback');
+var ts = require('gulp-typescript');
 var packageJson = require('./package.json');
 var crypto = require('crypto');
 var polybuild = require('polybuild');
@@ -71,6 +72,23 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
+
+// Compile TypeScript
+gulp.task('typescript', function() {
+
+  return gulp.src([
+      'app/scripts/**/*.ts',
+      'app/elements/**/*.ts'
+    ])
+    .pipe(ts({
+      declaration: true,
+      //noExternalResolve: true
+    }))
+    .pipe(gulp.dest(function(file) {
+      return file.base;
+    }))
+    .pipe(reload({stream: true}));
+})
 
 // Optimize images
 gulp.task('images', function () {
@@ -204,7 +222,7 @@ gulp.task('clean', function (cb) {
 });
 
 // Watch files for changes & reload
-gulp.task('serve', ['styles', 'elements', 'images'], function () {
+gulp.task('serve', ['styles', 'typescript', 'elements', 'images'], function () {
   browserSync({
     port: 5000,
     notify: false,
@@ -234,6 +252,7 @@ gulp.task('serve', ['styles', 'elements', 'images'], function () {
   gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
   gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
   gulp.watch(['app/{scripts,elements}/**/{*.js,*.html}'], ['jshint']);
+  gulp.watch(['app/{scripts,elements}/**/*.ts'], ['typescript', reload]);
   gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -266,6 +285,7 @@ gulp.task('default', ['clean'], function (cb) {
   runSequence(
     ['copy', 'styles'],
     'elements',
+    'typescript',
     ['jshint', 'images', 'fonts', 'html'],
     'vulcanize','rename-index', // 'cache-config',
     cb);
