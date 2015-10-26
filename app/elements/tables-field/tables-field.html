@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="tables-field">
+  <template>
+    <style>
+    :host {
+      display: block;
+      background-color: lightgray;
+      width: 1000px;
+      height: 1000px;
+    }
+    </style>
+    <drag-table></drag-table>
+    <drag-table></drag-table>
+    <drag-table></drag-table>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'tables-field',
+        properties: {
+        }
+      });
+    })();
+  </script>
+</dom-module>
