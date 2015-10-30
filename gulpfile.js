@@ -88,7 +88,7 @@ gulp.task('typescript', function() {
       return file.base;
     }))
     .pipe(reload({stream: true}));
-})
+});
 
 // Optimize images
 gulp.task('images', function () {
