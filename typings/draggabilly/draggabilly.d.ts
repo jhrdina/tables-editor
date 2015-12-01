@@ -3,6 +3,8 @@ declare module draggabilly {
         x: number;
         y: number;
 
+        options: Options;
+
         constructor(node: Node, options?: Options);
         constructor(selector: string, options?: Options);
 

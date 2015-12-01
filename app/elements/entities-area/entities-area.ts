@@ -3,7 +3,7 @@
 @component('entities-area')
 class EntitiesArea extends polymer.Base
 {
-
+  host: EntitiesArea = this;
 }
 
 EntitiesArea.register();

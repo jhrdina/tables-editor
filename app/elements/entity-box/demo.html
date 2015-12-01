@@ -48,6 +48,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
         <div class="horizontal-section">
           <!-- Filled Entity Box -->
           <entity-box
+            draggable
             class="fixed-width"
             name="{{entity.name}}"
             geometry="{{entity.geometry}}"
@@ -74,9 +75,14 @@ DEMO PAGE FOR COMPONENT 'entity-box'
             value: 'PolymerTS'
           }
         },
-        listeners: {},
+        observers: [
+          'geometryChanged(entity.geometry)'
+        ],
         handleGreet: function(e) {
             console.log('handle gree event!', e);
+        },
+        geometryChanged: function(geometry) {
+          console.log('Geometry:', geometry);
         },
         ready: function() {
           this.entity = {
