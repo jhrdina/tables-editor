@@ -21,7 +21,6 @@ var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
 var historyApiFallback = require('connect-history-api-fallback');
-var ts = require('gulp-typescript');
 var packageJson = require('./package.json');
 var crypto = require('crypto');
 var polybuild = require('polybuild');
@@ -50,6 +49,49 @@ var styleTask = function (stylesPath, srcs) {
     .pipe($.size({title: stylesPath}));
 };
 
+var jshintTask = function (src) {
+  return gulp.src(src)
+    .pipe($.jshint.extract()) // Extract JS from .html files
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish'))
+    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+};
+
+var imageOptimizeTask = function (src, dest) {
+  return gulp.src(src)
+    .pipe($.cache($.imagemin({
+      progressive: true,
+      interlaced: true
+    })))
+    .pipe(gulp.dest(dest))
+    .pipe($.size({title: 'images'}));
+};
+
+var optimizeHtmlTask = function (src, dest) {
+  var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'dist']});
+
+  return gulp.src(src)
+    // Replace path for vulcanized assets
+    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
+    .pipe(assets)
+    // Concatenate and minify JavaScript
+    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
+    // Concatenate and minify styles
+    // In case you are still using useref build blocks
+    .pipe($.if('*.css', $.cssmin()))
+    .pipe(assets.restore())
+    .pipe($.useref())
+    // Minify any HTML
+    .pipe($.if('*.html', $.minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    // Output files
+    .pipe(gulp.dest(dest))
+    .pipe($.size({title: 'html'}));
+};
+
 // Compile and automatically prefix stylesheets
 gulp.task('styles', function () {
   return styleTask('styles', ['**/*.css']);
@@ -61,44 +103,21 @@ gulp.task('elements', function () {
 
 // Lint JavaScript
 gulp.task('jshint', function () {
-  return gulp.src([
+  return jshintTask([
       'app/scripts/**/*.js',
       'app/elements/**/*.js',
-      'app/elements/**/*.html'
+      'app/elements/**/*.html',
+      'gulpfile.js'
     ])
-    .pipe(reload({stream: true, once: true}))
     .pipe($.jshint.extract()) // Extract JS from .html files
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
-// Compile TypeScript
-gulp.task('typescript', function() {
-
-  return gulp.src([
-      'app/scripts/**/*.ts',
-      'app/elements/**/*.ts'
-    ])
-    .pipe(ts({
-      declaration: true,
-      //noExternalResolve: true
-    }))
-    .pipe(gulp.dest(function(file) {
-      return file.base;
-    }))
-    .pipe(reload({stream: true}));
-});
-
 // Optimize images
 gulp.task('images', function () {
-  return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
-      progressive: true,
-      interlaced: true
-    })))
-    .pipe(gulp.dest('dist/images'))
-    .pipe($.size({title: 'images'}));
+  return imageOptimizeTask('app/images/**/*', 'dist/images');
 });
 
 // Copy all files at the root level (app)
@@ -115,7 +134,9 @@ gulp.task('copy', function () {
     'bower_components/**/*'
   ]).pipe(gulp.dest('dist/bower_components'));
 
-  var elements = gulp.src(['app/elements/**/*.html'])
+  var elements = gulp.src(['app/elements/**/*.html',
+                           'app/elements/**/*.css',
+                           'app/elements/**/*.js'])
     .pipe(gulp.dest('dist/elements'));
 
   var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
@@ -141,28 +162,9 @@ gulp.task('fonts', function () {
 
 // Scan your HTML for assets & optimize them
 gulp.task('html', function () {
-  var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'dist']});
-
-  return gulp.src(['app/**/*.html', '!app/{elements,test}/**/*.html'])
-    // Replace path for vulcanized assets
-    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
-    .pipe(assets)
-    // Concatenate and minify JavaScript
-    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
-    // Concatenate and minify styles
-    // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.cssmin()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    // Minify any HTML
-    .pipe($.if('*.html', $.minifyHtml({
-      quotes: true,
-      empty: true,
-      spare: true
-    })))
-    // Output files
-    .pipe(gulp.dest('dist'))
-    .pipe($.size({title: 'html'}));
+  return optimizeHtmlTask(
+    ['app/**/*.html', '!app/{elements,test}/**/*.html'],
+    'dist');
 });
 
 // Polybuild will take care of inlining HTML imports,
@@ -179,10 +181,13 @@ gulp.task('vulcanize', function () {
 
 // Rename Polybuild's index.build.html to index.html
 gulp.task('rename-index', function () {
-  gulp.src('dist/index.build.html')
+  return gulp.src('dist/index.build.html')
     .pipe($.rename('index.html'))
     .pipe(gulp.dest('dist/'));
-  return del(['dist/index.build.html']);
+});
+
+gulp.task('remove-old-build-index', function () {
+  return del('dist/index.build.html');
 });
 
 // Generate config data for the <sw-precache-cache> element.
@@ -222,7 +227,7 @@ gulp.task('clean', function (cb) {
 });
 
 // Watch files for changes & reload
-gulp.task('serve', ['styles', 'typescript', 'elements', 'images'], function () {
+gulp.task('serve', ['styles', 'elements', 'images'], function () {
   browserSync({
     port: 5000,
     notify: false,
@@ -252,7 +257,6 @@ gulp.task('serve', ['styles', 'typescript', 'elements', 'images'], function () {
   gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
   gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
   gulp.watch(['app/{scripts,elements}/**/{*.js,*.html}'], ['jshint']);
-  gulp.watch(['app/{scripts,elements}/**/*.ts'], ['typescript', reload]);
   gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -285,9 +289,8 @@ gulp.task('default', ['clean'], function (cb) {
   runSequence(
     ['copy', 'styles'],
     'elements',
-    'typescript',
-    ['jshint', 'images', 'fonts', 'html'],
-    'vulcanize','rename-index', // 'cache-config',
+    ['images', 'fonts', 'html'],
+    'vulcanize','rename-index', 'remove-old-build-index', // 'cache-config',
     cb);
 });
 
