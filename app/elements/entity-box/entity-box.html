@@ -1,0 +1,28 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+
+<dom-module id="entity-box">
+  <template>
+    <style>
+    :host {
+      display: block;
+      background-color: gray;
+      position: absolute;
+      width: 100px;
+      height: 150px;
+    }
+    .handle {
+      height: 20px;
+      background-color: black;
+      cursor: move;
+    }
+    </style>
+    <div class="handle"></div>
+    <content>
+    </content>
+  </template>
+</dom-module>
+
+<script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.min.js"></script>
+<script type="text/javascript" src="entity-box.js"></script>
