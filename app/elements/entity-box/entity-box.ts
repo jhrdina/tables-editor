@@ -6,6 +6,9 @@ class EntityBox extends polymer.Base {
 
   draggie: Draggabilly;
 
+  @property({type: Object})
+  containment: Node | string | boolean;
+
   ready() {
     this.draggie = new Draggabilly(this, {
       containment: 'entities-area',

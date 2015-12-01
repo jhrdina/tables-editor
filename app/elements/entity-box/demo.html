@@ -7,7 +7,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
     <title>DEMO entity-box</title>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    
+
     <link rel="import" href="entity-box.html">
 
     <style is="custom-style">
@@ -15,28 +15,57 @@ DEMO PAGE FOR COMPONENT 'entity-box'
         min-width: 100px;
       }
 
+      body {
+        background-color: #fafafa;
+      }
     </style>
 
   </head>
 
   <body unresolved>
+    <span id="browser-sync-binding"></span>
 
   <x-app></x-app>
-      
+
   <dom-module id="x-app">
     <template>
+      <style>
+        entity-box {
+          margin-bottom: 20px;
+        }
+
+        entity-box.fixed-width {
+          width: 200px;
+        }
+
+        entity-box.float {
+          float: left;
+        }
+      </style>
+
       <div>
         <h4>TEST</h4>
         <div class="horizontal-section">
-          <entity-box id="myelement" greet="{{test}}" on=greet-event="handeGreet" ></entity-box>
+          <!-- Filled Entity Box -->
+          <entity-box
+            class="fixed-width"
+            name="{{entity.name}}"
+            geometry="{{entity.geometry}}"
+            attributes="{{entity.attributes}}"
+            ></entity-box>
+
+          <!-- Empty Entity Box -->
+          <entity-box
+            class="float"
+          ></entity-box>
         </div>
       </div>
     </div>
   </template>
   </dom-module>
-  
-  
-  <script>     
+
+
+  <script>
   Polymer({
         is: 'x-app',
         properties: {
@@ -50,15 +79,44 @@ DEMO PAGE FOR COMPONENT 'entity-box'
             console.log('handle gree event!', e);
         },
         ready: function() {
-          console.log("APP ready" );  
-          
+          this.entity = {
+            name: "Person",
+            geometry: {
+              x: 100,
+              y: 200,
+              width: 50,
+              height: 200
+            },
+            attributes: [
+              {
+                name: 'id_osoby',
+                dataType: {
+                  name: 'NUMBER',
+                  capacity: 10
+                },
+                flags: [
+                  'PRIMARY_KEY'
+                ]
+              },
+              {
+                name: 'name',
+                dataType: {
+                  name: 'VARCHAR',
+                  capacity: 255
+                },
+                flags: [
+                  'NOT_NULL'
+                ]
+              }
+            ]
+          }
         }
-      });      
-  
+      });
+
         (function(document) {
           'use strict';
         })(document);
   </script>
-    
+
   </body>
 </html>

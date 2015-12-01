@@ -10,7 +10,6 @@
       display: block;
       min-width: 100px;
       height: 150px;
-      float: left;
     }
 
     paper-material {
@@ -28,11 +27,12 @@
       font-size: 100%;
       text-align: center;
       margin: 0.45em 0.7em;
+      line-height: 30px;
     }
     </style>
 
     <paper-material>
-      <div class="handle"><h2>Název entity</h2></div>
+      <div class="handle"><h2 class="{{cl}}">{{name}}</h2></div>
       <content></content>
     </paper-material>
 

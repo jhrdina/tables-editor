@@ -23,5 +23,8 @@
         "elements/entities-area/entities-area.ts",
         "elements/entity-box/entity-box.ts",
         "elements/tables-editor/tables-editor.ts"
-    ]
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
 }
