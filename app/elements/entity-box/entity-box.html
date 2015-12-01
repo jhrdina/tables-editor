@@ -1,43 +1,35 @@
-
-<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
-<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.min.js"></script>
 
-<dom-module id="entity-box">
+
+<dom-module id="entity-box" >
   <template>
     <style>
-    :host {
-      display: block;
-      min-width: 100px;
-      height: 150px;
-      float: left;
-    }
+      :host {
+        position: absolute;
+        display: inline-block;
+      }
 
-    paper-material {
-      background-color: white;
-      height: 100%;
-    }
+      paper-card::shadow .title-text{
+        cursor: move;
+      }
 
-    .handle {
-      overflow: hidden;
-      cursor: move;
-      border-bottom: 1px solid #bbb;
-    }
-
-    .handle > h2 {
-      font-size: 100%;
-      text-align: center;
-      margin: 0.45em 0.7em;
-    }
+      .handle {
+        height: 20px;
+        background-color: black;
+        cursor: move;
+      }
     </style>
-
-    <paper-material>
-      <div class="handle"><h2>Název entity</h2></div>
-      <content></content>
-    </paper-material>
+    <paper-card heading = "{{name}}">
+      <div class="card-content">Some content</div>
+      <div class="card-actions">
+        <paper-button>Some action</paper-button>
+      </div>
+    <paper-card>
 
   </template>
 </dom-module>
 
-<script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.min.js"></script>
 <script type="text/javascript" src="entity-box.js"></script>
