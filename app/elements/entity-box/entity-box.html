@@ -1,26 +1,41 @@
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
 <dom-module id="entity-box">
   <template>
     <style>
     :host {
       display: block;
-      background-color: gray;
-      position: absolute;
-      width: 100px;
+      min-width: 100px;
       height: 150px;
+      float: left;
     }
+
+    paper-material {
+      background-color: white;
+      height: 100%;
+    }
+
     .handle {
-      height: 20px;
-      background-color: black;
+      overflow: hidden;
       cursor: move;
+      border-bottom: 1px solid #bbb;
+    }
+
+    .handle > h2 {
+      font-size: 100%;
+      text-align: center;
+      margin: 0.45em 0.7em;
     }
     </style>
-    <div class="handle"></div>
-    <content>
-    </content>
+
+    <paper-material>
+      <div class="handle"><h2>Název entity</h2></div>
+      <content></content>
+    </paper-material>
+
   </template>
 </dom-module>
 
