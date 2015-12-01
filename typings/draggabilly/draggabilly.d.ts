@@ -1,61 +1,37 @@
-﻿// Type definition for Draggabilly
-
-/// <reference path="../jquery/jquery.d.ts" />
-
-/**
- * Declare the module for options and other stuff
- */
-declare module Draggabilly {
-    // Interface for the draggabilly options
-    interface IDraggabillyOptions {
-        handle?: any;
-        containment?: boolean;
-        axis?: string;
-        grid?: [number, number];
-    }
-
-    // Interface for the movevector
-    interface IMoveVector {
+declare module draggabilly {
+    export class Draggabilly {
         x: number;
         y: number;
+
+        constructor(node: Node, options?: Options);
+        constructor(selector: string, options?: Options);
+
+        disable(): void;
+        enable(): void;
+        destroy(): void;
+
+        on(type: "dragStart",   listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch) => any): any;
+        on(type: "dragMove",    listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch, moveVector: any) => any): any;
+        on(type: "dragEnd",     listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch) => any): any;
+        on(type: "pointerDown", listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch) => any): any;
+        on(type: "pointerMove", listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch, moveVector: any) => any): any;
+        on(type: "pointerUp",   listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch) => any): any;
+        on(type: "staticClick", listener: (ev: MouseEvent | TouchEvent, pointer: MouseEvent | Touch) => any): any;
+        on(type: string,        listener: (...params: any[]) => any): any;
+        off(type: string,       listener: (...params: any[]) => any): any;
+        once(type: string,      listener: (...params: any[]) => any): any;
+    }
+
+    interface Options {
+        axis?: string;
+        containment?: Node | string | boolean;
+        grid?: number[];
+        handle?: string;
     }
 }
+import Draggabilly = draggabilly.Draggabilly;
 
-/**
- * Interface for the main object
- */
-interface Draggabilly {
-    new (element: any, options: Draggabilly.IDraggabillyOptions);
-
-    // The on methods for usage in VanillaJS
-    on(eventName: string, handler: (event: any, pointer: any) => {});
-    on(eventName: string, handler: (event: any, pointer: any, moveVector: Draggabilly.IMoveVector) => {});
-
-    // The off methods for usage in VanillaJS
-    off(eventName: string, handler: (event: any, pointer: any) => {});
-    off(eventName: string, handler: (event: any, pointer: any, moveVector: Draggabilly.IMoveVector) => {});
-
-    // The once methods for usage in VanillaJS
-    once(eventName: string, handler: (event: any, pointer: any) => {});
-    once(eventName: string, handler: (event: any, pointer: any, moveVector: Draggabilly.IMoveVector) => {});
-
-    // Disable the dragging
-    disable();
-
-    // Destroy the draggable object
-    destroy();
-
-    // Enable the dragging
-    enable();
-}
-
-/**
- * Extend the JQuery interface
- */
-interface JQuery {
-    // Initialize a draggable object
-    draggabilly(options: Draggabilly.IDraggabillyOptions): JQuery;
-
-    // Enable, disable or destroy the dragging
-    draggabilly(method: string);
+declare module "draggabilly" {
+    import Draggabilly = draggabilly.Draggabilly;
+    export = Draggabilly;
 }
