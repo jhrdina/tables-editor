@@ -9,6 +9,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
     <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
     <link rel="import" href="entity-box.html">
+    <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 
     <style is="custom-style">
       .horizontal-section {
@@ -30,7 +31,8 @@ DEMO PAGE FOR COMPONENT 'entity-box'
   <dom-module id="x-app">
     <template>
       <style>
-        entity-box {
+        entity-box,
+        .demo-block {
           margin-bottom: 20px;
         }
 
@@ -46,6 +48,12 @@ DEMO PAGE FOR COMPONENT 'entity-box'
       <div>
         <h4>TEST</h4>
         <div class="horizontal-section">
+          <div class="demo-block">
+            <label for="x-coord">X:</label>
+            <input id="x-coord" is="iron-input" bind-value="{{entity.geometry.x}}">
+            <label for="y-coord">Y:</label>
+            <input id="y-coord" is="iron-input" bind-value="{{entity.geometry.y}}">
+          </div>
           <!-- Filled Entity Box -->
           <entity-box
             draggable
@@ -88,8 +96,8 @@ DEMO PAGE FOR COMPONENT 'entity-box'
           this.entity = {
             name: "Person",
             geometry: {
-              x: 100,
-              y: 200,
+              x: 0,
+              y: 0,
               width: 50,
               height: 200
             },

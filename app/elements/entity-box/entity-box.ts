@@ -34,6 +34,8 @@ class EntityBox extends polymer.Base {
   // Draggabilly object
   draggie: Draggabilly;
 
+  geometryLocked: boolean = false;
+
   // TODO: Separate into Behavior
   @observe('draggable,containment')
   draggableChanged(draggable, containment) {
@@ -46,19 +48,20 @@ class EntityBox extends polymer.Base {
 
       var that = this;
 
-      this.draggie.on('pointerMove', function(
-        event: Event, pointer: MouseEvent | TouchEvent, moveVector: Point) {
+      this.draggie.on('dragMove', function() {
 
         // Notify position changes
         if (that.geometry) {
           var g = {
-            x: moveVector.x,
-            y: moveVector.y,
+            x: this.position.x,
+            y: this.position.y,
             width: that.geometry.width,
             height: that.geometry.height
           };
 
+          that.geometryLocked = true;
           that.set('geometry', g);
+          that.geometryLocked = false;
         }
       });
 
@@ -72,6 +75,14 @@ class EntityBox extends polymer.Base {
     } else {
       this.draggie.disable();
     }
+  }
+
+  @observe('geometry.*')
+  geometryChanged(geometry) {
+    if (this.geometryLocked) return;
+
+    this.style.left = geometry.base.x + 'px';
+    this.style.top = geometry.base.y + 'px';
   }
 
   @computed()
