@@ -5,8 +5,13 @@
 
 <dom-module id="connection-view">
   <template>
+    <style>
+    #frame{
+      position: absolute;
+    }
+    </style>
     <svg id="frame">
-      <path d$="{{curve}}" stroke="black" stroke-width="2" fill="none" />
+      <path d$="{{curveString}}" stroke="black" stroke-width="2" fill="none" />
     </svg>
   </template>
 </dom-module>
