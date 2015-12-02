@@ -47,16 +47,25 @@ DEMO PAGE FOR COMPONENT 'entity-box'
       </style>
 
       <div>
-        <h4>TEST</h4>
+        <h2>Entity Box</h2>
         <div class="horizontal-section">
           <div class="demo-block">
+            <h4>Data</h4>
+            <label for="entity-name">Entity Name:</label>
+            <input id="entity-name" is="iron-input" bind-value="{{entity.name}}">
+          </div>
+          <div class="demo-block">
+            <h4>Position, dragging</h4>
             <label for="x-coord">X:</label>
             <input id="x-coord" is="iron-input" bind-value="{{entity.geometry.x}}">
             <label for="y-coord">Y:</label>
             <input id="y-coord" is="iron-input" bind-value="{{entity.geometry.y}}">
-            <label for="entity-name">Entity Name:</label>
-            <input id="entity-name" is="iron-input" bind-value="{{entity.name}}">
             <paper-checkbox checked="{{draggable}}">Draggable</paper-checkbox>
+          </div>
+          <div class="demo-block">
+            <h4>Connector attributes</h4>
+            <paper-checkbox checked="{{connectorActive}}">Connector active</paper-checkbox>
+            <paper-checkbox checked="{{connectorHidden}}">Connector hidden</paper-checkbox>
           </div>
           <!-- Filled Entity Box -->
           <entity-box
@@ -65,6 +74,8 @@ DEMO PAGE FOR COMPONENT 'entity-box'
             name="{{entity.name}}"
             geometry="{{entity.geometry}}"
             attributes="{{entity.attributes}}"
+            connector-active="{{connectorActive}}"
+            connector-hidden="{{connectorHidden}}"
             ></entity-box>
 
           <!-- Empty Entity Box -->

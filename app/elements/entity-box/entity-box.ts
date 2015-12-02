@@ -31,6 +31,12 @@ class EntityBox extends polymer.Base {
   @property({ type: Object, notify: true })
   geometry: Rectangle;
 
+  @property({ type: Boolean, value: false })
+  connectorHidden: boolean;
+
+  @property({ type: Boolean, value: false, notify: true })
+  connectorActive: boolean;
+
   // Draggabilly object
   draggie: Draggabilly;
 
@@ -93,6 +99,11 @@ class EntityBox extends polymer.Base {
   @computed()
   nameClass(name) {
     return name ? '' : 'empty';
+  }
+
+  @computed()
+  connectorClass(connectorActive) {
+    return connectorActive ? 'active' : '';
   }
 }
 
