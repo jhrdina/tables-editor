@@ -12,7 +12,7 @@ class Coords {
 }
 
 function lineTrim(p1: Coords, p2: Coords, space: number = 0) {
-  var line = {p1: new Coords(), p2: new Coords()};
+  var line = { p1: new Coords(), p2: new Coords() };
   if (p1.x < p2.x) {
     line.p1.x = space;
     line.p2.x = (p2.x - p1.x) + space;
@@ -31,6 +31,20 @@ function lineTrim(p1: Coords, p2: Coords, space: number = 0) {
   return line;
 }
 
+function getPByDirection(p1: Coords, dir: String, angulation: number): Coords {
+  var point: Coords;
+  if (dir == "left") {
+    point = new Coords(p1.x - angulation, p1.y);
+  } else if (dir == "top") {
+    point = new Coords(p1.x, p1.y - angulation);
+  } else if (dir == "bottom") {
+    point = new Coords(p1.x, p1.y + angulation);
+  } else {
+    point = new Coords(p1.x + angulation, p1.y);
+  }
+  return point;
+}
+
 class Curve {
   start: Coords;
   p1: Coords;
@@ -38,10 +52,10 @@ class Curve {
   p2: Coords;
   end: Coords;
   constructor(start: Coords = new Coords(),
-                 p1: Coords = new Coords(),
-                 middle: Coords = new Coords(),
-                 p2: Coords = new Coords(),
-                 end: Coords = new Coords()) {
+    p1: Coords = new Coords(),
+    middle: Coords = new Coords(),
+    p2: Coords = new Coords(),
+    end: Coords = new Coords()) {
     this.start = start;
     this.p1 = p1;
     this.middle = middle;
@@ -92,6 +106,14 @@ class ConnectionView extends polymer.Base {
   @property({ type: String, notify: true })
   dir2: string;
 
+  @property({ type: Number, notify: true, value: NaN })
+  xMiddle: number = NaN;
+
+  @property({ type: Number, notify: true, value: NaN })
+  yMiddle: number = NaN;
+
+
+
   @observe("x1, y1, x2, y2, dir1, dir2")
   frame(x1, y1, x2, y2, dir1, dir2) {
     var frame = this.$.frame;
@@ -112,32 +134,25 @@ class ConnectionView extends polymer.Base {
     frame.setAttribute("height", (Math.abs(y1 - y2) + 2 * ConnectionView.space) + "px");
   }
 
-  @computed({type: Curve})
-  curve(x1, y1, x2, y2, dir1, dir2): Curve {
+  @computed({ type: Curve })
+  curve(x1, y1, x2, y2, dir1, dir2, yMiddle, xMiddle): Curve {
     var curve = new Curve();
     var diagonal = lineTrim(new Coords(x1, y1), new Coords(x2, y2), ConnectionView.space);
     curve.start = diagonal.p1;
     curve.end = diagonal.p2;
 
-    if(dir1 == "left") {
-      curve.p1 = new Coords(curve.start.x - ConnectionView.angulation, curve.start.y);
-    } else {
-      curve.p1 = new Coords(curve.start.x + ConnectionView.angulation, curve.start.y);
-    }
-    if(dir2 == "left") {
-      curve.p2 = new Coords(curve.end.x - ConnectionView.angulation, curve.end.y);
-    } else {
-      curve.p2 = new Coords(curve.end.x + ConnectionView.angulation, curve.end.y);
-    }
+    curve.p1 = getPByDirection(curve.start, dir1, ConnectionView.angulation);
+    curve.p2 = getPByDirection(curve.end, dir2, ConnectionView.angulation);
 
     curve.middle.x = (curve.p1.x + curve.p2.x) / 2.0;
     curve.middle.y = (curve.p1.y + curve.p2.y) / 2.0;
 
+
     return curve;
   }
 
-  @computed({type: String})
-  curveString(curve): String{
+  @computed({ type: String })
+  curveString(curve): String {
     return curve.toString();
   }
 }
