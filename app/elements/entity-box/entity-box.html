@@ -10,6 +10,7 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
 <link rel="import" href="../attribute-settings-popover/attribute-settings-popover.html">
+<link rel="import" href="../constraint-badge/constraint-badge.html">
 
 <dom-module id="entity-box">
   <template>
@@ -82,6 +83,10 @@
       @apply(--layout-flex-auto);
     }
 
+    .flag {
+      --constraint-badge-background: #bbb;
+    }
+
     paper-menu-button {
       padding: 0;
     }
@@ -101,11 +106,21 @@
           icon="communication:swap-calls"></paper-icon-button>
       </div>
       <ul>
-        <template is="dom-repeat" items="{{attributes}}" index-as="index">
+        <template is="dom-repeat" items="{{attributes}}" as="attr">
           <li class="attr-row">
 
             <!-- Attribute name -->
-            <span class="attr-name">{{item.name}}</span>
+            <span class="attr-name">{{attr.name}}</span>
+
+            <!-- Integrity constraints -->
+            <template is="dom-repeat" items="[[attr.flags]]" as="flag">
+              <constraint-badge
+                class="flag"
+                label="[[flag]]"></constraint-badge>
+            </template>
+
+            <!-- Data type -->
+            <constraint-badge label="[[attr.dataType.name]]"></constraint-badge>
 
             <!-- Attribute settings button -->
             <paper-menu-button horizontal-offset="50">
@@ -115,7 +130,7 @@
               </paper-icon-button>
               <attribute-settings-popover
                 class="dropdown-content"
-                attribute="{{item}}">
+                attribute="{{attr}}">
               </attribute-settings-popover>
             </paper-menu-button>
           </li>

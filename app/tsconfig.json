@@ -22,6 +22,7 @@
     "files": [
         "elements/attribute-settings-popover/attribute-settings-popover.ts",
         "elements/connection-view/connection-view.ts",
+        "elements/constraint-badge/constraint-badge.ts",
         "elements/entities-area/entities-area.ts",
         "elements/entity-box/entity-box.ts",
         "elements/tables-editor/tables-editor.ts"
