@@ -88,29 +88,23 @@ class ConnectionView extends polymer.Base {
   static space = 40;
   static angulation = 30;
 
-  @property({ type: Number, notify: true })
+  @property({ type: Number})
   x1: number;
 
-  @property({ type: Number, notify: true })
+  @property({ type: Number})
   y1: number;
 
-  @property({ type: String, notify: true })
+  @property({ type: String})
   dir1: string;
 
-  @property({ type: Number, notify: true })
+  @property({ type: Number})
   x2: number;
 
-  @property({ type: Number, notify: true })
+  @property({ type: Number})
   y2: number;
 
-  @property({ type: String, notify: true })
+  @property({ type: String})
   dir2: string;
-
-  @property({ type: Number, notify: true, value: NaN })
-  xMiddle: number = NaN;
-
-  @property({ type: Number, notify: true, value: NaN })
-  yMiddle: number = NaN;
 
 
 
