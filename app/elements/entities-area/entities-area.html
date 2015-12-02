@@ -1,6 +1,7 @@
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../entity-box/entity-box.html">
 
 
@@ -9,19 +10,29 @@
     <style>
     :host {
       display: block;
-      background-color: lightgray;
+      background-color: #ECECEC;
     }
 
     entity-box {
       float: left;
     }
 
+    paper-fab {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+    }
+
     </style>
+
+    <paper-fab icon="add" elevation="2" title="Přidat novou tabulku"></paper-fab>
+
     <entity-box draggable containment="{{host}}" style="left: 30px; top: 30px;"></entity-box>
     <entity-box draggable containment="{{host}}" style="left: 100px; top: 30px;"
                 name="Epic Doomsday Table"
     ></entity-box>
     <entity-box draggable containment="{{host}}" style="left: 170px; top: 30px;"></entity-box>
+
   </template>
 </dom-module>
 
