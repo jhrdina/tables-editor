@@ -129,7 +129,7 @@ class ConnectionView extends polymer.Base {
   }
 
   @computed({ type: Curve })
-  curve(x1, y1, x2, y2, dir1, dir2, yMiddle, xMiddle): Curve {
+  curve(x1, y1, x2, y2, dir1, dir2): Curve {
     var curve = new Curve();
     var diagonal = lineTrim(new Coords(x1, y1), new Coords(x2, y2), ConnectionView.space);
     curve.start = diagonal.p1;
@@ -140,7 +140,6 @@ class ConnectionView extends polymer.Base {
 
     curve.middle.x = (curve.p1.x + curve.p2.x) / 2.0;
     curve.middle.y = (curve.p1.y + curve.p2.y) / 2.0;
-
 
     return curve;
   }
