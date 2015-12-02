@@ -98,7 +98,7 @@ class EntityBox extends polymer.Base {
 
   @computed()
   connectorClass(connectorActive) {
-    return connectorActive ? 'active' : '';
+    return connectorActive ? 'connector active' : 'connector';
   }
 
   // ================================================================

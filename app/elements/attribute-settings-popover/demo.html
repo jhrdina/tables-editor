@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+DEMO PAGE FOR COMPONENT 'attribute-settings-popover'
+-->
+<html>
+  <head>
+    <title>DEMO attribute-settings-popover</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+    <link rel="import" href="attribute-settings-popover.html">
+
+    <style is="custom-style">
+      .horizontal-section {
+        min-width: 100px;
+      }
+
+    </style>
+
+  </head>
+
+  <body unresolved>
+
+    <span id="browser-sync-binding"></span>
+
+  <x-app></x-app>
+
+  <dom-module id="x-app">
+    <template>
+      <style>
+        paper-material {
+          max-width: 200px;
+        }
+      </style>
+      <div>
+        <h4>TEST</h4>
+        <div class="horizontal-section">
+          <paper-material elevation="2">
+            <attribute-settings-popover attribute={{myAttr}} ></attribute-settings-popover>
+          </paper-material>
+        </div>
+      </div>
+    </div>
+  </template>
+  </dom-module>
+
+
+  <script>
+  Polymer({
+        is: 'x-app',
+        properties: {
+          test: {
+            type: String,
+            value: 'PolymerTS'
+          }
+        },
+        listeners: {},
+        handleGreet: function(e) {
+            console.log('handle gree event!', e);
+        },
+        ready: function() {
+          this.myAttr = {
+            name: 'MujAtribut'
+          };
+        }
+      });
+
+        (function(document) {
+          'use strict';
+        })(document);
+  </script>
+
+  </body>
+</html>

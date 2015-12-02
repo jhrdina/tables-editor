@@ -1,10 +1,15 @@
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
-<link rel="import" href="../../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+
+<link rel="import" href="../attribute-settings-popover/attribute-settings-popover.html">
 
 <dom-module id="entity-box">
   <template>
@@ -13,13 +18,16 @@
       position: relative;
       display: block;
       min-width: 100px;
-      height: 150px;
+
+      --line-padding: 0.7em;
     }
 
     paper-material {
       background-color: white;
-      height: 100%;
+      min-height: 120px;
     }
+
+    /* Name Box */
 
     .name-box {
       overflow: hidden;
@@ -34,7 +42,7 @@
     .name-box > h2 {
       font-size: 100%;
       text-align: center;
-      margin: 0em 0.7em;
+      margin: 0em var(--line-padding);
 
       @apply(--layout-flex-auto);
 
@@ -45,13 +53,39 @@
       color: #999;
     }
 
-    paper-icon-button {
+    /* Connector Button */
+
+    .connector {
       border-left: 1px solid #bbb;
     }
 
-    paper-icon-button.active {
+    .connector.active {
       color: var(--accent-color);
     }
+
+    /* Attributes */
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+      min-height: 40px;
+      /*line-height: 40px;*/
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+
+    .attr-name {
+      padding: 0 var(--line-padding);
+      @apply(--layout-flex-auto);
+    }
+
+    paper-menu-button {
+      padding: 0;
+    }
+
     </style>
 
     <paper-material>
@@ -66,9 +100,29 @@
           hidden$="{{connectorHidden}}"
           icon="communication:swap-calls"></paper-icon-button>
       </div>
-      <div class="attribute-row">
+      <ul>
+        <template is="dom-repeat" items="{{attributes}}" index-as="index">
+          <li class="attr-row">
 
-      </div>
+            <!-- Attribute name -->
+            <span class="attr-name">{{item.name}}</span>
+
+            <!-- Attribute settings button -->
+            <paper-menu-button horizontal-offset="50">
+              <paper-icon-button
+                class="dropdown-trigger"
+                icon="more-horiz">
+              </paper-icon-button>
+              <attribute-settings-popover
+                class="dropdown-content"
+                attribute="{{item}}">
+              </attribute-settings-popover>
+            </paper-menu-button>
+          </li>
+        </template>
+      </ul>
+
+
     </paper-material>
 
   </template>
