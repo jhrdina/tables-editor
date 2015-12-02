@@ -16,26 +16,21 @@ interface Rectangle {
 @component('entity-box')
 class EntityBox extends polymer.Base {
 
+  @property({ type: Object })
+  attributes: any;
+
+  // ================================================================
+  // Geometry, Dragging
+  // ================================================================
+
   @property({ type: Object, value: null })
   containment: Node | string | boolean;
 
   @property({type: Boolean, value: false })
   draggable: boolean;
 
-  @property({ type: String, value: null })
-  name: string;
-
-  @property({ type: Object })
-  attributes: any;
-
   @property({ type: Object, notify: true })
   geometry: Rectangle;
-
-  @property({ type: Boolean, value: false })
-  connectorHidden: boolean;
-
-  @property({ type: Boolean, value: false, notify: true })
-  connectorActive: boolean;
 
   // Draggabilly object
   draggie: Draggabilly;
@@ -91,6 +86,28 @@ class EntityBox extends polymer.Base {
     this.style.top = geometry.base.y + 'px';
   }
 
+  // ================================================================
+  // Connector
+  // ================================================================
+
+  @property({ type: Boolean, value: false })
+  connectorHidden: boolean;
+
+  @property({ type: Boolean, value: false, notify: true })
+  connectorActive: boolean;
+
+  @computed()
+  connectorClass(connectorActive) {
+    return connectorActive ? 'active' : '';
+  }
+
+  // ================================================================
+  // Entity name
+  // ================================================================
+
+  @property({ type: String, value: null })
+  name: string;
+
   @computed()
   showedName(name) {
     return name || 'Bez názvu';
@@ -101,10 +118,7 @@ class EntityBox extends polymer.Base {
     return name ? '' : 'empty';
   }
 
-  @computed()
-  connectorClass(connectorActive) {
-    return connectorActive ? 'active' : '';
-  }
+  // ================================================================
 }
 
 EntityBox.register();
