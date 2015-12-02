@@ -10,6 +10,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
 
     <link rel="import" href="entity-box.html">
     <link rel="import" href="../../bower_components/iron-input/iron-input.html">
+    <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 
     <style is="custom-style">
       .horizontal-section {
@@ -53,10 +54,13 @@ DEMO PAGE FOR COMPONENT 'entity-box'
             <input id="x-coord" is="iron-input" bind-value="{{entity.geometry.x}}">
             <label for="y-coord">Y:</label>
             <input id="y-coord" is="iron-input" bind-value="{{entity.geometry.y}}">
+            <label for="entity-name">Entity Name:</label>
+            <input id="entity-name" is="iron-input" bind-value="{{entity.name}}">
+            <paper-checkbox checked="{{draggable}}">Draggable</paper-checkbox>
           </div>
           <!-- Filled Entity Box -->
           <entity-box
-            draggable
+            draggable="{{draggable}}"
             class="fixed-width"
             name="{{entity.name}}"
             geometry="{{entity.geometry}}"
@@ -93,6 +97,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
           console.log('Geometry:', geometry);
         },
         ready: function() {
+          this.draggable = true;
           this.entity = {
             name: "Person",
             geometry: {
