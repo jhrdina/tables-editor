@@ -27,11 +27,15 @@
 
     <paper-fab icon="add" elevation="2" title="Přidat novou tabulku"></paper-fab>
 
-    <entity-box draggable containment="{{host}}" style="left: 30px; top: 30px;"></entity-box>
-    <entity-box draggable containment="{{host}}" style="left: 100px; top: 30px;"
-                name="Epic Doomsday Table"
-    ></entity-box>
-    <entity-box draggable containment="{{host}}" style="left: 170px; top: 30px;"></entity-box>
+    <template is="dom-repeat" items="{{model.entities}}" index-as="index">
+      <entity-box
+        draggable
+        containment="{{host}}"
+        name="{{item.name}}"
+        geometry="{{item.geometry}}"
+        attributes="{{item.attributes}}">
+      </entity-box>
+    </template>
 
   </template>
 </dom-module>

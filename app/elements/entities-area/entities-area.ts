@@ -4,6 +4,9 @@
 class EntitiesArea extends polymer.Base
 {
   host: EntitiesArea = this;
+
+  @property({ type: Object })
+  model: any;
 }
 
 EntitiesArea.register();
