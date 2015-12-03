@@ -88,44 +88,53 @@ class ConnectionView extends polymer.Base {
   static space = 40;
   static angulation = 30;
 
-  @property({ type: Number})
+  @property({ type: Number })
   x1: number;
 
-  @property({ type: Number})
+  @property({ type: Number })
   y1: number;
 
-  @property({ type: String})
+  @property({ type: String })
   dir1: string;
 
-  @property({ type: Number})
+  @property({ type: Number })
   x2: number;
 
-  @property({ type: Number})
+  @property({ type: Number })
   y2: number;
 
-  @property({ type: String})
+  @property({ type: String })
   dir2: string;
 
+  @property({ type: Object, value: new Coords() })
+  frameCors: Coords;
 
 
-  @observe("x1, y1, x2, y2, dir1, dir2")
+
+  @computed()
   frame(x1, y1, x2, y2, dir1, dir2) {
+    var frameCors = new Coords();
     var frame = this.$.frame;
 
     if (x1 < x2) {
-      frame.style.left = (x1 - ConnectionView.space) + "px";
+      frameCors.x = (x1 - ConnectionView.space);
     } else {
-      frame.style.left = (x2 - ConnectionView.space) + "px";
+      frameCors.x = (x2 - ConnectionView.space);
     }
+    frame.style.left = frameCors.x + "px";
 
     if (y1 < y2) {
-      frame.style.top = (y1 - ConnectionView.space) + "px";
+      frameCors.y = (y1 - ConnectionView.space);
     } else {
-      frame.style.top = (y2 - ConnectionView.space) + "px";
+      frameCors.y = (y2 - ConnectionView.space);
     }
+
+    frame.style.top = frameCors.y + "px";
 
     frame.setAttribute("width", (Math.abs(x1 - x2) + 2 * ConnectionView.space) + "px");
     frame.setAttribute("height", (Math.abs(y1 - y2) + 2 * ConnectionView.space) + "px");
+
+    return frameCors;
   }
 
   @computed({ type: Curve })
@@ -142,6 +151,14 @@ class ConnectionView extends polymer.Base {
     curve.middle.y = (curve.p1.y + curve.p2.y) / 2.0;
 
     return curve;
+  }
+
+  @computed({ type: Number })
+  middle(curve, frame): Coords {
+    var middle = new Coords();
+    middle.x = frame.x + curve.middle.x;
+    middle.y = frame.y + curve.middle.y;
+    return middle;
   }
 
   @computed({ type: String })

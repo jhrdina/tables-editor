@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../connection-label/connection-label.html">
 
 
 
@@ -11,8 +12,9 @@
     }
     </style>
     <svg id="frame">
-      <path d$="{{curveString}}" stroke="black" stroke-width="2" fill="none" />
+      <path d$="{{curveString}}" stroke="gray" stroke-width="2" fill="none" />
     </svg>
+    <connection-label x-target$="{{middle.x}}" y-target$="{{middle.y}}" name="{{name}}"></connection-label>
   </template>
 </dom-module>
 
