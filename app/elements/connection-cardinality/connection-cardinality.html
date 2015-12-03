@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+
+
+
+<dom-module id="connection-cardinality">
+  <template>
+    <style>
+      #box {
+        position: absolute;
+        z-index: 1;
+        font-weight: normal;
+        font-size: 11px;
+        /*height: var(--paper-badge-height, 11px);*/
+        background-color: var(--connection-label, --primary-background-color);
+        /*opacity: var(--connection-label-opacity, 1.0);*/
+        color: var(--connection-label-text-color, --primary-text-color);
+        display: inline-block;
+        border-radius: 10px;
+        border: 2px solid gray;
+        padding: 3px 7px;
+        line-height: 1;
+        @apply(--layout);
+        @apply(--layout-center-center);
+        @apply(--connection-label);
+      }
+    </style>
+    <div id="box">
+      {{cardinality}}
+    </div>
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="connection-cardinality.js"></script>

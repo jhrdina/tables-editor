@@ -14,19 +14,20 @@ DEMO PAGE FOR COMPONENT 'connection-view'
 
   <body id="body" style="height: 500px; width: 1000px;">
     <span id="browser-sync-binding"></span>
-
-    <connection-view name="Connection1" x1="200" y1="200" dir1="top" x2="100" y2="200" dir2="bottom"></connection-view>
-    <connection-view name="Connection2" x1="200" y1="200" dir1="bottom" x2="100" y2="200" dir2="top"></connection-view>
-    <connection-view name="Connection3" x1="150" y1="150" dir1="left" x2="150" y2="250" dir2="right"></connection-view>
-    <connection-view name="Connection4" x1="150" y1="150" dir1="right" x2="150" y2="250" dir2="left"></connection-view>
-    <connection-view id = "c1" name="Connection5" x1="300" y1="150" dir1="left" x2="350" y2="200" dir2="bottom"></connection-view>
+    <connection-view car1="1" car2="1..n" id = "c1" name="Connection_1" x1="10" y1="10" dir1="bottom" x2="200" y2="200" dir2="left"></connection-view>
+    <connection-view car1="0..n" car2="1" id = "c2" name="Connection_2" x1="200" y1="200" dir1="right" x2="500" y2="500" dir2="top"></connection-view>
   </body>
 </html>
 
 <script type="text/javascript">
   document.getElementById("body").onmousemove = function(e) {
     var el = document.getElementById("c1");
+    el.setAttribute("x2", e.pageX);
+    el.setAttribute("y2", e.pageY);
+
+    el = document.getElementById("c2");
     el.setAttribute("x1", e.pageX);
     el.setAttribute("y1", e.pageY);
+
   }
 </script>
