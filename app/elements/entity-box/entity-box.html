@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
 
 <link rel="import" href="../attribute-settings-popover/attribute-settings-popover.html">
 <link rel="import" href="../constraint-badge/constraint-badge.html">
@@ -91,12 +92,27 @@
       padding: 0;
     }
 
+    input {
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      border: none;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
     </style>
 
     <paper-material>
       <div class="name-box handle">
         <!-- Entity name -->
-        <h2 class$="{{nameClass}}">{{showedName}}</h2>
+        <h2 class$="{{nameClass}}">
+          <input size="5" is="iron-input"
+            bind-value="{{name}}"
+            placeholder="Bez názvu">
+        </h2>
         <!-- Connector Button -->
         <paper-icon-button
           class$="{{connectorClass}}"
@@ -110,7 +126,9 @@
           <li class="attr-row">
 
             <!-- Attribute name -->
-            <span class="attr-name">{{attr.name}}</span>
+            <span class="attr-name">
+              <input size="5" is="iron-input" bind-value="{{attr.name}}">
+            </span>
 
             <!-- Integrity constraints -->
             <template is="dom-repeat" items="[[attr.flags]]" as="flag">

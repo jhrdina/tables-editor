@@ -138,13 +138,8 @@ class EntityBox extends polymer.Base {
   // Entity name
   // ================================================================
 
-  @property({ type: String, value: null })
+  @property({ type: String, value: null, notify: true })
   name: string;
-
-  @computed()
-  showedName(name) {
-    return name || 'Bez názvu';
-  }
 
   @computed()
   nameClass(name) {
