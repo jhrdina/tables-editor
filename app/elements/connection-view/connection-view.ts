@@ -110,6 +110,14 @@ class ConnectionView extends polymer.Base {
   @property({ type: String, notify: true })
   name: String;
 
+  @property({ type: String, notify: true})
+  car1: String;
+
+  @property({ type: String, notify: true})
+  car2: String;
+
+
+
 
 
   @computed()

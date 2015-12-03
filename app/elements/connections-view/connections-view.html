@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../connection-view/connection-view.html">
+
+
+
+<dom-module id="connections-view">
+  <template>
+    <style>
+      :host {
+        position: relative;
+        z-index: 0;
+      }
+    </style>
+    <template template is="dom-repeat" items="{{model.connections}}">
+      <connection-view
+          car1$="{{item.cardinality1}}" car2$="{{item.cardinality2}}"
+          name$="{{item.name}}"
+          x1="300" y1="100" dir1="right"
+          x2="500" y2="200" dir2="left">
+          </connection-view>
+    </template>
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="connections-view.js"></script>

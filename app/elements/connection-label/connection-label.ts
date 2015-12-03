@@ -1,21 +1,45 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
 
 @component('connection-label')
-class ConnectionLabel extends polymer.Base
-{
-  @property({type: String, notify: true})
+class ConnectionLabel extends polymer.Base {
+  @property({ type: String, notify: true })
   name: String;
 
-  @property({type: Number})
+  @property({ type: Number })
   xTarget: number;
 
-  @property({type: Number})
+  @property({ type: Number })
   yTarget: number;
 
   @observe("xTarget, yTarget")
   position(xTarget, yTarget) {
-    this.style.left = xTarget + "px";
-    this.style.top = yTarget + "px";
+    var label = this.$.label;
+    label.style.left = xTarget + "px";
+    label.style.top = yTarget + "px";
+  }
+
+  ready() {
+    this.$.label.onclick = function() {
+      if (this.getAttribute("contenteditable") != "true") {
+        this.setAttribute("contenteditable", "true");
+        this.focus();
+        var range = document.createRange();
+        range.selectNodeContents(this);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }
+
+    this.$.label.addEventListener("focusout", function() {
+      this.setAttribute("contenteditable", "false");
+      window.getSelection().removeAllRanges();
+    });
+
+    this.onkeydown = function(in_event) {
+      //TODO: filter keys
+      return true;
+    }
   }
 }
 

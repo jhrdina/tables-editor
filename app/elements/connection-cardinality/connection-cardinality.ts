@@ -30,10 +30,36 @@ class ConnectionCardinality extends polymer.Base {
 
   @observe("cardinality, x, y")
   place(cardinality, x, y) {
-    var box = this.$.box;
-    box.style.left = x + "px";
-    box.style.top = y + "px";
+    var container = this.$.container;
+    container.style.left = x + "px";
+    container.style.top = y + "px";
   }
+
+  ready() {
+    var _this = this;
+    var dropmenu = this.$.dropmenu;
+    this.$.box.onclick = function() {
+      dropmenu.open();
+    };
+  }
+
+  dropdownValues = ["1", "0..1", "0..n", "1..n"];
+
+  @observe("cardinality")
+  cardinalityObserver(cardinality){
+    for(var i in this.dropdownValues) {
+      if(this.dropdownValues[i] == cardinality) {
+        this.dropdownIndex = i;
+      }
+    }
+  }
+
+  @observe("dropdownIndex")
+  dropdownObserver(dropdownIndex){
+    this.cardinality = this.dropdownValues[dropdownIndex];
+  }
+
+  dropdownIndex: number;
 }
 
 ConnectionCardinality.register();

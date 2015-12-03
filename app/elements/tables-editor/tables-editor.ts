@@ -112,6 +112,15 @@ class TablesEditor extends polymer.Base
            }
          ]
        }
+     ],
+     connections: [
+       {
+         entity1: 0,
+         entity2: 1,
+         name: "Connection_1",
+         cardinality1: "1..n",
+         cardinality2: "1"
+       }
      ]
    }
 }

@@ -1,4 +1,3 @@
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 
@@ -7,31 +6,41 @@
 <dom-module id="connection-label">
   <template>
     <style>
-      :host{
+      #label {
         position: absolute;
         transform: translate(-50%, -50%);
         z-index: 1;
-
         font-weight: normal;
         font-size: 11px;
-
         /*height: var(--paper-badge-height, 11px);*/
         background-color: var(--connection-label, --primary-background-color);
         /*opacity: var(--connection-label-opacity, 1.0);*/
         color: var(--connection-label-text-color, --primary-text-color);
-
         display: inline-block;
         border-radius: 10px;
         border: 2px solid gray;
         padding: 3px 7px;
         line-height: 1;
-
         @apply(--layout);
         @apply(--layout-center-center);
         @apply(--connection-label);
       }
+
+      #label:not([contenteditable="true"]) {
+        cursor: pointer;
+      }
+
+      #label:focus {
+        outline: 0;
+        color: black;
+        -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+      }
     </style>
-    {{name}}
+    <div id="label">
+      {{name}}
+    </div>
   </template>
 </dom-module>
 

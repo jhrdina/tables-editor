@@ -1,14 +1,23 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 
 
 
 <dom-module id="connection-cardinality">
   <template>
     <style>
-      #box {
+      #container {
         position: absolute;
         z-index: 1;
+      }
+
+      #frame {
+        position: relative;
+      }
+
+      #box {
+        position: absolute;
         font-weight: normal;
         font-size: 11px;
         /*height: var(--paper-badge-height, 11px);*/
@@ -23,10 +32,40 @@
         @apply(--layout);
         @apply(--layout-center-center);
         @apply(--connection-label);
+        cursor: pointer;
       }
+      #dialog {
+        position:absolute;
+        left:0px;
+        top:0px;
+        display: block;
+        z-index: 10;
+      }
+      #dropmenu::shadow #trigger{
+        display: none;
+      }
+      #dialog {
+        position: absolute;
+        top: -14px;
+        left: 50px;
+      }
+
     </style>
-    <div id="box">
-      {{cardinality}}
+    <div id="container">
+      <div id="frame">
+        <div id="box">
+          {{cardinality}}
+        </div>
+      </div>
+      <div id="dialog">
+        <paper-dropdown-menu id="dropmenu">
+          <paper-menu class="dropdown-content" selected="{{dropdownIndex}}">
+            <template is="dom-repeat" items="{{dropdownValues}}">
+              <paper-item>{{item}}</paper-item>
+            </template>
+          </paper-menu>
+        </paper-dropdown-menu>
+      </div>
     </div>
   </template>
 </dom-module>
