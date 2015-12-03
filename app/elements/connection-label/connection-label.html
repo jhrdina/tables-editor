@@ -2,15 +2,33 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 
-
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
 
 <dom-module id="connection-label">
   <template>
     <style>
       :host{
         position: absolute;
-        transform: translate(-50%, -100%);
+        transform: translate(-50%, -50%);
         z-index: 1;
+
+        font-weight: normal;
+        font-size: 11px;
+
+        /*height: var(--paper-badge-height, 11px);*/
+        background-color: var(--connection-label, --primary-background-color);
+        /*opacity: var(--connection-label-opacity, 1.0);*/
+        color: var(--connection-label-text-color, --primary-text-color);
+
+        display: inline-block;
+        border-radius: 10px;
+        border: 2px solid gray;
+        padding: 3px 7px;
+        line-height: 1;
+
+        @apply(--layout);
+        @apply(--layout-center-center);
+        @apply(--connection-label);
       }
     </style>
     {{name}}
