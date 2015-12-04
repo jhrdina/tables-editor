@@ -18,13 +18,27 @@ class ConnectionsView extends polymer.Base
   @property({type: Object, notify: true})
   model: any;
 
-  @computed()
-  relations(model) {
+  //@property({ computed: 'computeRelations(model.*)'})
+  relations: any;
+  relationsLocked: boolean = false;
+
+  ready() {
+    this.relations = [];
+  }
+
+  @observe('model.*')
+  computeRelations(change) {
+    //TODO: handle only model.entities.#X.geometry changes by checking
+    //      change.path.split('.') etc.
+
+    var model = change.base;
+
     var rels = [];
     for(var connection in model.connections) {
       var rel = new Relation();
       rel.connection = model.connections[connection];
 
+      // Get entities and its geometries
       var geometry1 = model.entities[rel.connection.entity1].geometry;
       var geometry2 = model.entities[rel.connection.entity2].geometry;
 
@@ -36,12 +50,40 @@ class ConnectionsView extends polymer.Base
 
       rels.push(rel);
     }
-    return rels;
+
+    // Lock relations changes to prevent relationsChanged observer
+    // from firing.
+    this.relationsLocked = true;
+    // Sets value and informs everyone who is interested that relations has changed.
+    this.set('relations', rels);
+    this.relationsLocked = false;
   }
 
-  @observe("model.connections")
-  observator(connections) {
-    console.log(connections[0]);
+  /**
+   * Handles cardinality and name changes (can be deleted)
+   */
+  @observe("relations.*")
+  relationsChanged(change) {
+    if (this.relationsLocked || !this.model) return;
+
+    // Transform path from format
+    //     relations.#0.connection.cardinality1
+    // to
+    //     model.connection.#0.cardinality1
+    // and notify.
+    var pathParts = change.path.split('.');
+
+    if (pathParts < 4 || pathParts[2] != 'connection') return;
+
+    this.notifyPath('model.connections.' + pathParts[1]
+                      + '.' + pathParts.slice(3).join('.'),
+                    change.value);
+  }
+
+  // TODO: Delete me, just for check...
+  @observe("model.connections.*")
+  observator(change) {
+    console.log(change);
   }
 }
 

@@ -50,8 +50,8 @@ DEMO PAGE FOR COMPONENT 'connections-view'
         <h4>TEST</h4>
         <div class="horizontal-section">
           <connection-view car1="1" car2="1..n" id = "c1" name="Connection_1" x1="10" y1="10" dir1="bottom" x2="200" y2="200" dir2="left"></connection-view>
-          <connection-view car1="0..n" car2="1" id = "c2" name="Connection_2" x1="200" y1="200" dir1="right" x2="500" y2="500" dir2="top"></connection-view>
-        </div>
+          <connection-view car1="{{cardin1}}" car2="1" id = "c2" name="Connection_2" x1="200" y1="200" dir1="right" x2="500" y2="500" dir2="top"></connection-view>
+      </div>
       </div>
     </div>
   </template>
@@ -68,12 +68,14 @@ DEMO PAGE FOR COMPONENT 'connections-view'
           }
         },
         listeners: {},
-        handleGreet: function(e) {
-            console.log('handle gree event!', e);
+        observers: [
+          'cardinalityChange(cardin1)'
+        ],
+        ready: function () {
+          this.cardin1 = '0..n';
         },
-        ready: function() {
-          console.log("APP ready" );
-
+        cardinalityChange: function (newCardinality) {
+          console.log(newCardinality);
         }
       });
 

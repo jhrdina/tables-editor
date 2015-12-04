@@ -13,12 +13,12 @@
         z-index: 0;
       }
     </style>
-    <template template is="dom-repeat" items="{{model.connections}}">
+    <template template is="dom-repeat" items="{{relations}}">
       <connection-view
-          car1$="{{item.cardinality1}}" car2$="{{item.cardinality2}}"
-          name$="{{item.name}}"
-          x1="300" y1="100" dir1="right"
-          x2="500" y2="200" dir2="left">
+          car1="{{item.connection.cardinality1}}" car2="{{item.connection.cardinality2}}"
+          name="{{item.connection.name}}"
+          x1="{{item.position1.x}}" y1="{{item.position1.y}}" dir1="right"
+          x2="{{item.position2.x}}" y2="{{item.position2.y}}" dir2="left">
           </connection-view>
     </template>
   </template>
