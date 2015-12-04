@@ -20,6 +20,7 @@
         "!node_modules/**"
     ],
     "files": [
+        "elements/attribute-row/attribute-row.ts",
         "elements/attribute-settings-popover/attribute-settings-popover.ts",
         "elements/connection-cardinality/connection-cardinality.ts",
         "elements/connection-label/connection-label.ts",

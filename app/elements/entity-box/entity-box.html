@@ -4,14 +4,12 @@
 
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
-<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 
-<link rel="import" href="../attribute-settings-popover/attribute-settings-popover.html">
-<link rel="import" href="../constraint-badge/constraint-badge.html">
+<link rel="import" href="../attribute-row/attribute-row.html">
 
 <dom-module id="entity-box">
   <template>
@@ -51,6 +49,17 @@
       /*line-height: 30px;*/
     }
 
+    input {
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      border: none;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
     .name-box > h2.empty {
       color: #999;
     }
@@ -65,50 +74,13 @@
       color: var(--accent-color);
     }
 
-    /* Attributes */
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-
-    li {
-      list-style: none;
-      min-height: 40px;
-      /*line-height: 40px;*/
-      @apply(--layout-horizontal);
-      @apply(--layout-center);
-    }
-
-    .attr-name {
-      padding: 0 var(--line-padding);
-      @apply(--layout-flex-auto);
-    }
-
-    .flag {
-      --constraint-badge-background: #bbb;
-    }
-
-    paper-menu-button {
-      padding: 0;
-    }
-
-    input {
-      width: 100%;
-      font: inherit;
-      color: inherit;
-      border: none;
-    }
-
-    input:focus {
-      outline: none;
-    }
-
     </style>
 
     <paper-material>
       <div class="name-box handle">
         <!-- Entity name -->
         <h2 class$="{{nameClass}}">
+          <!-- TODO: Fix dynamic size -->
           <input size="5" is="iron-input"
             bind-value="{{name}}"
             placeholder="Bez názvu">
@@ -121,39 +93,9 @@
           hidden$="{{connectorHidden}}"
           icon="communication:swap-calls"></paper-icon-button>
       </div>
-      <ul>
-        <template is="dom-repeat" items="{{attributes}}" as="attr">
-          <li class="attr-row">
-
-            <!-- Attribute name -->
-            <span class="attr-name">
-              <input size="5" is="iron-input" bind-value="{{attr.name}}">
-            </span>
-
-            <!-- Integrity constraints -->
-            <template is="dom-repeat" items="[[attr.flags]]" as="flag">
-              <constraint-badge
-                class="flag"
-                label="[[flag]]"></constraint-badge>
-            </template>
-
-            <!-- Data type -->
-            <constraint-badge label="[[attr.dataType.name]]"></constraint-badge>
-
-            <!-- Attribute settings button -->
-            <paper-menu-button horizontal-offset="50">
-              <paper-icon-button
-                class="dropdown-trigger"
-                icon="more-horiz">
-              </paper-icon-button>
-              <attribute-settings-popover
-                class="dropdown-content"
-                attribute="{{attr}}">
-              </attribute-settings-popover>
-            </paper-menu-button>
-          </li>
-        </template>
-      </ul>
+      <template is="dom-repeat" items="{{attributes}}" as="attr">
+        <attribute-row attribute="{{attr}}"></attribute-row>
+      </template>
 
 
     </paper-material>

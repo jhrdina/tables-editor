@@ -1,0 +1,83 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="../constraint-badge/constraint-badge.html">
+<link rel="import" href="../attribute-settings-popover/attribute-settings-popover.html">
+
+<dom-module id="attribute-row">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        min-height: 40px;
+      }
+
+      .attr-name {
+        padding: 0 var(--line-padding, 0.7em);
+        @apply(--layout-flex-auto);
+      }
+
+      .flag {
+        --constraint-badge-background: #bbb;
+      }
+
+      input {
+        width: 100%;
+        font: inherit;
+        color: inherit;
+        border: none;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      paper-menu-button {
+        padding: 0;
+      }
+
+    </style>
+
+
+    <!-- Attribute name -->
+    <span class="attr-name">
+      <input
+        size="5"
+        is="iron-input"
+        bind-value="{{attribute.name}}"
+        on-keydown="attrKeyDown">
+    </span>
+
+    <!-- Integrity constraints -->
+    <template is="dom-repeat" items="[[attribute.flags]]" as="flag">
+      <constraint-badge
+        class="flag"
+        label="[[flag]]"></constraint-badge>
+    </template>
+
+    <!-- Data type -->
+    <constraint-badge label="[[attribute.dataType.name]]"></constraint-badge>
+
+    <!-- Attribute settings button -->
+    <paper-menu-button horizontal-offset="50">
+      <paper-icon-button
+        class="dropdown-trigger"
+        icon="more-horiz">
+      </paper-icon-button>
+      <attribute-settings-popover
+        class="dropdown-content"
+        attribute="{{attribute}}">
+      </attribute-settings-popover>
+    </paper-menu-button>
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="attribute-row.js"></script>
