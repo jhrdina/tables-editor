@@ -169,6 +169,22 @@ class EntityBox extends polymer.Base {
     var newAttrRow: any = Polymer.dom(e.detail.target).nextElementSibling;
     newAttrRow.focus();
   }
+
+  handleDeleteAttr(e) {
+    var attribute = e.target.attribute;
+
+    // Keep at least one attribute
+    if (this.entityAttrs.length <= 1) return;
+
+    var index = this.entityAttrs.indexOf(attribute);
+
+    var elementToFocus = index > 0 ?
+      e.target.previousElementSibling :
+      e.target.nextElementSibling;
+
+    this.splice('entityAttrs', index, 1);
+    elementToFocus.focus();
+  }
 }
 
 EntityBox.register();

@@ -11,7 +11,12 @@ class AttributeRow extends polymer.Base {
 
   attrKeyDown(keyEvent) {
     if (keyEvent.which === 13) {
+      // Enter
       this.fire('insert-below', {target: this});
+
+    } else if (keyEvent.which === 8 && !this.attribute.name) {
+      // Backspace and is empty
+      this.fire('delete', {target: this});
     }
   }
 
