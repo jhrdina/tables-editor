@@ -1,6 +1,5 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
 /// <reference path="../../../typings/draggabilly/draggabilly.d.ts"/>
-/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 interface Point {
   x: number;
@@ -54,17 +53,11 @@ class EntityBox extends polymer.Base {
 
         // Notify position changes
         if (that.geometry) {
-          var offsetThis = $(that).offset();
-          var offsetParent = $(that).parent().offset()
-          var left = offsetThis.left - offsetParent.left
-          var top = offsetThis.top - offsetParent.top;
-          var width = $(that).outerWidth();
-          var height = $(that).outerHeight();
           var g = {
-            x: left,
-            y: top,
-            width: width,
-            height: height
+            x: this.position.x,
+            y: this.position.y,
+            width: that.geometry.width,
+            height: that.geometry.height
           };
 
           that.geometryLocked = true;
@@ -86,7 +79,7 @@ class EntityBox extends polymer.Base {
   }
 
   @observe('geometry.*')
-  geometryChanged(geometry) {
+  positionChanged(geometry) {
     if (this.geometryLocked) return;
     // console.log('geometryChanged');
 
@@ -94,22 +87,17 @@ class EntityBox extends polymer.Base {
     this.style.top = geometry.base.y + 'px';
   }
 
-  attached() {
-    this.geometryPossiblyChanged();
+  ready() {
+    this.async(this.sizeChanged.bind(this), 500);
   }
 
   @observe('attributes.*,name,connectorHidden,geometry')
-  geometryPossiblyChanged() {
+  sizeChanged() {
     if (this.geometryLocked || !this.geometry) return;
-    // console.log('geometryPossiblyChanged');
+    // console.log('sizeChanged');
 
     var rectObject: ClientRect = this.getBoundingClientRect();
-    // console.log([
-    //   this.attributes,
-    //   this.name,
-    //   this.connectorHidden,
-    //   this.geometry
-    // ]);
+    console.log('w', rectObject.width, 'h', rectObject.height);
 
     var newGeometry = {
       x: this.geometry.x,
