@@ -13,9 +13,9 @@ class Coords {
     var point: Coords;
     if (dir == "left") {
       point = new Coords(this.x - angulation, this.y);
-    } else if (dir == "top") {
+    } else if (dir == "up") {
       point = new Coords(this.x, this.y - angulation);
-    } else if (dir == "bottom") {
+    } else if (dir == "down") {
       point = new Coords(this.x, this.y + angulation);
     } else {
       point = new Coords(this.x + angulation, this.y);

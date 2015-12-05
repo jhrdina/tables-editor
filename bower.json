@@ -10,7 +10,8 @@
     "page": "visionmedia/page.js#~1.6.3",
     "polymer-ts": "~0.1.15",
     "draggabilly": "~1.2.4",
-    "paper-checkbox": "PolymerElements/paper-checkbox#~1.0.15"
+    "paper-checkbox": "PolymerElements/paper-checkbox#~1.0.15",
+    "jquery": "~2.1.4"
   },
   "devDependencies": {}
 }

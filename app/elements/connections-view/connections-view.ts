@@ -42,10 +42,12 @@ class ConnectionsView extends polymer.Base
       var geometry1 = model.entities[rel.connection.entity1].geometry;
       var geometry2 = model.entities[rel.connection.entity2].geometry;
 
+      console.log(geometry2.width);
+
       var entity1Corner = new Coords(geometry1.x, geometry1.y);
       var entity2Corner = new Coords(geometry2.x, geometry2.y);
 
-      rel.position1 = entity1Corner;
+      rel.position1 = entity1Corner.moveToDir("right", geometry2.width);
       rel.position2 = entity2Corner;
 
       rels.push(rel);
@@ -80,11 +82,6 @@ class ConnectionsView extends polymer.Base
                     change.value);
   }
 
-  // TODO: Delete me, just for check...
-  @observe("model.connections.*")
-  observator(change) {
-    console.log(change);
-  }
 }
 
 ConnectionsView.register();

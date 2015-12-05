@@ -1,5 +1,6 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
 /// <reference path="../../../typings/draggabilly/draggabilly.d.ts"/>
+/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 interface Point {
   x: number;
@@ -53,11 +54,17 @@ class EntityBox extends polymer.Base {
 
         // Notify position changes
         if (that.geometry) {
+          var offsetThis = $(that).offset();
+          var offsetParent = $(that).parent().offset()
+          var left = offsetThis.left - offsetParent.left
+          var top = offsetThis.top - offsetParent.top;
+          var width = $(that).outerWidth();
+          var height = $(that).outerHeight();
           var g = {
-            x: this.position.x,
-            y: this.position.y,
-            width: that.geometry.width,
-            height: that.geometry.height
+            x: left,
+            y: top,
+            width: width,
+            height: height
           };
 
           that.geometryLocked = true;
