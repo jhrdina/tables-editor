@@ -11,12 +11,13 @@ class AttributeRow extends polymer.Base {
 
   attrKeyDown(keyEvent) {
     if (keyEvent.which === 13) {
-      console.log(keyEvent);
-      // TODO: handle ENTER
+      this.fire('insert-below', {target: this});
     }
   }
 
-
+  focus() {
+    this.$$('input').focus();
+  }
 }
 
 AttributeRow.register();

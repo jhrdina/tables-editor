@@ -93,8 +93,8 @@
           hidden$="{{connectorHidden}}"
           icon="communication:swap-calls"></paper-icon-button>
       </div>
-      <template is="dom-repeat" items="{{attributes}}" as="attr">
-        <attribute-row attribute="{{attr}}"></attribute-row>
+      <template id="attributesRepeat" is="dom-repeat" items="{{entityAttrs}}" as="attr">
+        <attribute-row attribute="{{attr}}" on-insert-below="handleInsertBelow"></attribute-row>
       </template>
 
 

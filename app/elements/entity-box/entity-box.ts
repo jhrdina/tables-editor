@@ -17,7 +17,7 @@ interface Rectangle {
 class EntityBox extends polymer.Base {
 
   @property({ type: Object })
-  attributes: any;
+  entityAttrs: Array<any>;
 
   // ================================================================
   // Geometry, Dragging
@@ -91,13 +91,12 @@ class EntityBox extends polymer.Base {
     this.async(this.sizeChanged.bind(this), 500);
   }
 
-  @observe('attributes.*,name,connectorHidden,geometry')
+  @observe('entityAttrs.*,name,connectorHidden,geometry')
   sizeChanged() {
     if (this.geometryLocked || !this.geometry) return;
     // console.log('sizeChanged');
 
     var rectObject: ClientRect = this.getBoundingClientRect();
-    console.log('w', rectObject.width, 'h', rectObject.height);
 
     var newGeometry = {
       x: this.geometry.x,
@@ -142,6 +141,34 @@ class EntityBox extends polymer.Base {
   }
 
   // ================================================================
+  // Attributes
+  // ================================================================
+
+  handleInsertBelow(e) {
+    // Get insert index
+    var attribute = e.detail.target.attribute;
+    if (!attribute)
+      return;
+
+    var index = this.entityAttrs.indexOf(attribute) + 1;
+
+    // splice definition in PolymerTS is broken, so we cast to general object...
+    var thisAny: any = this;
+    // Insert new attribute
+    thisAny.splice('entityAttrs', index, 0, {
+      name: '',
+      dataType: {
+        name: 'NUMBER',
+        capacity: 5
+      },
+      flags: []
+    });
+
+    this.$.attributesRepeat.render()
+
+    var newAttrRow: any = Polymer.dom(e.detail.target).nextElementSibling;
+    newAttrRow.focus();
+  }
 }
 
 EntityBox.register();
