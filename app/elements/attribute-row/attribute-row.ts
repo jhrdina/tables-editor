@@ -13,14 +13,17 @@ class AttributeRow extends polymer.Base {
     if (keyEvent.which === 13) {
       // Enter
       this.fire('insert-below', {target: this});
+      keyEvent.preventDefault();
 
     } else if (keyEvent.which === 8 && !this.attribute.name) {
       // Backspace and is empty
       this.fire('delete', {direction: 'left'});
+      keyEvent.preventDefault();
 
     } else if (keyEvent.which === 46 && !this.attribute.name) {
       // Delete and is empty
       this.fire('delete', {direction: 'right'});
+      keyEvent.preventDefault();
     }
   }
 
