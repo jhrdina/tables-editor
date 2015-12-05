@@ -32,7 +32,7 @@
       icon="add"
       elevation="2"
       title="Přidat novou tabulku"
-      on-click="addEntity">
+      on-tap="addEntity">
     </paper-fab>
 
     <template id="entitiesRepeat" is="dom-repeat" items="{{model.entities}}" index-as="index">
@@ -42,8 +42,9 @@
         name="{{item.name}}"
         geometry="{{item.geometry}}"
         entity-attrs="{{item.attributes}}"
-        connector-hidden="[[computeConnectorHidden(index,activeIndex)]]"
-        on-connector-active-changed="connectorActiveChanged">
+        connector-hidden="[[computeConnectorHidden(index,sourceEntityIndex)]]"
+        on-connector-active-changed="connectorActiveChanged"
+        on-tap="handleEntityTap">
       </entity-box>
     </template>
 
