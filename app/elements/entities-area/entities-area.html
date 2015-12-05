@@ -28,7 +28,12 @@
 
     </style>
 
-    <paper-fab icon="add" elevation="2" title="Přidat novou tabulku"></paper-fab>
+    <paper-fab
+      icon="add"
+      elevation="2"
+      title="Přidat novou tabulku"
+      on-click="addEntity">
+    </paper-fab>
 
     <template is="dom-repeat" items="{{model.entities}}" index-as="index">
       <entity-box
