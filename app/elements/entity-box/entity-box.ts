@@ -194,6 +194,20 @@ class EntityBox extends polymer.Base {
 
     elementToFocus.focus();
   }
+
+  handleAttrCursorMove(e) {
+    var index = this.entityAttrs.indexOf(e.target.attribute);
+
+    if (e.detail.direction === 'up') {
+      if (index !== 0) {
+        e.target.previousElementSibling.focus();
+      }
+    } else if (e.detail.direction === 'down') {
+      if (index !== this.entityAttrs.length - 1) {
+        e.target.nextElementSibling.focus();
+      }
+    }
+  }
 }
 
 EntityBox.register();

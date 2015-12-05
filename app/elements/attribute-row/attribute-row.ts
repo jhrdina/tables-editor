@@ -9,22 +9,32 @@ class AttributeRow extends polymer.Base {
   // Attributes
   // ================================================================
 
-  attrKeyDown(keyEvent) {
-    if (keyEvent.which === 13) {
+  attrKeyDown(e) {
+    if (e.which === 13) {
       // Enter
       this.fire('insert-below', {target: this});
-      keyEvent.preventDefault();
 
-    } else if (keyEvent.which === 8 && !this.attribute.name) {
+    } else if (e.which === 8 && !this.attribute.name) {
       // Backspace and is empty
       this.fire('delete', {direction: 'left'});
-      keyEvent.preventDefault();
 
-    } else if (keyEvent.which === 46 && !this.attribute.name) {
+    } else if (e.which === 46 && !this.attribute.name) {
       // Delete and is empty
       this.fire('delete', {direction: 'right'});
-      keyEvent.preventDefault();
+
+    } else if (e.which === 38) {
+      // Arrow up
+      this.fire('cursor-move', {direction: 'up'});
+
+    } else if (e.which === 40) {
+      // Arrow down
+      this.fire('cursor-move', {direction: 'down'});
+
+    } else {
+      return;
     }
+
+    e.preventDefault();
   }
 
   focus() {

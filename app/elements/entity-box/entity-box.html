@@ -94,7 +94,11 @@
           icon="communication:swap-calls"></paper-icon-button>
       </div>
       <template id="attributesRepeat" is="dom-repeat" items="{{entityAttrs}}" as="attr">
-        <attribute-row attribute="{{attr}}" on-insert-below="handleInsertBelow" on-delete="handleDeleteAttr"></attribute-row>
+        <attribute-row
+          attribute="{{attr}}"
+          on-insert-below="handleInsertBelow"
+          on-delete="handleDeleteAttr"
+          on-cursor-move="handleAttrCursorMove"></attribute-row>
       </template>
 
 
