@@ -164,7 +164,7 @@ class EntityBox extends polymer.Base {
       flags: []
     });
 
-    this.$.attributesRepeat.render()
+    this.$.attributesRepeat.render();
 
     var newAttrRow: any = Polymer.dom(e.detail.target).nextElementSibling;
     newAttrRow.focus();
@@ -178,11 +178,20 @@ class EntityBox extends polymer.Base {
 
     var index = this.entityAttrs.indexOf(attribute);
 
-    var elementToFocus = index > 0 ?
+    if ((index === 0 && e.detail.direction === 'left') ||
+        (index === this.entityAttrs.length - 1 && e.detail.direction === 'right')) {
+      return;
+    }
+
+    var elementToFocus = e.detail.direction === 'left' ?
       e.target.previousElementSibling :
       e.target.nextElementSibling;
 
     this.splice('entityAttrs', index, 1);
+    this.$.attributesRepeat.render();
+
+    this.sizeChanged();
+
     elementToFocus.focus();
   }
 }

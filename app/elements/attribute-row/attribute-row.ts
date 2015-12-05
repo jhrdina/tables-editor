@@ -16,7 +16,11 @@ class AttributeRow extends polymer.Base {
 
     } else if (keyEvent.which === 8 && !this.attribute.name) {
       // Backspace and is empty
-      this.fire('delete', {target: this});
+      this.fire('delete', {direction: 'left'});
+
+    } else if (keyEvent.which === 46 && !this.attribute.name) {
+      // Delete and is empty
+      this.fire('delete', {direction: 'right'});
     }
   }
 
