@@ -29,6 +29,18 @@ class EntitiesArea extends polymer.Base
       ]
     });
   }
+
+  activeIndex: number = -1;
+
+  connectorActiveChanged(e) {
+    this.activeIndex = e.detail.value === true ?
+      this.$.entitiesRepeat.indexForElement(e.target) :
+      -1;
+  }
+
+  computeConnectorHidden(index, activeIndex) {
+    return activeIndex !== -1 && index !== activeIndex;
+  }
 }
 
 EntitiesArea.register();
