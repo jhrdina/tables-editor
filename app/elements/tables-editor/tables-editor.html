@@ -2,7 +2,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 <link rel="import" href="../entities-area/entities-area.html">
-<link rel="import" href="../connections-view/connections-view.html">
 
 <!-- Iron elements -->
 <link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
@@ -36,18 +35,6 @@
       paper-header-panel .title {
         margin-left: 12px;
       }
-
-      .scroll-area {
-        overflow: auto;
-      }
-
-      entities-area {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 5000px;
-        height: 5000px;
-      }
     </style>
 
     <paper-header-panel>
@@ -68,10 +55,7 @@
       </paper-toolbar>
 
       <!-- Entities Area -->
-      <div class="scroll-area content fit">
-        <entities-area model="{{model}}"></entities-area>
-        <connections-view model="{{model}}"></entities-area>
-      </div>
+      <entities-area class="content fit" model="{{model}}"></entities-area>
 
     </paper-header-panel>
 

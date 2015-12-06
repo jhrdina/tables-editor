@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../entity-box/entity-box.html">
+<link rel="import" href="../connections-view/connections-view.html">
 
 
 <dom-module id="entities-area">
@@ -11,6 +12,15 @@
     :host {
       display: block;
       background-color: #ECECEC;
+      overflow: auto;
+    }
+
+    #entitiesContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5000px;
+      height: 5000px;
     }
 
     entity-box {
@@ -40,21 +50,25 @@
       disabled="{{connectionModeActive}}">
     </paper-fab>
 
-    <template id="entitiesRepeat" is="dom-repeat" items="{{model.entities}}" index-as="index">
-      <entity-box
-        class$="[[entityBoxClasses]]"
-        name="{{item.name}}"
-        geometry="{{item.geometry}}"
-        entity-attrs="{{item.attributes}}"
-        draggable="[[!connectionModeActive]]"
-        containment="[[host]]"
-        connector-hidden="[[computeConnectorHidden(index,sourceEntityIndex)]]"
-        disabled="[[connectionModeActive]]"
-        elevate-on-hover="[[connectionModeActive]]"
-        on-connector-active-changed="connectorActiveChanged"
-        on-tap="handleEntityTap">
-      </entity-box>
-    </template>
+    <div id="entitiesContainer">
+      <template id="entitiesRepeat" is="dom-repeat" items="{{model.entities}}" index-as="index">
+        <entity-box
+          class$="[[entityBoxClasses]]"
+          name="{{item.name}}"
+          geometry="{{item.geometry}}"
+          entity-attrs="{{item.attributes}}"
+          draggable="[[!connectionModeActive]]"
+          containment="true"
+          connector-hidden="[[computeConnectorHidden(index,sourceEntityIndex)]]"
+          disabled="[[connectionModeActive]]"
+          elevate-on-hover="[[connectionModeActive]]"
+          on-connector-active-changed="connectorActiveChanged"
+          on-tap="handleEntityTap">
+        </entity-box>
+      </template>
+    </div>
+
+    <connections-view model="{{model}}"></connections-view>
 
   </template>
 </dom-module>

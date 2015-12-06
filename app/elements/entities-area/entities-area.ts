@@ -3,17 +3,23 @@
 @component('entities-area')
 class EntitiesArea extends polymer.Base
 {
+  private static TYPICAL_ENTITY_WIDTH = 200;
+  private static TYPICAL_ENTITY_HEIGHT = 120;
+
   host: EntitiesArea = this;
 
   @property({ type: Object })
   model: any;
 
   addEntity() {
+
+    var clientRect: ClientRect = this.getBoundingClientRect();
+
     this.push('model.entities', {
       name: "",
       geometry: {
-        x: 30,
-        y: 30
+        x: this.scrollLeft + (clientRect.width - EntitiesArea.TYPICAL_ENTITY_WIDTH)/2,
+        y: this.scrollTop + (clientRect.height - EntitiesArea.TYPICAL_ENTITY_HEIGHT)/2
       },
       attributes: [
         {
