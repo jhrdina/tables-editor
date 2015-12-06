@@ -19,6 +19,10 @@
       z-index: 5;
     }
 
+    entity-box.selectable {
+      cursor: pointer;
+    }
+
     paper-fab {
       position: fixed;
       right: 30px;
@@ -38,6 +42,7 @@
 
     <template id="entitiesRepeat" is="dom-repeat" items="{{model.entities}}" index-as="index">
       <entity-box
+        class$="[[entityBoxClasses]]"
         draggable="{{!connectionModeActive}}"
         containment="{{host}}"
         name="{{item.name}}"

@@ -140,6 +140,16 @@ class EntityBox extends polymer.Base {
     return name ? '' : 'empty';
   }
 
+  @computed()
+  nameBoxClasses(draggable) {
+    var classes = 'name-box handle';
+
+    if (draggable)
+      classes += ' draggable';
+
+    return classes;
+  }
+
   // ================================================================
   // Attributes
   // ================================================================

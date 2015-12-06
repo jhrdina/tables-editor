@@ -83,6 +83,11 @@ class EntitiesArea extends polymer.Base
     this.sourceEntityElement.connectorActive = false;
     this.sourceEntityIndex = -1;
   }
+
+  @computed()
+  entityBoxClasses(sourceEntityIndex) {
+    return sourceEntityIndex !== -1 ? 'selectable' : '';
+  }
 }
 
 EntitiesArea.register();

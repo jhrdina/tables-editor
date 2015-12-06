@@ -31,12 +31,23 @@
 
     .name-box {
       overflow: hidden;
-      cursor: move;
       border-bottom: 1px solid #bbb;
       min-height: 40px;
 
       @apply(--layout-horizontal);
       @apply(--layout-center);
+    }
+
+    .name-box.draggable {
+      cursor: move;
+    }
+
+    .name-box.draggable input {
+      cursor: move;
+    }
+
+    input:disabled {
+      cursor: inherit;
     }
 
     .name-box > h2 {
@@ -78,7 +89,7 @@
     </style>
 
     <paper-material>
-      <div class="name-box handle">
+      <div class$="{{nameBoxClasses}}">
         <!-- Entity name -->
         <h2 class$="{{nameClass}}">
           <!-- TODO: Fix dynamic size -->
