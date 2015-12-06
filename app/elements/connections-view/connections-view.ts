@@ -5,7 +5,7 @@ class Orientation {
   direction: string;
 }
 
-class Relation{
+class Relation {
   entity1: Orientation;
   entity2: Orientation;
   connection: any;
@@ -18,59 +18,87 @@ class Relation{
   }
 }
 
-class TablePort{
+class TablePort {
   constructor(
+    public connectionId: number,
     public side: string,
     public position: Coords,
+    public remoteTableY: number,
     public selfConnection: boolean = false) {
   }
 }
 
 class Sides {
   constructor(
-    public left:TablePort[] = [],
-    public right:TablePort[] = [],
-    public down:TablePort[] = []) {
+    public left: TablePort[] = [],
+    public right: TablePort[] = [],
+    public down: TablePort[] = []) {
+  }
+  indexOf(connectionId: number, direction: string) {
+    var side = this[direction];
+    for (var index in side) {
+      if (side[index].connectionId == connectionId) {
+        return index;
+      }
+    }
+  }
+  pop(connectionId: number, direction: string) {
+    var index;
+    index = this.indexOf(connectionId, direction)
+    var port = this[direction][index];
+    this[direction].splice(index, 1);
+    return port;
   }
 }
 
 // Store ports on sides of table
-class TableSides{
+class TableSides {
   geometry: any = {};
   sides: Sides;
-  sideAlign(direction: string){
+  sideAlign(direction: string) {
     var sideConnections = this.sides[direction];
     var start = new Coords(this.geometry.x, this.geometry.y);
-    if(direction == "right") {
+    if (direction == "right") {
       start = start.moveToDir("right", this.geometry.width)
     }
-    if(direction == "down") {
+    if (direction == "down") {
       start = start.moveToDir("down", this.geometry.height);
     }
 
     var conNum = Object.keys(sideConnections).length;
     var moveDir;
     var interval;
-    if(direction == "left" || direction == "right") {
+    var index = 1;
+    if (direction == "left" || direction == "right") {
+      sideConnections = sideConnections.sort(function(a, b) {
+        var difz = a.remoteTableY - b.remoteTableY;
+        if (difz != 0) {
+          return difz;
+        }
+        return a.connectionId - b.connectionId;
+      })
       moveDir = "down";
       interval = this.geometry.height / (conNum + 1);
     } else {
       moveDir = "right";
       interval = this.geometry.width / (conNum + 1);
     }
-    var index = 1;
     //regular connections entity1
     for (var connectionId in sideConnections) {
-      if(sideConnections[connectionId].selfConnection)
+      var conSide: TablePort = sideConnections[connectionId];
+      if (conSide.selfConnection) {
         continue;
-      sideConnections[connectionId].position = start.moveToDir(moveDir, (index) * interval);
+      }
+      conSide.position = start.moveToDir(moveDir, (index) * interval);
       index += 1;
     }
     //self connections after
     for (var connectionId in sideConnections) {
-      if(!sideConnections[connectionId].selfConnection)
+      var conSide: TablePort = sideConnections[connectionId];
+      if (!conSide.selfConnection) {
         continue;
-      sideConnections[connectionId].position = start.moveToDir(moveDir, (index) * interval);
+      }
+      conSide.position = start.moveToDir(moveDir, (index) * interval);
       index += 1;
     }
   }
@@ -78,30 +106,29 @@ class TableSides{
   //change geometry of table - compute all sides
   updateGeometry(geometry: any) {
     this.geometry = geometry;
-    for(var side in this.sides) {
+    for (var side in this.sides) {
       this.sideAlign(side);
     }
   }
 }
 
 function computeDirections(geometry1, geometry2) {
-  var directions = {entity1: "right", entity2: "right"};
+  var directions = { entity1: "right", entity2: "right" };
   var leftX1 = geometry1.x;
   var rightX1 = leftX1 + geometry1.width;
   var leftX2 = geometry2.x;
   var rightX2 = leftX2 + geometry2.width;
-  if(rightX1 + 70 < leftX2) {
+  if (rightX1 + 70 < leftX2) {
     directions.entity2 = "left";
-  } else if(leftX1 > rightX2 + 70) {
+  } else if (leftX1 > rightX2 + 70) {
     directions.entity1 = "left";
   }
   return directions;
 }
 
 @component('connections-view')
-class ConnectionsView extends polymer.Base
-{
-  @property({type: Object, notify: true})
+class ConnectionsView extends polymer.Base {
+  @property({ type: Object, notify: true })
   model: any;
 
   relations: any;
@@ -118,10 +145,10 @@ class ConnectionsView extends polymer.Base
   modelChanged(change) {
     var pathParts = change.path.split(".");
 
-    if(pathParts.length == 1 || pathParts[1] == "connections") {
+    if (pathParts.length == 1 || pathParts[1] == "connections") {
       var connections = this.model.connections;
-      for(var connId in connections) {
-        if(!this.relations[connId]) {
+      for (var connId in connections) {
+        if (!this.relations[connId]) {
           var connection = connections[connId];
           this.relationUpdate(connId);
           this.entityUpdate(connection.entity1);
@@ -135,9 +162,8 @@ class ConnectionsView extends polymer.Base
   }
 
 
-  relationUpdate(relationId)
-  {
-    var rel =  new Relation();
+  relationUpdate(relationId) {
+    var rel = new Relation();
     rel.connection = this.model.connections[relationId];
 
     rel.entity1 = new Orientation()
@@ -157,11 +183,11 @@ class ConnectionsView extends polymer.Base
   entityUpdate(entityId) {
     var model = this.model;
 
-    if(!this.tableSides) {
+    if (!this.tableSides) {
       this.tableSides = [];
     }
 
-    if(!this.tableSides[entityId]) {
+    if (!this.tableSides[entityId]) {
       this.tableSides[entityId] = new TableSides();
     }
 
@@ -172,11 +198,11 @@ class ConnectionsView extends polymer.Base
     var entity = this.model.entities[entityId];
 
     //go through all relations and find, those are relative to this entity
-    for(var connectionId in this.relations) {
+    for (var connectionId in this.relations) {
       var connection = this.relations[connectionId].connection;
 
       //skip if is not relative to this entity
-      if(connection.entity1 != entityId && connection.entity2 != entityId) {
+      if (connection.entity1 != entityId && connection.entity2 != entityId) {
         continue;
       }
 
@@ -185,7 +211,7 @@ class ConnectionsView extends polymer.Base
       var connectionSide;
       var otherSide;
       var selfConnection = false;
-      if(connection.entity1 == connection.entity2) {
+      if (connection.entity1 == connection.entity2) {
         //self connection
         connectionSide = "entity1";
         otherSide = "entity2";
@@ -193,7 +219,7 @@ class ConnectionsView extends polymer.Base
 
       } else {
         //connection to other table
-        if (connection.entity1 == entityId){
+        if (connection.entity1 == entityId) {
           otherSide = "entity2";
           connectionSide = "entity1";
         } else {
@@ -210,58 +236,61 @@ class ConnectionsView extends polymer.Base
       var thisGeometry = model.entities[connection[connectionSide]].geometry;
       var otherGeometry = model.entities[connection[otherSide]].geometry;
 
-      if(!this.tableSides[entityId]) {
+      if (!this.tableSides[entityId]) {
         this.tableSides[entityId] = new TableSides();
       }
 
       var directions;
-      if(selfConnection) {
+      if (selfConnection) {
         //self connection
 
-        directions = {entity1: "left", entity2: "down"};
+        directions = { entity1: "left", entity2: "down" };
         //set botom relation direction
         this.relations[connectionId][otherSide].direction = directions.entity2;
         notifies["relations.#" + connectionId + "." + otherSide + ".direction"]
-            = directions.entity2;
+        = directions.entity2;
 
         //add table port to tablesides
-        var tablePort = new TablePort(otherSide, new Coords());
-        this.tableSides[entityId].sides[directions.entity2][connectionId] = tablePort;
+        var tablePort = new TablePort(connectionId, otherSide, new Coords(), 0);
+        this.tableSides[entityId].sides[directions.entity2].push(tablePort);
 
       } else {
         //not self connection
         directions = computeDirections(thisGeometry, otherGeometry);
-        if(otherOriginalDir != directions.entity2
-          && this.tableSides[connection[otherSide]]
-          && this.tableSides[connection[otherSide]].sides[otherOriginalDir][connectionId]) {
+        if (
+          this.tableSides[connection[otherSide]]
+          && this.tableSides[connection[otherSide]].sides
+            .indexOf(connectionId, otherOriginalDir)
+          ) {
           //change other table side
           var otherSides = this.tableSides[connection[otherSide]]
-          var otherPort: TablePort = otherSides.sides[otherOriginalDir][connectionId];
-          var newPort = new TablePort(otherPort.side, otherPort.position);
-          delete otherSides.sides[otherOriginalDir][connectionId];
+          var otherPort: TablePort = otherSides.sides.pop(connectionId, otherOriginalDir);
+          var newPort = new TablePort(connectionId, otherPort.side, otherPort.position, thisGeometry.y);
 
-          otherSides.sides[directions.entity2][connectionId] = newPort;
+          console.log(otherOriginalDir, directions.entity2);
+
+          otherSides.sides[directions.entity2].push(newPort);
           this.relations[connectionId][otherSide].direction = directions.entity2;
           notifies["relations.#" + connectionId + "." + otherSide + ".direction"] = directions.entity2;
-          notifies["tableSides.#" + connection[otherSide]] =  newPort;
+          notifies["tableSides.#" + connection[otherSide]] = newPort;
         }
       }
 
       //set my side relation direction
       this.relations[connectionId][connectionSide].direction = directions.entity1;
       notifies["relations.#" + connectionId + "." + connectionSide + ".direction"]
-          = directions.entity1;
+      = directions.entity1;
 
       //add table port to tablesides
-      var tablePort = new TablePort(connectionSide, new Coords(), selfConnection);
-      this.tableSides[entityId].sides[directions.entity1][connectionId] = tablePort;
+      var tablePort = new TablePort(connectionId, connectionSide, new Coords(), otherGeometry.y, selfConnection);
+      this.tableSides[entityId].sides[directions.entity1].push(tablePort);
 
       //add notification to queue
       notifies["tableSides.#" + entityId] = tablePort;
     }
 
     // notify about table sides changes
-    for(var notifyId in notifies) {
+    for (var notifyId in notifies) {
       var notify = notifies[notifyId];
       this.notifyPath(notifyId, notify);
     }
@@ -273,27 +302,27 @@ class ConnectionsView extends polymer.Base
   @observe("tableSides.*")
   tableSideChanged(change) {
     var pathParts = change.path.split(".");
-    if(!pathParts[1]) {
+    if (!pathParts[1]) {
       return;
     }
     var entityId = pathParts[1].substring(1);
     var tableSides = this.tableSides[entityId];
-    if(!tableSides) {
+    if (!tableSides) {
       return;
     }
 
     tableSides.updateGeometry(this.model.entities[entityId].geometry);
     //browse sides
-    for(var tableSideId in tableSides.sides) {
+    for (var tableSideId in tableSides.sides) {
       var tableSide = tableSides.sides[tableSideId];
       //browse side ports
-      for(var connSideId in tableSide) {
+      for (var connSideId in tableSide) {
         var connSide: TablePort = tableSide[connSideId];
         //set position to this.relations[]
-        this.relations[connSideId][connSide.side].position = connSide.position;
+        this.relations[connSide.connectionId][connSide.side].position = connSide.position;
         //notify about relations change
         this.relationsLocked = true;
-        this.notifyPath("relations.#" + connSideId + "." + connSide.side + ".position",
+        this.notifyPath("relations.#" + connSide.connectionId + "." + connSide.side + ".position",
           connSide.position);
         this.relationsLocked = false;
       }
@@ -317,8 +346,8 @@ class ConnectionsView extends polymer.Base
     if (pathParts < 4 || pathParts[2] != 'connection') return;
 
     this.notifyPath('model.connections.' + pathParts[1]
-                      + '.' + pathParts.slice(3).join('.'),
-                    change.value);
+      + '.' + pathParts.slice(3).join('.'),
+      change.value);
   }
 
 }
