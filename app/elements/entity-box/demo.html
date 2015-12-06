@@ -63,6 +63,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
             <label for="y-coord">Y:</label>
             <input id="y-coord" is="iron-input" bind-value="{{entity.geometry.y}}">
             <paper-checkbox checked="{{draggable}}">Draggable</paper-checkbox>
+            <paper-checkbox checked="{{disabled}}">Disabled</paper-checkbox>
           </div>
           <div class="demo-block">
             <h4>Connector attributes</h4>
@@ -80,6 +81,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
             entity-attrs="{{entity.attributes}}"
             connector-active="{{connectorActive}}"
             connector-hidden="{{connectorHidden}}"
+            disabled="{{disabled}}"
             ></entity-box>
 
           <!-- Empty Entity Box -->
@@ -113,6 +115,7 @@ DEMO PAGE FOR COMPONENT 'entity-box'
         },
         ready: function() {
           this.draggable = true;
+          this.disabled = false;
           this.entity = {
             name: "Person",
             geometry: {

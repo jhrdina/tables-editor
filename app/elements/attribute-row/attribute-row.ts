@@ -5,6 +5,9 @@ class AttributeRow extends polymer.Base {
   @property({ type: Object, notify: true })
   attribute: any;
 
+  @property({ type: Boolean, value: false })
+  disabled: boolean;
+
   // ================================================================
   // Attributes
   // ================================================================

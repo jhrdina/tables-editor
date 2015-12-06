@@ -54,6 +54,7 @@
       font: inherit;
       color: inherit;
       border: none;
+      background-color: inherit;
     }
 
     input:focus {
@@ -83,7 +84,8 @@
           <!-- TODO: Fix dynamic size -->
           <input size="5" is="iron-input"
             bind-value="{{name}}"
-            placeholder="Bez názvu">
+            placeholder="Bez názvu"
+            disabled$="{{disabled}}">
         </h2>
         <!-- Connector Button -->
         <paper-icon-button
@@ -96,6 +98,7 @@
       <template id="attributesRepeat" is="dom-repeat" items="{{entityAttrs}}" as="attr">
         <attribute-row
           attribute="{{attr}}"
+          disabled="{{disabled}}"
           on-insert-below="handleInsertBelow"
           on-delete="handleDeleteAttr"
           on-cursor-move="handleAttrCursorMove"></attribute-row>

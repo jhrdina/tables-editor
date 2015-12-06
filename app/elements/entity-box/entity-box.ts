@@ -208,6 +208,13 @@ class EntityBox extends polymer.Base {
       }
     }
   }
+
+  // ================================================================
+  // Disable functionality
+  // ================================================================
+
+  @property({type: Boolean, value: false})
+  disabled: boolean;
 }
 
 EntityBox.register();
