@@ -6,12 +6,12 @@ class Orientation {
 }
 
 class Relation{
-  first: Orientation;
-  second: Orientation;
+  entity1: Orientation;
+  entity2: Orientation;
   connection: any;
   constructor() {
-    this.first = new Orientation();
-    this.second = new Orientation();
+    this.entity1 = new Orientation();
+    this.entity2 = new Orientation();
   }
   getSide(side: string) {
     this[side]
@@ -52,7 +52,7 @@ class TableSides{
       interval = this.geometry.width / (conNum + 1);
     }
     var index = 1;
-    //regular connections first
+    //regular connections entity1
     for (var connectionId in sideConnections) {
       if(sideConnections[connectionId].selfConnection)
         continue;
@@ -78,15 +78,15 @@ class TableSides{
 }
 
 function computeDirections(geometry1, geometry2) {
-  var directions = {first: "right", second: "right"};
+  var directions = {entity1: "right", entity2: "right"};
   var leftX1 = geometry1.x;
   var rightX1 = leftX1 + geometry1.width;
   var leftX2 = geometry2.x;
   var rightX2 = leftX2 + geometry2.width;
   if(rightX1 + 70 < leftX2) {
-    directions.second = "left";
+    directions.entity2 = "left";
   } else if(leftX1 > rightX2 + 70) {
-    directions.first = "left";
+    directions.entity1 = "left";
   }
   return directions;
 }
@@ -97,8 +97,8 @@ class ConnectionsView extends polymer.Base
   @property({type: Object, notify: true})
   model: any;
 
-  //@property({ computed: 'computeRelations(model.*)'})
   relations: any;
+
   relationsLocked: boolean = false;
 
   tableSides: TableSides[];
@@ -115,13 +115,13 @@ class ConnectionsView extends polymer.Base
       var rel =  new Relation();
       rel.connection = this.model.connections[connectionId];
 
-      rel.first = new Orientation()
-      rel.first.position = new Coords();
-      rel.first.direction = "right";
+      rel.entity1 = new Orientation()
+      rel.entity1.position = new Coords();
+      rel.entity1.direction = "right";
 
-      rel.second = new Orientation()
-      rel.second.position = new Coords();
-      rel.second.direction = "right";
+      rel.entity2 = new Orientation()
+      rel.entity2.position = new Coords();
+      rel.entity2.direction = "right";
 
       rels[connectionId] = rel;
     }
@@ -166,29 +166,31 @@ class ConnectionsView extends polymer.Base
       var connection = model.connections[connectionId];
 
       //skip if is not relative to this entity
-      if(connection.first != entityId && connection.second != entityId) {
+      if(connection.entity1 != entityId && connection.entity2 != entityId) {
         continue;
       }
+
+      console.log(change)
 
 
       //findout on whitch side of connection this entity is
       var connectionSide;
       var otherSide;
       var selfConnection = false;
-      if(connection.first == connection.second) {
+      if(connection.entity1 == connection.entity2) {
         //self connection
-        connectionSide = "first";
-        otherSide = "second";
+        connectionSide = "entity1";
+        otherSide = "entity2";
         selfConnection = true;
 
       } else {
         //connection to other table
-        if (connection.first == entityId){
-          otherSide = "second";
-          connectionSide = "first";
+        if (connection.entity1 == entityId){
+          otherSide = "entity2";
+          connectionSide = "entity1";
         } else {
-          otherSide = "first";
-          connectionSide = "second";
+          otherSide = "entity1";
+          connectionSide = "entity2";
         }
       }
 
@@ -209,41 +211,41 @@ class ConnectionsView extends polymer.Base
       if(selfConnection) {
         //self connection
 
-        directions = {first: "left", second: "down"};
+        directions = {entity1: "left", entity2: "down"};
         //set bootom relation direction
-        this.relations[connectionId][otherSide].direction = directions.second;
+        this.relations[connectionId][otherSide].direction = directions.entity2;
         notifies["relations.#" + connectionId + "." + otherSide + ".direction"]
-            = directions.second;
+            = directions.entity2;
 
         //add table port to tablesides
         var tablePort = new TablePort(otherSide, new Coords());
-        this.tableSides[entityId].sides[directions.second][connectionId] = tablePort;
+        this.tableSides[entityId].sides[directions.entity2][connectionId] = tablePort;
 
       } else {
         //not self connection
         directions = computeDirections(thisGeometry, otherGeometry);
-        if(otherOriginalDir != directions.second && this.tableSides[connection[otherSide]]) {
+        if(otherOriginalDir != directions.entity2 && this.tableSides[connection[otherSide]]) {
           //change other table side
           var otherSides = this.tableSides[connection[otherSide]]
           var otherPort: TablePort = otherSides.sides[otherOriginalDir][connectionId];
           var newPort = new TablePort(otherPort.side, otherPort.position);
           delete otherSides.sides[otherOriginalDir][connectionId];
 
-          otherSides.sides[directions.second][connectionId] = newPort;
-          this.relations[connectionId][otherSide].direction = directions.second;
-          notifies["relations.#" + connectionId + "." + otherSide + ".direction"] = directions.second;
+          otherSides.sides[directions.entity2][connectionId] = newPort;
+          this.relations[connectionId][otherSide].direction = directions.entity2;
+          notifies["relations.#" + connectionId + "." + otherSide + ".direction"] = directions.entity2;
           notifies["tableSides.#" + connection[otherSide]] =  newPort;
         }
       }
 
       //set relation direction
-      this.relations[connectionId][connectionSide].direction = directions.first;
+      this.relations[connectionId][connectionSide].direction = directions.entity1;
       notifies["relations.#" + connectionId + "." + connectionSide + ".direction"]
-          = directions.first;
+          = directions.entity1;
 
       //add table port to tablesides
       var tablePort = new TablePort(connectionSide, new Coords(), selfConnection);
-      this.tableSides[entityId].sides[directions.first][connectionId] = tablePort;
+      this.tableSides[entityId].sides[directions.entity1][connectionId] = tablePort;
 
       //add notification to queue
       notifies["tableSides.#" + entityId] = tablePort;
