@@ -170,8 +170,6 @@ class ConnectionsView extends polymer.Base
         continue;
       }
 
-      console.log(change)
-
 
       //findout on whitch side of connection this entity is
       var connectionSide;
@@ -263,7 +261,6 @@ class ConnectionsView extends polymer.Base
    */
   @observe("tableSides.*")
   tableSideChanged(change) {
-    //console.log(change)
     var pathParts = change.path.split(".");
     if(!pathParts[1]) {
       return;
