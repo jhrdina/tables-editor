@@ -19,9 +19,9 @@ class ConnectionCardinality extends polymer.Base {
     var box = this.$.box;
     if (dir == "left") {
       box.style.transform = "translate(-100%, -50%)";
-    } else if (dir == "top") {
+    } else if (dir == "up") {
       box.style.transform = "translate(-50%, -100%)";
-    } else if (dir == "bottom") {
+    } else if (dir == "down") {
       box.style.transform = "translate(-50%, 0%)";
     } else {
       box.style.transform = "translate(0%, -50%)";
