@@ -267,7 +267,7 @@ class ConnectionsView extends polymer.Base {
           var otherPort: TablePort = otherSides.sides.pop(connectionId, otherOriginalDir);
           var newPort = new TablePort(connectionId, otherPort.side, otherPort.position, thisGeometry.y);
 
-          console.log(otherOriginalDir, directions.entity2);
+          //console.log(otherOriginalDir, directions.entity2);
 
           otherSides.sides[directions.entity2].push(newPort);
           this.relations[connectionId][otherSide].direction = directions.entity2;
