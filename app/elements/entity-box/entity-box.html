@@ -102,6 +102,12 @@
             placeholder="Bez názvu"
             disabled$="{{disabled}}">
         </h2>
+
+        <!-- Delete button -->
+        <paper-icon-button
+          hidden$="{{disabled}}"
+          icon="delete"
+          on-tap="handleDeleteEntity"></paper-icon-button>
         <!-- Connector Button -->
         <paper-icon-button
           class$="{{connectorClass}}"

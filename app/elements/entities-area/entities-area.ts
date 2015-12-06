@@ -105,6 +105,13 @@ class EntitiesArea extends polymer.Base
   entityBoxClasses(sourceEntityIndex) {
     return sourceEntityIndex !== -1 ? 'selectable' : '';
   }
+
+  // ================================================================
+  // Delete entity
+  // ================================================================
+  handleEntityDelete(e) {
+    console.log('Delete clicked');
+  }
 }
 
 EntitiesArea.register();

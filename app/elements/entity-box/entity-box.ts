@@ -237,6 +237,14 @@ class EntityBox extends polymer.Base {
   materialClass(elevateOnHover) {
     return elevateOnHover ? 'elevate-on-hover' : '';
   }
+
+  // ================================================================
+  // Delete entity functionality
+  // ================================================================
+
+  handleDeleteEntity(e) {
+    this.fire('delete');
+  }
 }
 
 EntityBox.register();
