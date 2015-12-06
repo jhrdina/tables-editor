@@ -51,6 +51,11 @@ class EntitiesArea extends polymer.Base
     }
   }
 
+  @computed()
+  connectionModeActive(sourceEntityIndex) {
+    return sourceEntityIndex !== -1;
+  }
+
   computeConnectorHidden(index, sourceEntityIndex) {
     return sourceEntityIndex !== -1 && index !== sourceEntityIndex;
   }
