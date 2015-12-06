@@ -8,8 +8,8 @@ class TablesEditor extends polymer.Base
        { // entity 0
          name: "Osoba",
          geometry: {
-           x: 30,
-           y: 30,
+           x: 2130,
+           y: 1819,
            width: 50,
            height: 200
          },
@@ -39,8 +39,8 @@ class TablesEditor extends polymer.Base
        { // entity 1
          name: "",
          geometry: {
-           x: 100,
-           y: 30,
+           x: 2135,
+           y: 1993,
            width: 50,
            height: 200
          },
@@ -77,8 +77,8 @@ class TablesEditor extends polymer.Base
        { // entity 2
          name: "Dlouhý název této tabulky",
          geometry: {
-           x: 170,
-           y: 30,
+           x: 2592,
+           y: 1899,
            width: 50,
            height: 200
          },
