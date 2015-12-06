@@ -110,7 +110,24 @@ class EntitiesArea extends polymer.Base
   // Delete entity
   // ================================================================
   handleEntityDelete(e) {
-    console.log('Delete clicked');
+    var entityIndex = this.$.entitiesRepeat.indexForElement(e.target);
+
+    var c;
+    for (let i = 0; i < this.model.connections.length; i++) {
+        c = this.model.connections[i];
+
+        if (c.entity1 > entityIndex) {
+          --c.entity1;
+
+        } else if (c.entity2 > entityIndex) {
+          --c.entity2;
+
+        } else if (c.entity1 === entityIndex || c.entity2 === entityIndex) {
+          this.splice('model.connections', i, 1);
+        }
+    }
+
+    this.splice('model.entities', entityIndex, 1);
   }
 }
 
