@@ -27,6 +27,10 @@
       min-height: 120px;
     }
 
+    paper-material.elevate-on-hover:hover {
+      @apply(--shadow-elevation-8dp);
+    }
+
     /* Name Box */
 
     .name-box {
@@ -88,7 +92,7 @@
 
     </style>
 
-    <paper-material>
+    <paper-material animated class$="[[materialClass]]">
       <div class$="{{nameBoxClasses}}">
         <!-- Entity name -->
         <h2 class$="{{nameClass}}">

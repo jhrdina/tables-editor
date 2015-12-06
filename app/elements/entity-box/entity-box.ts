@@ -225,6 +225,18 @@ class EntityBox extends polymer.Base {
 
   @property({type: Boolean, value: false})
   disabled: boolean;
+
+  // ================================================================
+  // Elevate card on hover functionality
+  // ================================================================
+
+  @property({type: Boolean, value: false})
+  elevateOnHover: boolean;
+
+  @computed()
+  materialClass(elevateOnHover) {
+    return elevateOnHover ? 'elevate-on-hover' : '';
+  }
 }
 
 EntityBox.register();

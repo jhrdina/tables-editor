@@ -43,13 +43,14 @@
     <template id="entitiesRepeat" is="dom-repeat" items="{{model.entities}}" index-as="index">
       <entity-box
         class$="[[entityBoxClasses]]"
-        draggable="{{!connectionModeActive}}"
-        containment="{{host}}"
         name="{{item.name}}"
         geometry="{{item.geometry}}"
         entity-attrs="{{item.attributes}}"
+        draggable="[[!connectionModeActive]]"
+        containment="[[host]]"
         connector-hidden="[[computeConnectorHidden(index,sourceEntityIndex)]]"
-        disabled="{{connectionModeActive}}"
+        disabled="[[connectionModeActive]]"
+        elevate-on-hover="[[connectionModeActive]]"
         on-connector-active-changed="connectorActiveChanged"
         on-tap="handleEntityTap">
       </entity-box>
