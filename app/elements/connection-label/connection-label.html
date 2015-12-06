@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 
 <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../div-editable/div-editable.html">
 
 <dom-module id="connection-label">
   <template>
@@ -10,6 +11,9 @@
         position: absolute;
         transform: translate(-50%, -50%);
         z-index: 1;
+      }
+
+      #label::shadow #edit{
         font-weight: normal;
         font-size: 11px;
         /*height: var(--paper-badge-height, 11px);*/
@@ -26,20 +30,22 @@
         @apply(--connection-label);
       }
 
-      #label:not([contenteditable="true"]) {
+      #label::shadow #edit:not([contenteditable="true"]) {
         cursor: pointer;
       }
 
-      #label:focus {
+      #label::shadow #edit:focus {
         outline: 0;
         color: black;
-        -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-        box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
       }
+      .circle
     </style>
-    <div id="label">
-      {{name}}
+    <div id="container">
+      <div-editable id="label" value="{{name}}">
+      </div-editable>
     </div>
   </template>
 </dom-module>

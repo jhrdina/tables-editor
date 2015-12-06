@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+DEMO PAGE FOR COMPONENT 'div-editable'
+-->
+<html>
+  <head>
+    <title>DEMO div-editable</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="div-editable.html">
+
+    <style is="custom-style">
+      .horizontal-section {
+        min-width: 100px;
+      }
+
+    </style>
+
+  </head>
+
+  <body unresolved>
+
+  <x-app></x-app>
+
+  <dom-module id="x-app">
+    <template>
+      <div>
+        <h4>TEST</h4>
+        <div class="horizontal-section">
+          <div-editable id="myelement" value$="{{test}}" ></div-editable>
+        </div>
+      </div>
+    </div>
+  </template>
+  </dom-module>
+
+
+  <script>
+  Polymer({
+        is: 'x-app',
+        properties: {
+          test: {
+            type: String,
+            value: 'PolymerTS'
+          }
+        },
+        listeners: {},
+        ready: function() {
+          console.log("APP ready" );
+        }
+      });
+
+        (function(document) {
+          'use strict';
+        })(document);
+  </script>
+
+  </body>
+</html>

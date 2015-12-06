@@ -18,30 +18,6 @@ class ConnectionLabel extends polymer.Base {
     label.style.left = xTarget + "px";
     label.style.top = yTarget + "px";
   }
-
-  ready() {
-    this.$.label.onclick = function() {
-      if (this.getAttribute("contenteditable") != "true") {
-        this.setAttribute("contenteditable", "true");
-        this.focus();
-        var range = document.createRange();
-        range.selectNodeContents(this);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-      }
-    }
-
-    $(this.$.label).focusout(function() {
-      this.setAttribute("contenteditable", "false");
-      window.getSelection().removeAllRanges();
-    });
-
-    this.onkeydown = function(in_event) {
-      //TODO: filter keys
-      return true;
-    }
-  }
 }
 
 ConnectionLabel.register();

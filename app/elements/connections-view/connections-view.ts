@@ -335,6 +335,7 @@ class ConnectionsView extends polymer.Base {
   @observe("relations.*")
   relationsChanged(change) {
     if (this.relationsLocked || !this.model) return;
+    console.log(change);
 
     // Transform path from format
     //     relations.#0.connection.cardinality1
