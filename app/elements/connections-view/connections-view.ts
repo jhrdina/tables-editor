@@ -19,15 +19,22 @@ class Relation{
 }
 
 class TablePort{
-  constructor(public side: string, public position: Coords, public selfConnection: boolean = false) {
+  constructor(
+    public side: string,
+    public position: Coords,
+    public selfConnection: boolean = false) {
   }
 }
 
 class Sides {
-  constructor(public left = [], public right = [], public down = []) {
+  constructor(
+    public left:TablePort[] = [],
+    public right:TablePort[] = [],
+    public down:TablePort[] = []) {
   }
 }
 
+// Store ports on sides of table
 class TableSides{
   geometry: any = {};
   sides: Sides;
@@ -111,6 +118,7 @@ class ConnectionsView extends polymer.Base
   newModel(change)
   {
     var rels = [];
+    var notifies = [];
     for(var connectionId in this.model.connections) {
       var rel =  new Relation();
       rel.connection = this.model.connections[connectionId];
@@ -192,8 +200,7 @@ class ConnectionsView extends polymer.Base
         }
       }
 
-      //decide on whitch sides of tables connection ends
-
+      //decide directions
       //other side original direction
       var otherOriginalDir = this.relations[connectionId][otherSide].direction
 
@@ -210,7 +217,7 @@ class ConnectionsView extends polymer.Base
         //self connection
 
         directions = {entity1: "left", entity2: "down"};
-        //set bootom relation direction
+        //set botom relation direction
         this.relations[connectionId][otherSide].direction = directions.entity2;
         notifies["relations.#" + connectionId + "." + otherSide + ".direction"]
             = directions.entity2;
@@ -236,7 +243,7 @@ class ConnectionsView extends polymer.Base
         }
       }
 
-      //set relation direction
+      //set my side relation direction
       this.relations[connectionId][connectionSide].direction = directions.entity1;
       notifies["relations.#" + connectionId + "." + connectionSide + ".direction"]
           = directions.entity1;
@@ -257,7 +264,7 @@ class ConnectionsView extends polymer.Base
   }
 
   /**
-   *  On table change compute
+   *  On table change - recompute table sides
    */
   @observe("tableSides.*")
   tableSideChanged(change) {
@@ -278,9 +285,13 @@ class ConnectionsView extends polymer.Base
       //browse side ports
       for(var connSideId in tableSide) {
         var connSide: TablePort = tableSide[connSideId];
+        //set position to this.relations[]
         this.relations[connSideId][connSide.side].position = connSide.position;
+        //notify about relations change
+        this.relationsLocked = true;
         this.notifyPath("relations.#" + connSideId + "." + connSide.side + ".position",
           connSide.position);
+        this.relationsLocked = false;
       }
     }
   }
