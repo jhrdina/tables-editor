@@ -1,4 +1,5 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
+/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 @component('connection-label')
 class ConnectionLabel extends polymer.Base {
@@ -31,7 +32,7 @@ class ConnectionLabel extends polymer.Base {
       }
     }
 
-    this.$.label.addEventListener("focusout", function() {
+    $(this.$.label).focusout(function() {
       this.setAttribute("contenteditable", "false");
       window.getSelection().removeAllRanges();
     });
