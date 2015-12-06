@@ -17,8 +17,8 @@
       <connection-view
           car1="{{item.connection.cardinality1}}" car2="{{item.connection.cardinality2}}"
           name="{{item.connection.name}}"
-          x1="{{item.position1.x}}" y1="{{item.position1.y}}" dir1="right"
-          x2="{{item.position2.x}}" y2="{{item.position2.y}}" dir2="left">
+          x1="{{item.first.position.x}}" y1="{{item.first.position.y}}" dir1="{{item.first.direction}}"
+          x2="{{item.second.position.x}}" y2="{{item.second.position.y}}" dir2="{{item.second.direction}}">
           </connection-view>
     </template>
   </template>
