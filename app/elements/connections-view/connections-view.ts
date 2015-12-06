@@ -116,7 +116,6 @@ class ConnectionsView extends polymer.Base
 
   @observe("model.*")
   modelChanged(change) {
-    console.log(change.path)
     var pathParts = change.path.split(".");
 
     if(pathParts.length == 1 || pathParts[1] == "connections") {
@@ -176,7 +175,6 @@ class ConnectionsView extends polymer.Base
     for(var connectionId in this.relations) {
       var connection = this.relations[connectionId].connection;
 
-      console.log(connection);
       //skip if is not relative to this entity
       if(connection.entity1 != entityId && connection.entity2 != entityId) {
         continue;
@@ -233,7 +231,9 @@ class ConnectionsView extends polymer.Base
       } else {
         //not self connection
         directions = computeDirections(thisGeometry, otherGeometry);
-        if(otherOriginalDir != directions.entity2 && this.tableSides[connection[otherSide]]) {
+        if(otherOriginalDir != directions.entity2
+          && this.tableSides[connection[otherSide]]
+          && this.tableSides[connection[otherSide]].sides[otherOriginalDir][connectionId]) {
           //change other table side
           var otherSides = this.tableSides[connection[otherSide]]
           var otherPort: TablePort = otherSides.sides[otherOriginalDir][connectionId];
