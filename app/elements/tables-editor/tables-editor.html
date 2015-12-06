@@ -36,6 +36,18 @@
       paper-header-panel .title {
         margin-left: 12px;
       }
+
+      .scroll-area {
+        overflow: auto;
+      }
+
+      entities-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5000px;
+        height: 5000px;
+      }
     </style>
 
     <paper-header-panel>
@@ -56,8 +68,10 @@
       </paper-toolbar>
 
       <!-- Entities Area -->
-      <entities-area class="content fit" model="{{model}}"></entities-area>
-      <connections-view model="{{model}}"></entities-area>
+      <div class="scroll-area content fit">
+        <entities-area model="{{model}}"></entities-area>
+        <connections-view model="{{model}}"></entities-area>
+      </div>
 
     </paper-header-panel>
 
