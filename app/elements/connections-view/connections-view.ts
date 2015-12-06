@@ -114,51 +114,54 @@ class ConnectionsView extends polymer.Base
     this.relations = [];
   }
 
-  @observe('model')
-  newModel(change)
-  {
-    var rels = [];
-    var notifies = [];
-    for(var connectionId in this.model.connections) {
-      var rel =  new Relation();
-      rel.connection = this.model.connections[connectionId];
+  @observe("model.*")
+  modelChanged(change) {
+    console.log(change.path)
+    var pathParts = change.path.split(".");
 
-      rel.entity1 = new Orientation()
-      rel.entity1.position = new Coords();
-      rel.entity1.direction = "right";
-
-      rel.entity2 = new Orientation()
-      rel.entity2.position = new Coords();
-      rel.entity2.direction = "right";
-
-      rels[connectionId] = rel;
+    if(pathParts.length == 1 || pathParts[1] == "connections") {
+      var connections = this.model.connections;
+      for(var connId in connections) {
+        if(!this.relations[connId]) {
+          var connection = connections[connId];
+          this.relationUpdate(connId);
+          this.entityUpdate(connection.entity1);
+          this.entityUpdate(connection.entity2);
+        }
+      }
+    } else if (pathParts[1] == "entities" && pathParts[3] == "geometry") {
+      var connectionId = pathParts[2].substr(1);
+      this.entityUpdate(connectionId);
     }
+  }
+
+
+  relationUpdate(relationId)
+  {
+    var rel =  new Relation();
+    rel.connection = this.model.connections[relationId];
+
+    rel.entity1 = new Orientation()
+    rel.entity1.position = new Coords();
+    rel.entity1.direction = "right";
+
+    rel.entity2 = new Orientation()
+    rel.entity2.position = new Coords();
+    rel.entity2.direction = "right";
+
     this.relationsLocked = true;
-    this.set('relations', rels);
+    this.push('relations', rel);
     this.relationsLocked = false;
   }
 
 
-  @observe('model.entities.*')
-  entityChange(change) {
+  entityUpdate(entityId) {
     var model = this.model;
-
-    var pathParts = change.path.split(".");
-    var entityId;
-
-    if(!pathParts[2]) {
-      return;
-    }
-
-    if(!this.relations) {
-      this.relations = [];
-    }
 
     if(!this.tableSides) {
       this.tableSides = [];
     }
 
-    entityId = pathParts[2].substring(1);
     if(!this.tableSides[entityId]) {
       this.tableSides[entityId] = new TableSides();
     }
@@ -170,9 +173,10 @@ class ConnectionsView extends polymer.Base
     var entity = this.model.entities[entityId];
 
     //go through all relations and find, those are relative to this entity
-    for(var connectionId in model.connections) {
-      var connection = model.connections[connectionId];
+    for(var connectionId in this.relations) {
+      var connection = this.relations[connectionId].connection;
 
+      console.log(connection);
       //skip if is not relative to this entity
       if(connection.entity1 != entityId && connection.entity2 != entityId) {
         continue;
