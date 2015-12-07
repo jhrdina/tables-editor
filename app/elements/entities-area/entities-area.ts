@@ -121,7 +121,7 @@ class EntitiesArea extends polymer.Base
           --c.entity2;
 
         } else if (c.entity1 === entityIndex || c.entity2 === entityIndex) {
-          this.splice('model.connections', i, 1);
+          this.arrayDelete('model.connections', this.model.connections[i]);
         }
     }
 
