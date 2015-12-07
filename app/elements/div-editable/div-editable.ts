@@ -2,7 +2,7 @@
 
 @component('div-editable')
 class DivEditable extends polymer.Base {
-  @property({ type: Boolean, value: false })
+  @property({ type: Boolean, value: false, notify: true })
   editable: boolean;
 
   @property({ type: String, value: "", notify: true})
@@ -11,12 +11,27 @@ class DivEditable extends polymer.Base {
   @property({ type: String, value: "^[a-zA-Z0-9_]+$" })
   regExp: string;
 
-  @property({ type: Boolean, value: true, notify: true})
-  valid: boolean;
+  editableString = "false";
 
-  valuePrev = "";
-
-  lastEvent = null;
+  @observe("editable")
+  editableOn(change) {
+    if(this.editable == true) {
+      var element = this.$.edit;
+      element.contentEditable = true;
+      console.log(element);
+      this.editable = true;
+      setTimeout(function(){element.focus()}, 1);
+      var range = document.createRange();
+      range.selectNodeContents(element);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else {
+      window.getSelection().removeAllRanges();
+      var element = this.$.edit;
+      element.contentEditable = false;
+    }
+  }
 
   ready() {
     var than = this;
@@ -27,7 +42,7 @@ class DivEditable extends polymer.Base {
       var regExp = new RegExp(than.regExp);
       var c = String.fromCharCode(e.which)
       if(c.match(regExp)) {
-        than.valid = true;
+        return true;
       } else {
         e.preventDefault();
         return false;
@@ -46,20 +61,11 @@ class DivEditable extends polymer.Base {
       return false;
     });
     this.$.edit.onclick = function() {
-      if (than.editable != true) {
-        than.editable = true;
-        this.focus();
-        var range = document.createRange();
-        range.selectNodeContents(this);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-      }
+      than.editable = true;
     }
 
     $(this.$.edit).focusout(function() {
       than.editable = false
-      window.getSelection().removeAllRanges();
     });
   }
 }
