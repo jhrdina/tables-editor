@@ -45,6 +45,10 @@ class ConnectionLabel extends polymer.Base {
     console.log("invalid");
   }
 
+  handleDelete(e) {
+    this.fire("delete-clicked");
+  }
+
   @observe("mouseover, name, editing")
   state(mouseover, name, editing) {
     if (!this.mouseover && this.name == "" && !this.editing) {

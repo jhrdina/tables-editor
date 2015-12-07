@@ -23,9 +23,24 @@
         <svg id="svg">
           <path d$="{{curveString}}" stroke="gray" stroke-width="2" fill="none" />
         </svg>
-        <connection-label x-target$="{{curve.middle.x}}" y-target$="{{curve.middle.y}}" name="{{name}}"></connection-label>
-        <connection-cardinality cardinality="{{car1}}" dir$="{{dir1}}" x$={{curve.label1.x}} y$="{{curve.label1.y}}"></connection-cardinality>
-        <connection-cardinality cardinality="{{car2}}" dir$="{{dir2}}" x$={{curve.label2.x}} y$="{{curve.label2.y}}" /></connection-cardinality>
+        <connection-label
+            x-target$="{{curve.middle.x}}"
+            y-target$="{{curve.middle.y}}"
+            name="{{name}}"
+            on-delete-clicked="handleDelete">
+        </connection-label>
+        <connection-cardinality
+            cardinality="{{car1}}"
+            dir$="{{dir1}}"
+            x$={{curve.label1.x}}
+            y$="{{curve.label1.y}}">
+        </connection-cardinality>
+        <connection-cardinality
+            cardinality="{{car2}}"
+            dir$="{{dir2}}"
+            x$={{curve.label2.x}}
+            y$="{{curve.label2.y}}" />
+        </connection-cardinality>
       </div>
     </div>
   </template>

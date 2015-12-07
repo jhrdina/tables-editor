@@ -143,6 +143,7 @@ class ConnectionsView extends polymer.Base {
 
   @observe("model.*")
   modelChanged(change) {
+    console.log(change);
     var pathParts = change.path.split(".");
 
     if (pathParts.length == 1 ||
@@ -355,6 +356,12 @@ class ConnectionsView extends polymer.Base {
       change.value);
   }
 
+  handleDelete(e) {
+
+    var connectionIndex = this.$.connectionRepeat.indexForElement(e.target);
+    this.splice('model.connections', connectionIndex, 1);
+
+  }
 }
 
 ConnectionsView.register();

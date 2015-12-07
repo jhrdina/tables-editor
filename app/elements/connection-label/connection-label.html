@@ -130,10 +130,23 @@
       <div id="label">
         <div class="around">
           <div id="circle" class$="{{circle}}"></div>
-          <div-editable on-invalid-input="invalidInput" id="editable" class$="{{editable}}" editable="{{editing}}" value="{{name}}">
+          <div-editable
+              on-invalid-input="invalidInput"
+              id="editable"
+              class$="{{editable}}"
+              editable="{{editing}}"
+              value="{{name}}">
           </div-editable>
-          <div id="editButt" on-tap="handleEdit" class$="{{editButt}}"><iron-icon icon="icons:create"></iron-icon></div>
-          <div id="trashButt" class$="{{trashButt}}"><iron-icon icon="icons:block"></iron-icon></div>
+          <div id="editButt"
+              on-tap="handleEdit"
+              class$="{{editButt}}">
+            <iron-icon icon="icons:create"></iron-icon>
+          </div>
+          <div id="trashButt"
+              on-tap="handleDelete"
+              class$="{{trashButt}}">
+            <iron-icon icon="icons:block"></iron-icon>
+          </div>
         </div>
       </div>
     </div>

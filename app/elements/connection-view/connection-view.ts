@@ -178,6 +178,10 @@ class ConnectionView extends polymer.Base {
   curveString(curve): String {
     return curve.toString();
   }
+
+  handleDelete(e) {
+    this.fire("delete");
+  }
 }
 
 ConnectionView.register();

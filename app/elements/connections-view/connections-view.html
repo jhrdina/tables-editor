@@ -12,12 +12,17 @@
         position: relative;
       }
     </style>
-    <template template is="dom-repeat" items="{{relations}}">
+    <template id="connectionRepeat" is="dom-repeat" items="{{relations}}">
       <connection-view
           car1="{{item.connection.cardinality1}}" car2="{{item.connection.cardinality2}}"
           name="{{item.connection.name}}"
-          x1="{{item.entity1.position.x}}" y1="{{item.entity1.position.y}}" dir1="{{item.entity1.direction}}"
-          x2="{{item.entity2.position.x}}" y2="{{item.entity2.position.y}}" dir2="{{item.entity2.direction}}">
+          x1="{{item.entity1.position.x}}"
+          y1="{{item.entity1.position.y}}"
+          dir1="{{item.entity1.direction}}"
+          x2="{{item.entity2.position.x}}"
+          y2="{{item.entity2.position.y}}"
+          dir2="{{item.entity2.direction}}"
+          on-delete="handleDelete">
           </connection-view>
     </template>
   </template>
