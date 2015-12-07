@@ -1,4 +1,5 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
+/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 @component('div-editable')
 class DivEditable extends polymer.Base {
@@ -10,6 +11,17 @@ class DivEditable extends polymer.Base {
 
   @property({ type: String, value: "^[a-zA-Z0-9_]+$" })
   regExp: string;
+
+  valueLocked = false;
+
+  valueString: string;
+
+  @observe("value")
+  valueChanged(change){
+    if(!this.valueLocked) {
+      this.valueString = this.value;
+    }
+  }
 
   editableString = "false";
 
@@ -36,7 +48,9 @@ class DivEditable extends polymer.Base {
   ready() {
     var than = this;
     this.$.edit.addEventListener('keyup', function(e) {
+        than.valueLocked = true;
         than.value = this.innerHTML;
+        than.valueLocked = false;
     });
     this.$.edit.addEventListener('keypress', function(e) {
       var regExp = new RegExp(than.regExp);

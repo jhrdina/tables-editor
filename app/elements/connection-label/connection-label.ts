@@ -1,5 +1,4 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
-/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 @component('connection-label')
 class ConnectionLabel extends polymer.Base {
@@ -12,14 +11,14 @@ class ConnectionLabel extends polymer.Base {
   @property({ type: Number })
   yTarget: number;
 
-  mouseover: boolean;
+  mouseover: boolean = false;
 
   editing: boolean = false;
 
-  circle = "none";
-  editable = "block";
-  trashButt = "none";
-  editButt = "none";
+  circle: string;
+  editable: string;
+  trashButt: string;
+  editButt: string;
 
 
 
