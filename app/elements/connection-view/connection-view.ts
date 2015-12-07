@@ -54,11 +54,14 @@ function lineTrim(p1: Coords, p2: Coords, space: number = 0) {
 class Curve {
   start: Coords;
   p1: Coords;
-  middle: Coords;
   p2: Coords;
+  middle: Coords;
+  p3: Coords;
+  p4: Coords;
   end: Coords;
   label1: Coords;
   label2: Coords;
+  advanced: boolean;
 
   constructor() {
     this.start = new Coords();
@@ -74,20 +77,33 @@ class Curve {
   toString() {
     var str: String;
 
-    str = "M" + this.start.x + "," + this.start.y + " C";
-    str += this.p1.x + "," + this.p1.y + " ";
-    str += this.p1.x + "," + this.p1.y + " ";
-    str += this.middle.x + "," + this.middle.y + " S";
-    str += this.p2.x + "," + this.p2.y + " ";
-    str += this.end.x + "," + this.end.y + " ";
+    console.log(this);
+
+    if(this.advanced) {
+      str = "M" + this.start.x + "," + this.start.y + " C";
+      str += this.p1.x + "," + this.p1.y + " ";
+      str += this.p2.x + "," + this.p2.y + " ";
+      str += this.middle.x + "," + this.middle.y + " M";
+      str += this.middle.x + "," + this.middle.y + " C";
+      str += this.p3.x + "," + this.p3.y + " ";
+      str += this.p4.x + "," + this.p4.y + " ";
+      str += this.end.x + "," + this.end.y + " ";
+    } else {
+      str = "M" + this.start.x + "," + this.start.y + " C";
+      str += this.p1.x + "," + this.p1.y + " ";
+      str += this.p1.x + "," + this.p1.y + " ";
+      str += this.middle.x + "," + this.middle.y + " S";
+      str += this.p4.x + "," + this.p4.y + " ";
+      str += this.end.x + "," + this.end.y + " ";
+    }
     return str;
   }
 }
 
 @component('connection-view')
 class ConnectionView extends polymer.Base {
-  static space = 65;
-  static angulation = 60;
+  static space = 100;
+  static angulation = 50;
 
   @property({ type: Number })
   x1: number;
@@ -154,11 +170,52 @@ class ConnectionView extends polymer.Base {
     curve.start = diagonal.p1;
     curve.end = diagonal.p2;
 
-    curve.p1 = curve.start.moveToDir(dir1, ConnectionView.angulation);
-    curve.p2 = curve.end.moveToDir(dir2, ConnectionView.angulation);
+    curve.advanced = (dir1 == "left" && dir2 == "down");
 
-    curve.middle.x = (curve.p1.x + curve.p2.x) / 2.0;
-    curve.middle.y = (curve.p1.y + curve.p2.y) / 2.0;
+
+    if(curve.advanced) {
+      curve.p1 = curve.start.moveToDir(dir1, ConnectionView.angulation);
+      curve.p4 = curve.end.moveToDir(dir2, ConnectionView.angulation);
+
+      var distanceX = curve.p4.x - curve.p1.x;
+      var distanceY = curve.p4.y - curve.p1.y;
+
+
+      var control1 = curve.p1.moveToDir(dir2, distanceY);
+      var control2 = curve.p4.moveToDir(dir1, distanceX);
+      var corner = control1.between(control2);
+
+      var C = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+      var c = ConnectionView.angulation * 2.0;
+
+      if(c > C/2) {
+        c = C/2;
+      }
+
+      var sinc = 1;
+      var sina = distanceX / C;
+      var sinb = distanceY / C;
+
+
+
+      var a = c * (sina / sinc);
+      var b = c * (sinb / sinc);
+
+      var moveX = a;
+      var moveY = b;
+
+      curve.p2 = corner.moveToDir(dir2, -moveY);
+      curve.p3 = corner.moveToDir(dir1, -moveX);
+
+      curve.middle = curve.p2.between(curve.p3);
+    } else {
+      curve.p1 = curve.start.moveToDir(dir1, ConnectionView.angulation);
+      curve.p4 = curve.end.moveToDir(dir2, ConnectionView.angulation);
+
+      curve.middle.x = (curve.p1.x + curve.p4.x) / 2.0;
+      curve.middle.y = (curve.p1.y + curve.p4.y) / 2.0;
+    }
 
     curve.label1 = curve.start.moveToDir(dir1, 5);
     curve.label2 = curve.end.moveToDir(dir2, 5);

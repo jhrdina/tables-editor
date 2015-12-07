@@ -156,7 +156,6 @@ class ConnectionsView extends polymer.Base {
 
       this.relations = [];
       this.tableSides = [];
-      var entitiesToDelete = [];
       for (let i = 0; i < this.model.connections.length; i++) {
         var connection = this.model.connections[i];
         if(connection.entity1 != -1) {
