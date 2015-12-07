@@ -111,12 +111,13 @@ class EntitiesArea extends polymer.Base
     var entityIndex = this.$.entitiesRepeat.indexForElement(e.target);
 
     var c;
+    var connectionsToDelete: Array<any> = [];
     for (let i = 0; i < this.model.connections.length; i++) {
         c = this.model.connections[i];
 
         if (c.entity1 === entityIndex || c.entity2 === entityIndex) {
-          this.arrayDelete('model.connections', this.model.connections[i]);
-          --i;
+          this.arrayDelete('model.connections', c);
+          --i
         }
 
         if (c.entity1 > entityIndex)

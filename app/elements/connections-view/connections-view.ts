@@ -146,7 +146,8 @@ class ConnectionsView extends polymer.Base {
     var pathParts = change.path.split(".");
 
     if (pathParts.length == 1 ||
-      (pathParts[1] == "connections" && pathParts[2] == "splices")) {
+      (pathParts[1] == "connections" && pathParts[2] == "splices") ||
+      (pathParts[1] == "entities" && pathParts[2] == "splices")) {
       var connections = this.model.connections;
       this.relations = [];
       this.tableSides = [];
@@ -161,8 +162,6 @@ class ConnectionsView extends polymer.Base {
     } else if (pathParts[1] == "entities" && pathParts[3] == "geometry") {
       var connectionId = this.model.entities.indexOf(this.get([pathParts[0], pathParts[1], pathParts[2]]));
       this.entityUpdate(connectionId);
-    }
-    else {
     }
   }
 
