@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 
 <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../div-editable/div-editable.html">
 
 <dom-module id="connection-label">
@@ -13,10 +14,16 @@
         z-index: 1;
       }
 
-      #label::shadow #edit{
+      .around{
+        position: relative;
+      }
+
+      div-editable::shadow #edit{
         font-weight: normal;
         font-size: 11px;
-        /*height: var(--paper-badge-height, 11px);*/
+        text-align: center;
+        min-width: 20px;
+        min-height: var(--paper-badge-height, 11px);
         background-color: var(--connection-label, --primary-background-color);
         /*opacity: var(--connection-label-opacity, 1.0);*/
         color: var(--connection-label-text-color, --primary-text-color);
@@ -25,27 +32,109 @@
         border: 2px solid gray;
         padding: 3px 7px;
         line-height: 1;
-        @apply(--layout);
-        @apply(--layout-center-center);
-        @apply(--connection-label);
       }
 
-      #label::shadow #edit:not([contenteditable="true"]) {
+      div-editable::shadow #edit:not([contenteditable="true"]) {
         cursor: pointer;
       }
 
-      #label::shadow #edit:focus {
+      div-editable::shadow #edit:focus {
         outline: 0;
         color: black;
         -webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
-        box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+       -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
       }
-      .circle
+
+      div-editable.half::shadow #edit{
+        border-radius: 10px 0px 0px 10px;
+      }
+
+
+
+      #circle{
+        border-radius: 50%;
+        width: 4px;
+        height: 4px;
+        margin: 7px;
+        border: 2px solid gray;
+        background-color: var(--connection-label, --primary-background-color);
+      }
+
+      #trashButt, #editButt{
+        font-weight: normal;
+        font-size: 11px;
+        text-align: center;
+        height: var(--paper-badge-height, 13px);
+        background-color: var(--connection-label, --primary-background-color);
+        /*opacity: var(--connection-label-opacity, 1.0);*/
+        color: var(--connection-label-text-color, --primary-text-color);
+        display: inline-block;
+        border-radius: 10px;
+        border: 2px solid gray;
+        padding: 3px 7px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      #trashButt {
+        transform: translate(1px, 0);
+        position: absolute;
+        top: -10px;
+        right: -21px;
+        border-radius: 0px 10px 10px 0px;
+        border: 2px solid gray;
+        padding: 2px;
+        padding-right: 4px;
+        border-left: 1px solid gray;
+      }
+
+      .trashRight{
+        position: absolute !important;
+        top: 1px !important;
+        border-left: 2px solid gray !important;
+      }
+
+      #editButt {
+        transform: translate(-1px, 0);
+        position: absolute;
+        top: -10px;
+        right: 0px;
+        border-radius: 10px 0px 0px 10px;
+        border: 2px solid gray;
+        padding: 2px;
+        padding-left: 4px;
+        border-right: 1px solid gray;
+      }
+
+      iron-icon {
+        --iron-icon-height: 14px;
+        --iron-icon-width: 14px;
+      }
+
+      .inline-block {
+        display: inline-block !important;
+      }
+
+      .block {
+        display: block !important;
+      }
+      .none {
+        display: none !important;
+      }
     </style>
-    <div id="container">
-      <div-editable id="label" value="{{name}}">
-      </div-editable>
+    <div id="container"
+      on-mouseover="handleMouseover"
+      on-mouseout="handleMouseout">
+      <div id="label">
+        <div class="around">
+          <div id="circle" class$="{{circle}}"></div>
+          <div id="editButt" on-tap="handleEdit" class$="{{editButt}}"><iron-icon icon="icons:create"></iron-icon></div>
+          <div id="trashButt" class$="{{trashButt}}"><iron-icon icon="icons:block"></iron-icon></div>
+          <div-editable id="editable" class$="{{editable}}" editable="{{editing}}" value="{{name}}">
+          </div-editable>
+        </div>
+      </div>
     </div>
   </template>
 </dom-module>
