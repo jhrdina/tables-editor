@@ -27,6 +27,7 @@
         "elements/connection-view/connection-view.ts",
         "elements/connections-view/connections-view.ts",
         "elements/constraint-badge/constraint-badge.ts",
+        "elements/div-editable/div-editable.ts",
         "elements/entities-area/entities-area.ts",
         "elements/entity-box/entity-box.ts",
         "elements/tables-editor/tables-editor.ts"

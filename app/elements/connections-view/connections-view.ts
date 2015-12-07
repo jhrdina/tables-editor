@@ -267,7 +267,7 @@ class ConnectionsView extends polymer.Base {
           var otherPort: TablePort = otherSides.sides.pop(connectionId, otherOriginalDir);
           var newPort = new TablePort(connectionId, otherPort.side, otherPort.position, thisGeometry.y);
 
-          console.log(otherOriginalDir, directions.entity2);
+          //console.log(otherOriginalDir, directions.entity2);
 
           otherSides.sides[directions.entity2].push(newPort);
           this.relations[connectionId][otherSide].direction = directions.entity2;
@@ -335,6 +335,7 @@ class ConnectionsView extends polymer.Base {
   @observe("relations.*")
   relationsChanged(change) {
     if (this.relationsLocked || !this.model) return;
+    //console.log(change);
 
     // Transform path from format
     //     relations.#0.connection.cardinality1

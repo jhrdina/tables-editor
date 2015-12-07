@@ -1,5 +1,4 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
-/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 @component('connection-label')
 class ConnectionLabel extends polymer.Base {
@@ -12,6 +11,17 @@ class ConnectionLabel extends polymer.Base {
   @property({ type: Number })
   yTarget: number;
 
+  mouseover: boolean = false;
+
+  editing: boolean = false;
+
+  circle: string;
+  editable: string;
+  trashButt: string;
+  editButt: string;
+
+
+
   @observe("xTarget, yTarget")
   position(xTarget, yTarget) {
     var label = this.$.label;
@@ -19,27 +29,49 @@ class ConnectionLabel extends polymer.Base {
     label.style.top = yTarget + "px";
   }
 
-  ready() {
-    this.$.label.onclick = function() {
-      if (this.getAttribute("contenteditable") != "true") {
-        this.setAttribute("contenteditable", "true");
-        this.focus();
-        var range = document.createRange();
-        range.selectNodeContents(this);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-      }
-    }
+  handleMouseover(e) {
+    this.mouseover = true;
+  }
 
-    $(this.$.label).focusout(function() {
-      this.setAttribute("contenteditable", "false");
-      window.getSelection().removeAllRanges();
-    });
+  handleMouseout(e) {
+    this.mouseover = false;
+  }
 
-    this.onkeydown = function(in_event) {
-      //TODO: filter keys
-      return true;
+  handleEdit(e) {
+    this.editing = true;
+  }
+
+  invalidInput() {
+    console.log("invalid");
+  }
+
+  @observe("mouseover, name, editing")
+  state(mouseover, name, editing) {
+    if (!this.mouseover && this.name == "" && !this.editing) {
+      this.circle = "block";
+      this.editable = "none";
+      this.trashButt = "none";
+      this.editButt = "none";
+    } else if (this.mouseover && this.name == "" && !this.editing) {
+      this.circle = "none";
+      this.editable = "none";
+      this.trashButt = "block";
+      this.editButt = "block";
+    } else if (this.mouseover && this.name != "" && !this.editing) {
+      this.circle = "none";
+      this.editButt = "none";
+      this.editable = "block half";
+      this.trashButt = "block trashRight";
+    } else if (!this.mouseover && this.name != "") {
+      this.circle = "none";
+      this.editButt = "none";
+      this.editable = "block";
+      this.trashButt = "none";
+    } else if (this.editing) {
+      this.circle = "none";
+      this.editButt = "none";
+      this.editable = "block";
+      this.trashButt = "none";
     }
   }
 }

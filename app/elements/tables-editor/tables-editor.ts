@@ -131,7 +131,7 @@ class TablesEditor extends polymer.Base
        {
          entity1: 2,
          entity2: 0,
-         name: "Connection_3",
+         name: "",
          cardinality1: "1..n",
          cardinality2: "1"
        }
