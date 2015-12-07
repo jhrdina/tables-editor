@@ -143,7 +143,6 @@ class ConnectionsView extends polymer.Base {
 
   @observe("model.*")
   modelChanged(change) {
-    console.log(change)
     var pathParts = change.path.split(".");
 
     if (pathParts.length == 1 ||
@@ -160,7 +159,7 @@ class ConnectionsView extends polymer.Base {
         }
       }
     } else if (pathParts[1] == "entities" && pathParts[3] == "geometry") {
-      var connectionId = pathParts[2].substr(1);
+      var connectionId = this.model.entities.indexOf(this.get([pathParts[0], pathParts[1], pathParts[2]]));
       this.entityUpdate(connectionId);
     }
     else {
