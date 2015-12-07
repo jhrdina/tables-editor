@@ -1,5 +1,4 @@
 /// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
-/// <reference path="../../../typings/jquery/jquery.d.ts"/>
 
 @component('div-editable')
 class DivEditable extends polymer.Base {
@@ -57,12 +56,10 @@ class DivEditable extends polymer.Base {
 
     //on keyup change value
     this.$.edit.addEventListener('keyup', function(e) {
-      if (than.value != this.innerHTML) {
-        //lock value to not binding back
-        than.valueLocked = true;
-        than.value = this.innerHTML;
-        than.valueLocked = false;
-      }
+      //lock value to not binding back
+      than.valueLocked = true;
+      than.value = this.textContent || this.innerText || "";
+      than.valueLocked = false;
     });
 
     //filter by regular expression
@@ -125,7 +122,7 @@ class DivEditable extends polymer.Base {
     }
 
     //on focusout set not editable
-    $(this.$.edit).focusout(function() {
+    this.$.edit.addEventListener("blur", function() {
       than.editable = false
     });
   }
