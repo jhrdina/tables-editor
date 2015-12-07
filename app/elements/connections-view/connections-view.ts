@@ -137,6 +137,8 @@ class ConnectionsView extends polymer.Base {
 
   tableSides: TableSides[];
 
+  modelConnectionsLocked: boolean = false;
+
   ready() {
     this.relations = [];
   }
@@ -149,15 +151,23 @@ class ConnectionsView extends polymer.Base {
     if (pathParts.length == 1 ||
       (pathParts[1] == "connections" && pathParts[2] == "splices") ||
       (pathParts[1] == "entities" && pathParts[2] == "splices")) {
-      var connections = this.model.connections;
+
+      if(this.modelConnectionsLocked) return;
+
       this.relations = [];
       this.tableSides = [];
-      for (var connId in connections) {
-        if (!this.relations[connId]) {
-          var connection = connections[connId];
-          this.relationUpdate(connId);
+      var entitiesToDelete = [];
+      for (let i = 0; i < this.model.connections.length; i++) {
+        var connection = this.model.connections[i];
+        if(connection.entity1 != -1) {
+          this.relationUpdate(i);
           this.entityUpdate(connection.entity1);
           this.entityUpdate(connection.entity2);
+        } else {
+          this.modelConnectionsLocked = true;
+          this.arrayDelete('model.connections', connection);
+          this.modelConnectionsLocked = false;
+          --i
         }
       }
     } else if (pathParts[1] == "entities" && pathParts[3] == "geometry") {

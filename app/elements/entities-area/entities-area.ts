@@ -116,8 +116,10 @@ class EntitiesArea extends polymer.Base
         c = this.model.connections[i];
 
         if (c.entity1 === entityIndex || c.entity2 === entityIndex) {
-          this.arrayDelete('model.connections', c);
-          --i
+          c.entity1 = -1;
+          c.entity2 = -1;
+          //this.arrayDelete('model.connections', c);
+          //--i
         }
 
         if (c.entity1 > entityIndex)
