@@ -6,39 +6,46 @@ class DivEditable extends polymer.Base {
   @property({ type: Boolean, value: false, notify: true })
   editable: boolean;
 
-  @property({ type: String, value: "", notify: true})
+  @property({ type: String, value: "", notify: true })
   value: string;
 
   @property({ type: String, value: "^[a-zA-Z0-9_]+$" })
   regExp: string;
 
-  valueLocked = false;
+  @property({ type: Boolean, value: true })
+  allowSpaces: boolean;
+
+  valueLocked: boolean;
 
   valueString: string;
 
   @observe("value")
-  valueChanged(change){
-    if(!this.valueLocked) {
-      this.valueString = this.value;
+  valueChanged(change) {
+    if (!this.valueLocked) {
+      this.$.edit.innerHTML = this.value;
     }
   }
 
-  editableString = "false";
 
   @observe("editable")
   editableOn(change) {
-    if(this.editable == true) {
+    if (this.editable == true) {
+      //set element editable, focus and selection
       var element = this.$.edit;
       element.contentEditable = true;
-      console.log(element);
-      this.editable = true;
-      setTimeout(function(){element.focus()}, 1);
-      var range = document.createRange();
-      range.selectNodeContents(element);
-      var sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
+
+      //it take some time to change element to editable
+      //and before that its not focusable
+      setTimeout(function() {
+        element.focus()
+        var range = document.createRange();
+        range.selectNodeContents(element);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }, 1);
     } else {
+      //set element not editable and remove selection
       window.getSelection().removeAllRanges();
       var element = this.$.edit;
       element.contentEditable = false;
@@ -47,37 +54,77 @@ class DivEditable extends polymer.Base {
 
   ready() {
     var than = this;
+
+    //on keyup change value
     this.$.edit.addEventListener('keyup', function(e) {
+      if (than.value != this.innerHTML) {
+        //lock value to not binding back
         than.valueLocked = true;
         than.value = this.innerHTML;
         than.valueLocked = false;
-    });
-    this.$.edit.addEventListener('keypress', function(e) {
-      var regExp = new RegExp(than.regExp);
-      var c = String.fromCharCode(e.which)
-      if(c.match(regExp)) {
-        return true;
-      } else {
-        e.preventDefault();
-        return false;
       }
     });
+
+    //filter by regular expression
+    this.$.edit.addEventListener('keypress', function(e) {
+      var regExp = new RegExp(than.regExp);
+      e = e || window.event;
+      var code = (typeof e.which != "undefined") ? e.which : e.button;
+      var c = String.fromCharCode(code)
+
+      if (e.charCode == 0) {
+        return true;
+      }
+
+      if (c.match(regExp)) {
+        return true;
+      } else if (code == 32 && than.allowSpaces) { //space
+        return true;
+      }
+
+      than.fire('invalid-input');
+      e.preventDefault();
+      return false;
+    });
+
+    //filter enter
     this.$.edit.addEventListener('keydown', function(e) {
-      switch(e.which) {
+      e = e || window.event;
+      var code = (typeof e.which != "undefined") ? e.which : e.button;
+      switch (code) {
         case 13:   //enter
           e.preventDefault();
           return false;
       }
       return true;
     });
+
+    //paste is not allowed
     this.$.edit.addEventListener('paste', function(e) {
-      e.preventDefault(e);
-      return false;
+      e = e || window.event;
+
+      // cancel paste
+      e.preventDefault();
+
+      // get text representation of clipboard
+      var text = e.clipboardData.getData("text/plain");
+
+      var regExp = new RegExp(than.regExp);
+      if (!text.match(regExp)) {
+        than.fire('invalid-input');
+        return false;
+      }
+
+      // insert text manually
+      document.execCommand("insertHTML", false, text);
     });
+
+    //on click set this editable
     this.$.edit.onclick = function() {
       than.editable = true;
     }
 
+    //on focusout set not editable
     $(this.$.edit).focusout(function() {
       than.editable = false
     });

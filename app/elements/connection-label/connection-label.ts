@@ -41,6 +41,10 @@ class ConnectionLabel extends polymer.Base {
     this.editing = true;
   }
 
+  invalidInput() {
+    console.log("invalid");
+  }
+
   @observe("mouseover, name, editing")
   state(mouseover, name, editing) {
     if (!this.mouseover && this.name == "" && !this.editing) {
