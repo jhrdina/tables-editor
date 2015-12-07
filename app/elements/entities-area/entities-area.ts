@@ -114,15 +114,16 @@ class EntitiesArea extends polymer.Base
     for (let i = 0; i < this.model.connections.length; i++) {
         c = this.model.connections[i];
 
-        if (c.entity1 > entityIndex) {
+        if (c.entity1 === entityIndex || c.entity2 === entityIndex) {
+          this.arrayDelete('model.connections', this.model.connections[i]);
+          --i;
+        }
+
+        if (c.entity1 > entityIndex)
           --c.entity1;
 
-        } else if (c.entity2 > entityIndex) {
+        if (c.entity2 > entityIndex)
           --c.entity2;
-
-        } else if (c.entity1 === entityIndex || c.entity2 === entityIndex) {
-          this.arrayDelete('model.connections', this.model.connections[i]);
-        }
     }
 
     this.splice('model.entities', entityIndex, 1);
