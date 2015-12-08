@@ -9,26 +9,55 @@ DEMO PAGE FOR COMPONENT 'div-editable'
     <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
     <link rel="import" href="div-editable.html">
+    <link rel="import" href="../../bower_components/iron-input/iron-input.html">
+    <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 
     <style is="custom-style">
       .horizontal-section {
         min-width: 100px;
       }
-
     </style>
 
   </head>
 
   <body unresolved>
+    <span id="browser-sync-binding"></span>
 
   <x-app></x-app>
 
   <dom-module id="x-app">
     <template>
+      <style>
+        div-editable {
+          background-color: lightgrey;
+          min-width: 50px;
+        }
+      </style>
+
       <div>
         <h4>TEST</h4>
         <div class="horizontal-section">
-          <div-editable id="myelement" value$="{{test}}" ></div-editable>
+          <h4>Element settings</h4>
+          <p>
+            <label for="test-value">Value:</label>
+            <input id="test-value" is="iron-input" bind-value="{{testValue}}">
+            <paper-checkbox checked="{{dontSelect}}">Don't select</paper-checkbox>
+          </p>
+          <p>
+            Focused: <span>{{focused}}</span>
+          </p>
+          <p>
+            <label for="test-placeholder">Placeholder:</label>
+            <input id="test-placeholder" is="iron-input" bind-value="{{placeholder}}">
+          </p>
+
+          <h4>The element</h4>
+          <div-editable
+            value="{{testValue}}"
+            focused="{{focused}}"
+            dont-select="{{dontSelect}}"
+            placeholder="{{placeholder}}"
+            ></div-editable>
         </div>
       </div>
     </div>
@@ -40,14 +69,10 @@ DEMO PAGE FOR COMPONENT 'div-editable'
   Polymer({
         is: 'x-app',
         properties: {
-          test: {
+          testValue: {
             type: String,
-            value: 'PolymerTS'
+            value: 'Amazing_text'
           }
-        },
-        listeners: {},
-        ready: function() {
-          console.log("APP ready" );
         }
       });
 

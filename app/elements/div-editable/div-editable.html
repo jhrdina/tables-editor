@@ -1,17 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 
-
+<link rel="import" href="../../bower_components/iron-behaviors/iron-control-state.html">
 
 <dom-module id="div-editable">
   <template>
     <style>
-      #edit{
+      :host {
+        display: inline-block;
         white-space: nowrap;
       }
-    <style>
+
+      :host:focus {
+        outline: none;
+      }
     </style>
-      <div spellchack="false" id="edit" tabindex="0"></div>
   </template>
 </dom-module>
 <script type="text/javascript" src="div-editable.js"></script>

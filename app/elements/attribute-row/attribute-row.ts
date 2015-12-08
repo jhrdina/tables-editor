@@ -41,7 +41,7 @@ class AttributeRow extends polymer.Base {
   }
 
   focus() {
-    this.$$('input').focus();
+    this.$.attrNameField.focus();
   }
 }
 

@@ -3,13 +3,13 @@
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
-<link rel="import" href="../constraint-badge/constraint-badge.html">
 <link rel="import" href="../attribute-settings-popover/attribute-settings-popover.html">
+<link rel="import" href="../constraint-badge/constraint-badge.html">
+<link rel="import" href="../div-editable/div-editable.html">
 
 <dom-module id="attribute-row">
   <template>
@@ -29,20 +29,9 @@
         --constraint-badge-background: #bbb;
       }
 
-      input {
+      div-editable {
         width: 100%;
-        font: inherit;
-        color: inherit;
-        border: none;
-        background-color: inherit;
-      }
-
-      input:disabled {
-        cursor: inherit;
-      }
-
-      input:focus {
-        outline: none;
+        min-width: 25px;
       }
 
       paper-menu-button {
@@ -54,12 +43,11 @@
 
     <!-- Attribute name -->
     <span class="attr-name">
-      <input
-        size="5"
-        is="iron-input"
-        bind-value="{{attribute.name}}"
-        on-keydown="attrKeyDown"
-        disabled$="{{disabled}}">
+      <div-editable
+        id="attrNameField"
+        value="{{attribute.name}}"
+        on-keydown="attrKeyDown">
+      </div-editable>
     </span>
 
     <!-- Integrity constraints -->

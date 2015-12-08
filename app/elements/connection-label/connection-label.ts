@@ -15,12 +15,10 @@ class ConnectionLabel extends polymer.Base {
 
   editing: boolean = false;
 
-  circle: string;
-  editable: string;
-  trashButt: string;
-  editButt: string;
-
-
+  circleClasses: string;
+  editableClasses: string;
+  trashButtClasses: string;
+  editButtClasses: string;
 
   @observe("xTarget, yTarget")
   position(xTarget, yTarget) {
@@ -29,49 +27,57 @@ class ConnectionLabel extends polymer.Base {
     label.style.top = yTarget + "px";
   }
 
+  @listen('mouseover')
   handleMouseover(e) {
     this.mouseover = true;
   }
 
+  @listen('mouseout')
   handleMouseout(e) {
     this.mouseover = false;
   }
 
   handleEdit(e) {
     this.editing = true;
+    this.$.editable.focus();
   }
 
   handleDelete(e) {
     this.fire("delete-clicked");
   }
 
+  @observe('editableFocused')
+  editableFocusChanged(focused) {
+    this.editing = focused;
+  }
+
   @observe("mouseover, name, editing")
   state(mouseover, name, editing) {
     if (!this.mouseover && this.name == "" && !this.editing) {
-      this.circle = "block";
-      this.editable = "none";
-      this.trashButt = "none";
-      this.editButt = "none";
+      this.circleClasses = "block";
+      this.editableClasses = "none";
+      this.trashButtClasses = "none";
+      this.editButtClasses = "none";
     } else if (this.mouseover && this.name == "" && !this.editing) {
-      this.circle = "none";
-      this.editable = "none";
-      this.trashButt = "block";
-      this.editButt = "block";
+      this.circleClasses = "none";
+      this.editableClasses = "none";
+      this.trashButtClasses = "block";
+      this.editButtClasses = "block";
     } else if (this.mouseover && this.name != "" && !this.editing) {
-      this.circle = "none";
-      this.editButt = "none";
-      this.editable = "block half";
-      this.trashButt = "block trashRight";
+      this.circleClasses = "none";
+      this.editableClasses = "block half";
+      this.editButtClasses = "none";
+      this.trashButtClasses = "block trashRight";
     } else if (!this.mouseover && this.name != "") {
-      this.circle = "none";
-      this.editButt = "none";
-      this.editable = "block";
-      this.trashButt = "none";
+      this.circleClasses = "none";
+      this.editableClasses = "block";
+      this.editButtClasses = "none";
+      this.trashButtClasses = "none";
     } else if (this.editing) {
-      this.circle = "none";
-      this.editButt = "none";
-      this.editable = "block";
-      this.trashButt = "none";
+      this.circleClasses = "none";
+      this.editableClasses = "block";
+      this.editButtClasses = "none";
+      this.trashButtClasses = "none";
     }
   }
 }
