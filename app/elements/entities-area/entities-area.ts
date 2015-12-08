@@ -14,21 +14,21 @@ class EntitiesArea extends polymer.Base
   ready() {
     this.async(function() {
       // Scroll to canvas center
-      var clientRect: ClientRect = this.getBoundingClientRect();
-      this.scrollTop = (this.$.entitiesContainer.scrollHeight - clientRect.height) / 2;
-      this.scrollLeft = (this.$.entitiesContainer.scrollWidth - clientRect.width) / 2;
+      var clientRect: ClientRect = this.$.scrollArea.getBoundingClientRect();
+      this.$.scrollArea.scrollTop = (this.$.entitiesContainer.scrollHeight - clientRect.height) / 2;
+      this.$.scrollArea.scrollLeft = (this.$.entitiesContainer.scrollWidth - clientRect.width) / 2;
     }.bind(this), 500);
   }
 
   addEntity() {
 
-    var clientRect: ClientRect = this.getBoundingClientRect();
+    var clientRect: ClientRect = this.$.scrollArea.getBoundingClientRect();
 
     this.push('model.entities', {
       name: "",
       geometry: {
-        x: this.scrollLeft + (clientRect.width - EntitiesArea.TYPICAL_ENTITY_WIDTH)/2,
-        y: this.scrollTop + (clientRect.height - EntitiesArea.TYPICAL_ENTITY_HEIGHT)/2
+        x: this.$.scrollArea.scrollLeft + (clientRect.width - EntitiesArea.TYPICAL_ENTITY_WIDTH)/2,
+        y: this.$.scrollArea.scrollTop + (clientRect.height - EntitiesArea.TYPICAL_ENTITY_HEIGHT)/2
       },
       attributes: [
         {
