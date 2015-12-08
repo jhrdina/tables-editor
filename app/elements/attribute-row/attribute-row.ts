@@ -15,23 +15,23 @@ class AttributeRow extends polymer.Base {
   attrKeyDown(e) {
     if (e.which === 13) {
       // Enter
-      this.fire('insert-below', {target: this});
+      this.fire('attr-insert-below', {target: this});
 
     } else if (e.which === 8 && !this.attribute.name) {
       // Backspace and is empty
-      this.fire('delete', {direction: 'left'});
+      this.fire('attr-delete', {direction: 'left'});
 
     } else if (e.which === 46 && !this.attribute.name) {
       // Delete and is empty
-      this.fire('delete', {direction: 'right'});
+      this.fire('attr-delete', {direction: 'right'});
 
     } else if (e.which === 38) {
       // Arrow up
-      this.fire('cursor-move', {direction: 'up'});
+      this.fire('attr-cursor-move', {direction: 'up'});
 
     } else if (e.which === 40) {
       // Arrow down
-      this.fire('cursor-move', {direction: 'down'});
+      this.fire('attr-cursor-move', {direction: 'down'});
 
     } else {
       return;

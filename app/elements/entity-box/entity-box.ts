@@ -154,7 +154,7 @@ class EntityBox extends polymer.Base {
   // Attributes
   // ================================================================
 
-  handleInsertBelow(e) {
+  handleAttrInsertBelow(e) {
     // Get insert index
     var attribute = e.detail.target.attribute;
     if (!attribute)
@@ -180,7 +180,7 @@ class EntityBox extends polymer.Base {
     newAttrRow.focus();
   }
 
-  handleDeleteAttr(e) {
+  handleAttrDelete(e) {
     var attribute = e.target.attribute;
 
     // Keep at least one attribute
@@ -243,7 +243,7 @@ class EntityBox extends polymer.Base {
   // ================================================================
 
   handleDeleteEntity(e) {
-    this.fire('delete');
+    this.fire('entity-delete');
   }
 }
 
