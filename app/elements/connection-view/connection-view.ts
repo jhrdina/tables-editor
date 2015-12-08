@@ -77,8 +77,6 @@ class Curve {
   toString() {
     var str: String;
 
-    console.log(this);
-
     if(this.advanced) {
       str = "M" + this.start.x + "," + this.start.y + " C";
       str += this.p1.x + "," + this.p1.y + " ";

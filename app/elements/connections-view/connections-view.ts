@@ -145,23 +145,25 @@ class ConnectionsView extends polymer.Base {
 
   @observe("model.*")
   modelChanged(change) {
-    console.log(change);
     var pathParts = change.path.split(".");
 
     if (pathParts.length == 1 ||
-      (pathParts[1] == "connections" && pathParts[2] == "splices") ||
-      (pathParts[1] == "entities" && pathParts[2] == "splices")) {
+      (pathParts[1] == "connections" && pathParts[2] == "length" && change.value < this.relations.length) ||
+      (pathParts[1] == "entities" && pathParts[2] == "length" && change.value)) {
 
       if(this.modelConnectionsLocked) return;
+
+      //reindexing all relations an tableSides
+      //this runs if there is new model or connection deleted or entites count changed
 
       this.relations = [];
       this.tableSides = [];
       for (let i = 0; i < this.model.connections.length; i++) {
         var connection = this.model.connections[i];
         if(connection.entity1 != -1) {
-          this.relationUpdate(i);
-          this.entityUpdate(connection.entity1);
-          this.entityUpdate(connection.entity2);
+          this.connectionAdd(i);
+          this.staticEntityUpdate(connection.entity1);
+          this.staticEntityUpdate(connection.entity2);
         } else {
           this.modelConnectionsLocked = true;
           this.arrayDelete('model.connections', connection);
@@ -169,14 +171,24 @@ class ConnectionsView extends polymer.Base {
           --i
         }
       }
+    } else if (pathParts[1] == "connections" && pathParts[2] == "length" && change.value > this.relations.length) {
+      //adding connection
+      if(this.modelConnectionsLocked) return;
+      for (let i = change.value - 1; i < this.model.connections.length; i++) {
+        var connection = this.model.connections[i];
+        this.connectionAdd(i);
+        this.staticEntityUpdate(connection.entity1);
+        this.staticEntityUpdate(connection.entity2);
+      }
     } else if (pathParts[1] == "entities" && pathParts[3] == "geometry") {
+      //table geometry changed
       var connectionId = this.model.entities.indexOf(this.get([pathParts[0], pathParts[1], pathParts[2]]));
-      this.entityUpdate(connectionId);
+      this.dynamicEntityUpdate(connectionId);
     }
   }
 
 
-  relationUpdate(relationId) {
+  connectionAdd(relationId) {
     var rel = new Relation();
     rel.connection = this.model.connections[relationId];
 
@@ -193,8 +205,108 @@ class ConnectionsView extends polymer.Base {
     this.relationsLocked = false;
   }
 
+  //updates just one entity relations, don't care about other sides
+  staticEntityUpdate(entityId) {
+    var model = this.model;
 
-  entityUpdate(entityId) {
+    if (!this.tableSides) {
+      this.tableSides = [];
+    }
+
+    if (!this.tableSides[entityId]) {
+      this.tableSides[entityId] = new TableSides();
+    }
+
+    this.tableSides[entityId].sides = new Sides();
+
+    var notifies = [];
+
+    var entity = this.model.entities[entityId];
+
+    //go through all relations and find, those are relative to this entity
+    for (var connectionId in this.relations) {
+      var connection = this.relations[connectionId].connection;
+
+      //skip if is not relative to this entity
+      if (connection.entity1 != entityId && connection.entity2 != entityId) {
+        continue;
+      }
+
+      //findout on whitch side of connection this entity is
+      var connectionSide;
+      var otherSide;
+      var selfConnection = false;
+      if (connection.entity1 == connection.entity2) {
+        //self connection
+        connectionSide = "entity1";
+        otherSide = "entity2";
+        selfConnection = true;
+
+      } else {
+        //connection to other table
+        if (connection.entity1 == entityId) {
+          otherSide = "entity2";
+          connectionSide = "entity1";
+        } else {
+          otherSide = "entity1";
+          connectionSide = "entity2";
+        }
+      }
+
+      //decide directions
+      //other side original direction
+      var otherOriginalDir = this.relations[connectionId][otherSide].direction
+
+      //get both tables geometry
+      var thisGeometry = model.entities[connection[connectionSide]].geometry;
+      var otherGeometry = model.entities[connection[otherSide]].geometry;
+
+      if (!this.tableSides[entityId]) {
+        this.tableSides[entityId] = new TableSides();
+      }
+
+      var directions;
+      if (selfConnection) {
+        //self connection
+
+        directions = { entity1: "left", entity2: "down" };
+        //set botom relation direction
+        this.relations[connectionId][otherSide].direction = directions.entity2;
+        notifies["relations.#" + connectionId + "." + otherSide + ".direction"]
+        = directions.entity2;
+
+        //add table port to tablesides
+        var tablePort = new TablePort(connectionId, otherSide, new Coords(), 0);
+        this.tableSides[entityId].sides[directions.entity2].push(tablePort);
+
+      } else {
+        //not self connection
+        directions = computeDirections(thisGeometry, otherGeometry);
+      }
+
+      //set my side relation direction
+      this.relations[connectionId][connectionSide].direction = directions.entity1;
+      notifies["relations.#" + connectionId + "." + connectionSide + ".direction"]
+      = directions.entity1;
+
+      //add table port to tablesides
+      var tablePort = new TablePort(connectionId, connectionSide, new Coords(), otherGeometry.y, selfConnection);
+      this.tableSides[entityId].sides[directions.entity1].push(tablePort);
+
+      //add notification to queue
+      notifies["tableSides.#" + entityId] = tablePort;
+    }
+
+    // notify about table sides changes
+    for (var notifyId in notifies) {
+      var notify = notifies[notifyId];
+      this.notifyPath(notifyId, notify);
+    }
+  }
+
+
+  //updates entity relations and also other sides of relations
+  dynamicEntityUpdate(entityId) {
     var model = this.model;
 
     if (!this.tableSides) {
