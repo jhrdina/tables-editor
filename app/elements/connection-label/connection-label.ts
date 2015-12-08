@@ -41,10 +41,6 @@ class ConnectionLabel extends polymer.Base {
     this.editing = true;
   }
 
-  invalidInput() {
-    console.log("invalid");
-  }
-
   handleDelete(e) {
     this.fire("delete-clicked");
   }

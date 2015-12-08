@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 <link rel="import" href="../connection-view/connection-view.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 
 
@@ -22,9 +23,11 @@
           x2="{{item.entity2.position.x}}"
           y2="{{item.entity2.position.y}}"
           dir2="{{item.entity2.direction}}"
-          on-delete="handleDelete">
+          on-delete="handleDelete"
+          on-invalid-input="invalidInput">
           </connection-view>
     </template>
+    <paper-toast id="toast" text="Invalid characters in input"></paper-toast>
   </template>
 </dom-module>
 

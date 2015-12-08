@@ -149,7 +149,7 @@ class ConnectionsView extends polymer.Base {
 
     if (pathParts.length == 1 ||
       (pathParts[1] == "connections" && pathParts[2] == "length" && change.value < this.relations.length) ||
-      (pathParts[1] == "entities" && pathParts[2] == "length" && change.value)) {
+      (pathParts[1] == "entities" && pathParts[2] == "length")) {
 
       if(this.modelConnectionsLocked) return;
 
@@ -482,6 +482,10 @@ class ConnectionsView extends polymer.Base {
     var connectionIndex = this.$.connectionRepeat.indexForElement(e.target);
     this.splice('model.connections', connectionIndex, 1);
 
+  }
+
+  invalidInput(e) {
+    this.$.toast.show();
   }
 }
 
