@@ -1,0 +1,25 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../../styles/app-theme.html">
+
+
+<dom-module id="sql-generator">
+  <template>
+    <style>
+      #textarea {
+        margin: 8px;
+        border: 0px;
+        font-family: monospace;
+        width: 250px;
+      }
+    </style>
+    <iron-autogrow-textarea id="textarea" bind-value="{{value}}" class="">
+    </iron-autogrow-textarea>
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="sql-generator.js"></script>

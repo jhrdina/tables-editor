@@ -1,7 +1,7 @@
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
 <link rel="import" href="../entities-area/entities-area.html">
+<link rel="import" href="../sql-generator/sql-generator.html">
 
 <!-- Iron elements -->
 <link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
@@ -11,11 +11,11 @@
 <!-- <link rel="import" href="../../bower_components/iron-selector/iron-selector.html"> -->
 
 <!-- Paper elements -->
-<!-- <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html"> -->
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<!-- <link rel="import" href="../../bower_components/paper-material/paper-material.html"> -->
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -35,6 +35,36 @@
       paper-header-panel .title {
         margin-left: 12px;
       }
+
+      #panel [main] {
+        background-color: var(--google-grey-100);
+      }
+      #panel [drawer] {
+        border-right: 1px solid var(--google-grey-300);
+      }
+      #panel[right-drawer] [drawer] {
+        border-left: 1px solid var(--google-grey-300);
+      }
+      #entities {
+        z-index: 0;
+      }
+      #header {
+        margin-top: 4px;
+        border-bottom: 1px solid #bbb;
+        vertical-align: bottom;
+        display: flex;
+        justify-content: space-between;
+      }
+      #header div {
+        vertical-align: bottom;
+      }
+      #label {
+        padding: 8px;
+        font-size: 20px;
+      }
+      .invisible {
+        display: none;
+      }
     </style>
 
     <paper-header-panel>
@@ -50,12 +80,27 @@
         <paper-icon-button icon="editor:insert-drive-file" title="Nový dokument"></paper-icon-button>
         <paper-icon-button icon="folder" title="Otevřít z disku"></paper-icon-button>
         <paper-icon-button icon="file-download" title="Uložit"></paper-icon-button>
-        <paper-icon-button icon="chrome-reader-mode" title="Zobrazit SQL kód"></paper-icon-button>
+        <paper-icon-button icon="chrome-reader-mode" on-tap="togglePanel" title="Zobrazit SQL kód"></paper-icon-button>
         <paper-icon-button icon="help" title="Nápověda"></paper-icon-button>
       </paper-toolbar>
-
       <!-- Entities Area -->
-      <entities-area class="content fit" model="{{model}}"></entities-area>
+
+      <paper-drawer-panel id="panel">
+        <div drawer>
+          <div id="header">
+            <div id="label">
+              SQL
+            </div>
+            <div class$={{pinClass}}>
+              <paper-icon-button on-tap="pinDrawer" icon="aspect-ratio"></paper-icon-button>
+            </div>
+          </div>
+          <sql-generator model="{{model}}"></sql-generator>
+        </div>
+        <div main>
+          <entities-area id="entities" class="content fit" model="{{model}}"></entities-area>
+        </div>
+      </paper-drawer-panel>
 
     </paper-header-panel>
 

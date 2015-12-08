@@ -144,6 +144,39 @@ class TablesEditor extends polymer.Base
        }
      ]
    }
+
+   drawerPinned: boolean;
+
+   pinClass = "";
+
+   ready() {
+     this.$.panel.forceNarrow = true;
+     this.drawerPinned = false;
+   }
+
+   togglePanel() {
+     if(this.drawerPinned) {
+       this.$.panel.forceNarrow = true;
+       this.drawerPinned = false;
+     } else {
+       this.$.panel.togglePanel();
+     }
+   }
+
+   pinDrawer() {
+     this.$.panel.forceNarrow = false;
+     this.drawerPinned = true;
+   }
+
+   @observe("drawerPinned")
+   drawerPinnedChange(drawerPinned) {
+     if(drawerPinned) {
+       this.pinClass = "invisible";
+     } else {
+       this.pinClass = "";
+     }
+   }
+
 }
 
 TablesEditor.register();
