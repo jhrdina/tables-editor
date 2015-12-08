@@ -54,7 +54,6 @@ class SqlGenerator extends polymer.Base
   modelChange(change) {
     var entities = this.model.entities;
     var connections = this.model.connections;
-    console.log(entities);
     var tables: Table[] = [];
     for(var entityId in entities) {
       var entity = entities[entityId];
@@ -90,7 +89,6 @@ class SqlGenerator extends polymer.Base
       str+= table.toString();
     }
 
-    console.log(str);
     this.value = str;
   }
 }

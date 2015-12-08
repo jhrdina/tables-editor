@@ -148,16 +148,16 @@ class TablesEditor extends polymer.Base
    drawerPinned: boolean;
 
    pinClass = "";
+   backClass = "invisible";
 
    ready() {
      this.$.panel.forceNarrow = true;
      this.drawerPinned = false;
    }
 
-   togglePanel() {
+   toggleDrawer() {
      if(this.drawerPinned) {
-       this.$.panel.forceNarrow = true;
-       this.drawerPinned = false;
+       this.unpinDrawer();
      } else {
        this.$.panel.togglePanel();
      }
@@ -168,12 +168,19 @@ class TablesEditor extends polymer.Base
      this.drawerPinned = true;
    }
 
+   unpinDrawer() {
+     this.$.panel.forceNarrow = true;
+     this.drawerPinned = false;
+   }
+
    @observe("drawerPinned")
    drawerPinnedChange(drawerPinned) {
      if(drawerPinned) {
        this.pinClass = "invisible";
+       this.backClass = "";
      } else {
        this.pinClass = "";
+       this.backClass = "invisible";
      }
    }
 
