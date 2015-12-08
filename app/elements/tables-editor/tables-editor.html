@@ -98,7 +98,7 @@
               <paper-icon-button on-tap="toggleDrawer" icon="clear"></paper-icon-button>
             </div>
           </div>
-          <sql-generator model="{{model}}"></sql-generator>
+          <sql-generator hidden="{{drawerClosed}}" model="{{model}}"></sql-generator>
         </div>
         <div main>
           <entities-area id="entities" class="content fit" model="{{model}}"></entities-area>

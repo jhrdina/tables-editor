@@ -146,6 +146,7 @@ class TablesEditor extends polymer.Base
    }
 
    drawerPinned: boolean;
+   drawerClosed: boolean = true;
 
    pinClass = "";
    backClass = "invisible";
@@ -160,6 +161,11 @@ class TablesEditor extends polymer.Base
        this.unpinDrawer();
      } else {
        this.$.panel.togglePanel();
+     }
+     if(this.drawerClosed == false) {
+       this.drawerClosed = true;
+     } else {
+       this.drawerClosed = false;
      }
    }
 
@@ -183,7 +189,6 @@ class TablesEditor extends polymer.Base
        this.backClass = "invisible";
      }
    }
-
 }
 
 TablesEditor.register();

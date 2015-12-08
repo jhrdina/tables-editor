@@ -46,12 +46,16 @@ class SqlGenerator extends polymer.Base
   @property({type: Object})
   model: any;
 
-  ready() {
-    this.value = "hallo";
-  }
+  @property({type: Boolean, value: false})
+  hidden: boolean;
 
   @observe("model.*")
   modelChange(change) {
+
+    if(!this.model || this.hidden) {
+      return;
+    }
+
     var entities = this.model.entities;
     var connections = this.model.connections;
     var tables: Table[] = [];
@@ -89,7 +93,16 @@ class SqlGenerator extends polymer.Base
       str+= table.toString();
     }
 
+    console.log("generated")
+
     this.value = str;
+  }
+
+  @observe("hidden")
+  hiddenChanged(change){
+    if(!this.hidden) {
+      this.modelChange(null);
+    }
   }
 }
 
