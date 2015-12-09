@@ -67,6 +67,10 @@
         font-size: 20px;
       }
 
+      #file {
+        display: none;
+      }
+
       .invisible {
         display: none;
       }
@@ -83,8 +87,9 @@
         <span class="flex"></span>
 
         <paper-icon-button icon="editor:insert-drive-file" title="Nový dokument"></paper-icon-button>
-        <paper-icon-button icon="folder" title="Otevřít z disku"></paper-icon-button>
-        <paper-icon-button icon="file-download" title="Uložit"></paper-icon-button>
+        <paper-icon-button icon="folder" on-tap="jsonOpen" title="Otevřít z disku"></paper-icon-button>
+        <input type="file" id="file" />
+        <paper-icon-button icon="file-download" on-tap="jsonSave" title="Uložit"></paper-icon-button>
         <paper-icon-button icon="chrome-reader-mode" on-tap="toggleDrawer" title="Zobrazit SQL kód"></paper-icon-button>
         <paper-icon-button icon="help" title="Nápověda"></paper-icon-button>
       </paper-toolbar>
@@ -105,8 +110,8 @@
               SQL
             </div>
             <div>
-              <paper-icon-button on-tap="copySql" title="Kopírovat SQL" icon="content-copy"></paper-icon-button>
-              <paper-icon-button on-tap="downloadSql" title="Uložit SQL" icon="file-download"></paper-icon-button>
+              <paper-icon-button title="Kopírovat SQL" icon="content-copy"></paper-icon-button>
+              <paper-icon-button on-tap="sqlSave" title="Uložit SQL" icon="file-download"></paper-icon-button>
             </div>
           </div>
           <sql-generator id="sql" active="{{drawerPinned}}" model="{{model}}"></sql-generator>

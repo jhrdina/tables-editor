@@ -152,6 +152,19 @@ class TablesEditor extends polymer.Base {
   ready() {
     this.$.panel.forceNarrow = true;
     this.drawerPinned = false;
+    this.$.file.addEventListener('change', e => {
+        var file = e.target.files[0];
+        if (!file) {
+          return;
+        }
+        var reader = new FileReader();
+        reader.addEventListener('load', e => {
+          var data:any = e.target;
+          this.model = JSON.parse(data.result);
+        })
+
+        reader.readAsText(file);
+    }, false);
   }
 
   toggleDrawer() {
@@ -185,7 +198,34 @@ class TablesEditor extends polymer.Base {
   }
 
   copySql() {
-    
+
+  }
+
+  jsonSave() {
+    var data = JSON.stringify(this.model, null, 2)
+    this.download('diagram.json', data);
+  }
+
+  sqlSave() {
+    var data = this.$.sql.getValue();
+    this.download('diagram.sql', data);
+  }
+
+  download(filename: string, data: string) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
+  jsonOpen() {
+    this.$.file.click();
   }
 }
 
