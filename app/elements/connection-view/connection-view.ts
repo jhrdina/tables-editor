@@ -134,8 +134,8 @@ class ConnectionView extends polymer.Base {
 
 
 
-  @computed()
-  frame(x1, y1, x2, y2, dir1, dir2) {
+  @property({computed: 'x1, y1, x2, y2, dir1, dir2'})
+  frame(x1, y1, x2, y2, dir1, dir2): Coords {
     var frameCors = new Coords();
     var frame = this.$.frame;
     var svg = this.$.svg;
@@ -161,7 +161,7 @@ class ConnectionView extends polymer.Base {
     return frameCors;
   }
 
-  @computed({ type: Curve })
+  @property({computed: 'x1, y1, x2, y2, dir1, dir2'})
   curve(x1, y1, x2, y2, dir1, dir2): Curve {
     var curve = new Curve();
     var diagonal = lineTrim(new Coords(x1, y1), new Coords(x2, y2), ConnectionView.space);
@@ -221,7 +221,7 @@ class ConnectionView extends polymer.Base {
     return curve;
   }
 
-  @computed({ type: Number })
+  @property({computed: 'curve, frame'})
   middle(curve, frame): Coords {
     var middle = new Coords();
     middle.x = frame.x + curve.middle.x;
@@ -229,8 +229,8 @@ class ConnectionView extends polymer.Base {
     return middle;
   }
 
-  @computed({ type: String })
-  curveString(curve): String {
+  @property({computed: 'curve'})
+  curveString(curve): string {
     return curve.toString();
   }
 

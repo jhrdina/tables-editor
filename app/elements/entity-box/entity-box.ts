@@ -123,8 +123,8 @@ class EntityBox extends polymer.Base {
   @property({ type: Boolean, value: false, notify: true })
   connectorActive: boolean;
 
-  @computed()
-  connectorClass(connectorActive) {
+  @property({computed: 'connectorActive'})
+  connectorClass(connectorActive) : string {
     return connectorActive ? 'active' : '';
   }
 
@@ -135,13 +135,13 @@ class EntityBox extends polymer.Base {
   @property({ type: String, value: null, notify: true })
   name: string;
 
-  @computed()
-  nameClass(name) {
+  @property({computed: 'name'})
+  nameClass(name): string {
     return name ? '' : 'empty';
   }
 
-  @computed()
-  nameBoxClasses(draggable) {
+  @property({computed: 'draggable'})
+  nameBoxClasses(draggable): string {
     var classes = 'name-box handle';
 
     if (draggable)
@@ -233,8 +233,8 @@ class EntityBox extends polymer.Base {
   @property({type: Boolean, value: false})
   elevateOnHover: boolean;
 
-  @computed()
-  materialClass(elevateOnHover) {
+  @property({computed: 'elevateOnHover'})
+  materialClass(elevateOnHover): string {
     return elevateOnHover ? 'elevate-on-hover' : '';
   }
 

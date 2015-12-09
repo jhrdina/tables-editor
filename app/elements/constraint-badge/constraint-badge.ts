@@ -22,7 +22,7 @@ class ConstraintBadge extends polymer.Base {
     this.setAttribute('aria-label', label);
   }
 
-  @computed()
+  @property({computed: 'label'})
   transformedLabel(label): string {
     if (this.noTransform) return label;
 

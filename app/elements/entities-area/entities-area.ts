@@ -66,8 +66,8 @@ class EntitiesArea extends polymer.Base
     }
   }
 
-  @computed()
-  connectionModeActive(sourceEntityIndex) {
+  @property({computed: 'sourceEntityIndex'})
+  connectionModeActive(sourceEntityIndex): boolean {
     return sourceEntityIndex !== -1;
   }
 
@@ -99,8 +99,8 @@ class EntitiesArea extends polymer.Base
     this.sourceEntityIndex = -1;
   }
 
-  @computed()
-  entityBoxClasses(sourceEntityIndex) {
+  @property({computed: 'sourceEntityIndex'})
+  entityBoxClasses(sourceEntityIndex): string {
     return sourceEntityIndex !== -1 ? 'selectable' : '';
   }
 
