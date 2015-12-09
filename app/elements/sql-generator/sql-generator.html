@@ -10,15 +10,19 @@
 <dom-module id="sql-generator">
   <template>
     <style>
-      #textarea {
+      #container {
         margin: 8px;
+      }
+      #textarea {
         border: 0px;
         font-family: monospace;
-        width: 250px;
+        width: 240px;
       }
     </style>
-    <iron-autogrow-textarea disabled="true" id="textarea" bind-value="{{value}}" class="">
-    </iron-autogrow-textarea>
+    <div id="container">
+      <div disabled="true" id="textarea">
+    </div>
+    </div>
   </template>
 </dom-module>
 

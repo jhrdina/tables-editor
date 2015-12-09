@@ -28,11 +28,11 @@ class Attribute {
   toString() {
     var str = "";
     str += this.name + " ";
-    str += this.type + " ";
+    str += this.type;
     for(let i in this.flags) {
-      str += this.flags[i] + " ";
+      str += " " + this.flags[i];
     }
-    str += "\n";
+    str += ",\n";
     return str;
   }
 
@@ -47,15 +47,23 @@ class SqlGenerator extends polymer.Base
   model: any;
 
   @property({type: Boolean, value: false})
-  hidden: boolean;
+  active: boolean;
 
   @observe("model.*")
-  modelChange(change) {
-
-    if(!this.model || this.hidden) {
-      return;
+  modelChanged(change) {
+    if(this.model && this.active) {
+      this.update();
     }
+  }
 
+  @observe("active")
+  activeChanged(change){
+    if(this.active) {
+      this.update();
+    }
+  }
+
+  update() {
     var entities = this.model.entities;
     var connections = this.model.connections;
     var tables: Table[] = [];
@@ -93,16 +101,16 @@ class SqlGenerator extends polymer.Base
       str+= table.toString();
     }
 
-    console.log("generated")
-
     this.value = str;
   }
 
-  @observe("hidden")
-  hiddenChanged(change){
-    if(!this.hidden) {
-      this.modelChange(null);
-    }
+  @observe("value")
+  valueChanged (neo) {
+    this.$.textarea.innerHTML = this.value.replace(/\n/g, "<br>");
+  }
+
+  getValue() {
+    return this.value;
   }
 }
 

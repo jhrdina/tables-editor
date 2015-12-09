@@ -39,15 +39,17 @@
       #panel [main] {
         background-color: var(--google-grey-100);
       }
-      #panel [drawer] {
-        border-right: 1px solid var(--google-grey-300);
-      }
+
       #panel[right-drawer] [drawer] {
         border-left: 1px solid var(--google-grey-300);
+        overflow-y: auto;
+        overflow-x: hidden;
       }
+
       #entities {
         z-index: 0;
       }
+
       #header {
         margin-top: 4px;
         border-bottom: 1px solid #bbb;
@@ -55,13 +57,16 @@
         display: flex;
         justify-content: space-between;
       }
+
       #header div {
         vertical-align: bottom;
       }
+
       #label {
         padding: 8px;
         font-size: 20px;
       }
+
       .invisible {
         display: none;
       }
@@ -85,20 +90,26 @@
       </paper-toolbar>
       <!-- Entities Area -->
 
-      <paper-drawer-panel id="panel" right-drawer="true">
+      <paper-drawer-panel id="panel" disableSwipe="true" right-drawer="true">
         <div drawer>
           <div id="header">
+            <div>
+              <div class$={{pinClass}}>
+                <paper-icon-button on-tap="pinDrawer" title="Připnout" icon="aspect-ratio"></paper-icon-button>
+              </div>
+              <div class$="{{backClass}}">
+                <paper-icon-button on-tap="toggleDrawer" title="Zavřít" icon="exit-to-app"></paper-icon-button>
+              </div>
+            </div>
             <div id="label">
               SQL
             </div>
-            <div class$={{pinClass}}>
-              <paper-icon-button on-tap="pinDrawer" icon="aspect-ratio"></paper-icon-button>
-            </div>
-            <div class$="{{backClass}}">
-              <paper-icon-button on-tap="toggleDrawer" icon="clear"></paper-icon-button>
+            <div>
+              <paper-icon-button on-tap="copySql" title="Kopírovat SQL" icon="content-copy"></paper-icon-button>
+              <paper-icon-button on-tap="downloadSql" title="Uložit SQL" icon="file-download"></paper-icon-button>
             </div>
           </div>
-          <sql-generator hidden="{{drawerClosed}}" model="{{model}}"></sql-generator>
+          <sql-generator id="sql" active="{{drawerPinned}}" model="{{model}}"></sql-generator>
         </div>
         <div main>
           <entities-area id="entities" class="content fit" model="{{model}}"></entities-area>
