@@ -59,7 +59,7 @@
       </div>
       <template is="dom-repeat" items="{{constraints}}">
         <div class="row">
-          <paper-checkbox checked$="{{item.active}}">{{item.name}}</paper-checkbox>
+          <paper-checkbox checked="{{item.active}}" value="{{item.name}}">{{item.name}}</paper-checkbox>
         </div>
       </template>
     </div>

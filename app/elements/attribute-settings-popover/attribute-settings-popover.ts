@@ -16,8 +16,8 @@ class AttributeSettingsPopover extends polymer.Base {
   dataTypes;
 
   @property({ type: Object, value: [
-    { name: "NOT_NULL", active: "" },
-    { name: "UNIQUE", active: "" }
+    { name: "NOT_NULL", active: false },
+    { name: "UNIQUE", active: false }
   ]})
   constraints;
 
@@ -26,7 +26,6 @@ class AttributeSettingsPopover extends polymer.Base {
 
   @observe("attribute.dataType.name")
   cardinalityObserver(name) {
-    console.log(name);
     for (var i in this.dataTypes) {
       if (this.dataTypes[i].name == name) {
         this.typeIndex = i;
@@ -50,21 +49,32 @@ class AttributeSettingsPopover extends polymer.Base {
   }
 
   @observe('attribute.flags.*')
-  flagsChanged() {
+  flagsChanged(change) {
+    if(!change.value) return;
+    var cons = [];
     for(var i in this.constraints) {
-      if(!this.attribute.flags) return;
       var constr = this.constraints[i].name;
-      if(constr in this.attribute.flags) {
-        this.constraints[i].active = "true";
+      if(this.attribute.flags.indexOf(constr) != -1) {
+        cons.push({name: constr, active: true});
       } else {
-        this.constraints[i].active = "";
+        cons.push({name: constr, active: false});
       }
     }
+    this.set('constraints', cons);
   }
 
   @listen("iron-select")
   dropdownClosed(e) {
     e.stopPropagation();
+  }
+
+  @listen("change")
+  checkboxChanged(e) {
+    if(e.srcElement.checked) {
+      this.push('attribute.flags', e.srcElement.value);
+    } else {
+      this.splice('attribute.flags', this.attribute.flags.indexOf(e.srcElement.value), 1);
+    }
   }
 
   typeIndex: number;
