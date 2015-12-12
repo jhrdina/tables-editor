@@ -70,9 +70,11 @@ class AttributeSettingsPopover extends polymer.Base {
 
   @listen("change")
   checkboxChanged(e) {
-    if(e.srcElement.checked) {
+    if(e.srcElement.tagName != "PAPER-CHECKBOX") return;
+    if(e.srcElement.checked && this.attribute.flags.indexOf(e.srcElement.value) == -1) {
       this.push('attribute.flags', e.srcElement.value);
-    } else {
+    } else if(!e.srcElement.checked && this.attribute.flags.indexOf(e.srcElement.value) != -1)
+    {
       this.splice('attribute.flags', this.attribute.flags.indexOf(e.srcElement.value), 1);
     }
   }
