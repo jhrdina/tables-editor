@@ -1,6 +1,9 @@
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 
 <dom-module id="attribute-settings-popover">
   <template>
@@ -9,12 +12,57 @@
         background-color: white;
       }
 
+      #containerVertical {
+        @apply(--layout-vertical);
+      }
+
+      #typeSelection {
+        @apply(--layout-horizontal);
+      }
+
+      #size paper-input {
+        display: inline-block;
+        width: 50px;
+      }
+
+      #type paper-dropdown-menu {
+        width: 100px;
+      }
+
+      .invisible {
+        visibility: hidden;
+      }
+
+      .row {
+        margin: 8px;
+      }
+
       p {
         min-width: 200px;
       }
     </style>
-
-    <p>Hello "<span>{{attribute.name}}</span>" attribute!!</p>
+    <div id="containterVertical">
+      <div id="typeSelection" class="row">
+        <div id="type">
+          <paper-dropdown-menu id="dropmenu">
+            <paper-menu class="dropdown-content" selected="{{typeIndex}}">
+              <template is="dom-repeat" items="{{dataTypes}}">
+                <paper-item>[[item.name]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+        </div>
+        <div id="size" class$="[[capacityClass]]">
+          (
+          <paper-input type="number" value="{{attribute.dataType.capacity}}"></paper-input>)
+        </div>
+      </div>
+      <template is="dom-repeat" items="{{constraints}}">
+        <div class="row">
+          <paper-checkbox checked$="{{item.active}}">{{item.name}}</paper-checkbox>
+        </div>
+      </template>
+    </div>
   </template>
 </dom-module>
 
