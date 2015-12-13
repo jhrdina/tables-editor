@@ -12,6 +12,10 @@
         background-color: white;
       }
 
+      div {
+        overflow: hidden;
+      }
+
       #containerVertical {
         @apply(--layout-vertical);
       }
@@ -33,6 +37,10 @@
         visibility: hidden;
       }
 
+      .bracket {
+        margin-top: 30px;
+      }
+
       .row {
         margin: 8px;
       }
@@ -52,10 +60,11 @@
             </paper-menu>
           </paper-dropdown-menu>
         </div>
+        <div class="bracket"><span class$="[[capacityClass]]">(</span></div>
         <div id="size" class$="[[capacityClass]]">
-          (
-          <paper-input type="number" value="{{attribute.dataType.capacity}}"></paper-input>)
+          <paper-input type="number" value="{{attribute.dataType.capacity}}"></paper-input>
         </div>
+        <div class="bracket"><span class$="[[capacityClass]]">)</span></div>
       </div>
       <template is="dom-repeat" items="{{constraints}}">
         <div class="row">
