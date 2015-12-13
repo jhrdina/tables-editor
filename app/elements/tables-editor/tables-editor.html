@@ -130,8 +130,8 @@
         </div>
       </paper-drawer-panel>
 
-      <paper-dialog id="helpDialog" with-backdrop>
-        <help-dialog></help-dialog>
+      <paper-dialog id="helpDialog" with-backdrop opened={{helpOpened}}>
+        <help-dialog disabled="[[!helpOpened]]"></help-dialog>
       </paper-dialog>
 
     </paper-header-panel>

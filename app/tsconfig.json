@@ -30,6 +30,7 @@
         "elements/div-editable/div-editable.ts",
         "elements/entities-area/entities-area.ts",
         "elements/entity-box/entity-box.ts",
+        "elements/help-dialog/help-dialog.ts",
         "elements/sql-generator/sql-generator.ts",
         "elements/tables-editor/tables-editor.ts"
     ],

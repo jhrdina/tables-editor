@@ -28,16 +28,20 @@ class HelpDialog extends polymer.Base {
   })
   videos: any[];
 
+  @property({ type: Boolean, value: false })
+  disabled: boolean;
+
   @property({ type: Object })
   current: any;
 
-  @computed({ type: Object })
+
+  @property({ computed: 'videos,selected' })
   next(videos, selected) {
     var index = selected === videos.length - 1 ? 0 : (selected + 1);
     return videos[index];
   }
 
-  @computed({ type: Object })
+  @property({ computed: 'videos,selected' })
   previous(videos, selected) {
     var index = selected === 0 ? videos.length - 1 : (selected - 1);
     return videos[index];
@@ -58,7 +62,16 @@ class HelpDialog extends polymer.Base {
     this.current = this.videos[0];
   }
 
-
+  @observe('disabled,current.*')
+  videoUpdate() {
+    if (!this.disabled && this.current) {
+      this.$.videoElement.src = this.current.path;
+      this.$.videoElement.play();
+    } else {
+      this.$.videoElement.pause();
+      this.$.videoElement.src = '';
+    }
+  }
 }
 
 HelpDialog.register();
