@@ -11,7 +11,9 @@
     "polymer-ts": "~0.1.15",
     "draggabilly": "~1.2.4",
     "paper-checkbox": "PolymerElements/paper-checkbox#~1.0.15",
-    "iron-behaviors": "PolymerElements/iron-behaviors#~1.0.12"
+    "iron-behaviors": "PolymerElements/iron-behaviors#~1.0.12",
+
+    "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#1.1.1"
   },
   "devDependencies": {}
 }
