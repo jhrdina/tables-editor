@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "isolatedModules": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "app/**/*.ts",
+        "app/**/*.tsx",
+        "!node_modules/**"
+    ],
+    "files": [
+        "app/elements/attribute-row/attribute-row.ts",
+        "app/elements/attribute-settings-popover/attribute-settings-popover.ts",
+        "app/elements/connection-cardinality/connection-cardinality.ts",
+        "app/elements/connection-label/connection-label.ts",
+        "app/elements/connection-view/connection-view.ts",
+        "app/elements/connections-view/connections-view.ts",
+        "app/elements/constraint-badge/constraint-badge.ts",
+        "app/elements/div-editable/div-editable.ts",
+        "app/elements/entities-area/entities-area.ts",
+        "app/elements/entity-box/entity-box.ts",
+        "app/elements/help-dialog/help-dialog.ts",
+        "app/elements/sql-generator/sql-generator.ts",
+        "app/elements/tables-editor/tables-editor.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}

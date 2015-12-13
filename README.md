@@ -23,12 +23,12 @@ Při vývoji využíváme následující nástroje:
 ### Instalace
 
 Pro instalaci aktuálního npm by v Ubuntu by mělo stačit:
-   
+
     curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
     sudo apt-get install --yes nodejs
 
 Aby se aplikace npm instalovaly do domovského adresáře spíš než globálně do souborového systému, je nutné doplnit do `~/.bashrc`:
-    
+
     export npm_config_prefix=~/.node_modules
     export NODE_PATH=$NODE_PATH:~/.node_modules/lib/node_modules
     export PATH=$PATH:~/.node_modules/bin
@@ -41,13 +41,17 @@ Všechno ostatní jsou nástroje, které se instalují přes npm. Parametr `-g` 
 
 V čisté složce s projektem není prakticky žádný cizí kód. Žádné knihovny nebo něco podobného...
 
-Ve složce s projektem stáhneme potřebné moduly příkazem 
+Ve složce s projektem stáhneme potřebné moduly příkazem
 
     npm install
 
 Aktuální JS knihovny by mělo jít stáhnout příkazem
 
     bower install
+
+Zdrojové kódy v TypeScriptu zkompilujeme do JavaScriptu příkazem
+
+    tsc
 
 To je všechno!
 
