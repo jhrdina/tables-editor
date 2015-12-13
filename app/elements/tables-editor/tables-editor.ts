@@ -176,6 +176,10 @@ class TablesEditor extends polymer.Base {
     this.$.sql.update();
   }
 
+  toggleHelp() {
+    this.$.helpDialog.toggle();
+  }
+
   pinDrawer() {
     this.$.panel.forceNarrow = false;
     this.drawerPinned = true;
