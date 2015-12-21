@@ -95,22 +95,23 @@ class EntityBox extends polymer.Base {
   sizeChanged() {
     if (this.geometryLocked || !this.geometry) return;
     // console.log('sizeChanged');
+    this.async( e => {
+      var rectObject: ClientRect = this.getBoundingClientRect();
 
-    var rectObject: ClientRect = this.getBoundingClientRect();
+      var newGeometry = {
+        x: this.geometry.x,
+        y: this.geometry.y,
+        width: rectObject.width,
+        height: rectObject.height
+      };
 
-    var newGeometry = {
-      x: this.geometry.x,
-      y: this.geometry.y,
-      width: rectObject.width,
-      height: rectObject.height
-    };
-
-    if (newGeometry.width !== this.geometry.width ||
-        newGeometry.height !== this.geometry.height) {
-      this.geometryLocked = true;
-      this.set('geometry', newGeometry);
-      this.geometryLocked = false;
-    }
+      if (newGeometry.width !== this.geometry.width ||
+          newGeometry.height !== this.geometry.height) {
+        this.geometryLocked = true;
+        this.set('geometry', newGeometry);
+        this.geometryLocked = false;
+      }
+    }, 1);
   }
 
   // ================================================================
