@@ -1,12 +1,14 @@
-# Editor tabulek (ITU 2015/16) - Vývojové nástroje a zprovoznění
+# Editor tabulek
 
 **Autoři:**
 
-Štěpán Granát (xgrana02@stud.fit.vutbr.cz)
-Jan Hrdina (xhrdin10@stud.fit.vutbr.cz)
+Štěpán Granát (xgrana02@stud.fit.vutbr.cz)  
+Jan Hrdina (xhrdin10@stud.fit.vutbr.cz)  
 Peter Gazdík (xgazdi03@stud.fit.vutbr.cz)
 
-## Přehled
+## Vývojové nástroje a zprovoznění
+
+### Přehled
 Při vývoji využíváme následující nástroje:
 
  - **node.js** - interpret a sada knihoven pro psaní desktopových aplikací v javascriptu
@@ -19,8 +21,8 @@ Při vývoji využíváme následující nástroje:
  - **jshint** - nástroj pro statickou analýzu JavaScriptu
  - **svgo** - skvělá utilita na radikální zmenšení SVG souborů s obrázky
 
-## První zprovoznění
-### Instalace
+### První zprovoznění
+#### Instalace
 
 Pro instalaci aktuálního npm by v Ubuntu by mělo stačit:
 
@@ -37,7 +39,7 @@ Všechno ostatní jsou nástroje, které se instalují přes npm. Parametr `-g` 
 
     npm install -g yo gulp bower generator-polymer generator-polymerts yeoman-doctor tsc tsd jshint svgo
 
-### Stažení součástí projektu
+#### Stažení součástí projektu
 
 V čisté složce s projektem není prakticky žádný cizí kód. Žádné knihovny nebo něco podobného...
 
@@ -55,7 +57,7 @@ Zdrojové kódy v TypeScriptu zkompilujeme do JavaScriptu příkazem
 
 To je všechno!
 
-## Spuštění serveru
+### Spuštění serveru
 
 Vývojový server je možné spustit příkazem
 
@@ -65,5 +67,6 @@ V terminálu se ukáže IP adresa a port, na kterém funguje a měl by se i otev
 
 ## Licence
 
-Copyright © 2016 Štěpán Granát, Jan Hrdina, Peter Gazdík. 
+Copyright © 2016 Štěpán Granát, Jan Hrdina, Peter Gazdík.
+
 Program je zpřístupněn pod licencí MIT License, viz [LICENSE.md](LICENSE.md).
