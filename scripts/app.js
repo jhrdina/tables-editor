@@ -1,0 +1,1 @@
+!function(e){"use strict";var t=e.querySelector("#app");t.baseUrl="/",""===window.location.port&&(t.baseUrl="/tables-editor/")}(document);
