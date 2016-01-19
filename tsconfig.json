@@ -30,7 +30,8 @@
         "app/elements/entity-box/entity-box.ts",
         "app/elements/help-dialog/help-dialog.ts",
         "app/elements/sql-generator/sql-generator.ts",
-        "app/elements/tables-editor/tables-editor.ts"
+        "app/elements/tables-editor/tables-editor.ts",
+        "app/scripts/app.ts"
     ],
     "atom": {
         "rewriteTsconfig": true
