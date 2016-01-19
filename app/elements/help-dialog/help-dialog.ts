@@ -8,20 +8,20 @@ class HelpDialog extends polymer.Base {
   @property({
     type: Array, value: [
       {
-        path: "../../videos/create_table.mp4",
+        path: document.baseURI + "videos/create_table.mp4",
         name: "Přidávání tabulek"
       },
       {
-        path: "../../videos/add_attribute.mp4",
+        path: document.baseURI + "videos/add_attribute.mp4",
         name: "Přidávání atributů"
       },
       {
-        path: "../../videos/create_relation.mp4",
+        path: document.baseURI + "videos/create_relation.mp4",
         name: "Vytváření vztahů"
       },
 
       {
-        path: "../../videos/sql_code.mp4",
+        path: document.baseURI + "videos/sql_code.mp4",
         name: "Zobrazení SQL kódu"
       }
     ]
