@@ -62,3 +62,8 @@ Vývojový server je možné spustit příkazem
     gulp serve
 
 V terminálu se ukáže IP adresa a port, na kterém funguje a měl by se i otevřít v prohlížeči. Super je, že jakmile se uloží jakákoliv změna v projektu, stránka se automaticky obnoví.
+
+## Licence
+
+Copyright © 2016 Štěpán Granát, Jan Hrdina, Peter Gazdík. 
+Program je zpřístupněn pod licencí MIT License, viz [LICENSE.md](LICENSE.md).

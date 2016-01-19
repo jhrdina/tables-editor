@@ -84,6 +84,27 @@
         width: 50%;
       }
 
+      .credits {
+        position: absolute;
+        bottom: -4em;
+        margin: 0;
+        padding: 0;
+
+        width: 100%;
+        text-align: center;
+
+        color: white;
+      }
+
+      .credits a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .credits a:hover {
+        text-decoration: underline;
+      }
+
     </style>
 
     <paper-header-panel>
@@ -132,6 +153,9 @@
       </paper-drawer-panel>
 
       <paper-dialog id="helpDialog" with-backdrop opened={{helpOpened}}>
+        <div class="credits">
+          Copyright &copy; 2016 Štěpán Granát, <a href="http://hrdinajan.cz" target="_blank">Jan Hrdina</a>, Peter Gazdík. <br><small>This app is licensed under the <a href="http://opensource.org/licenses/mit-license.html" target="_blank">MIT License</a>. Sources are available at <a href="https://github.com/jhrdka/tables-editor" target="_blank">GitHub</a>.</small>
+        </div>
         <help-dialog disabled="[[!helpOpened]]"></help-dialog>
       </paper-dialog>
 
