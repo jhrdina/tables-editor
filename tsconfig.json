@@ -18,6 +18,8 @@
         "!node_modules/**"
     ],
     "files": [
+        "app/bower_components/polymer-ts/polymer-ts.d.ts",
+        "app/bower_components/polymer-ts/polymer-ts.ts",
         "app/elements/attribute-row/attribute-row.ts",
         "app/elements/attribute-settings-popover/attribute-settings-popover.ts",
         "app/elements/connection-cardinality/connection-cardinality.ts",

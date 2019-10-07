@@ -1,4 +1,4 @@
-/// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
+/// <reference path="../../bower_components/polymer-ts/polymer-ts.d.ts"/>
 
 class Coords {
   constructor(public x: number = 0, public y: number = 0) {

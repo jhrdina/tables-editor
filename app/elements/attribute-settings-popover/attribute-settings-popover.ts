@@ -1,4 +1,4 @@
-/// <reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
+/// <reference path="../../bower_components/polymer-ts/polymer-ts.d.ts"/>
 
 @component('attribute-settings-popover')
 class AttributeSettingsPopover extends polymer.Base {
